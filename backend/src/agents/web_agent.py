@@ -4,15 +4,15 @@ from src.utils.translator import translator, safe_print
 
 class SerperWebSearchAgent:
     """
-    Day 11: Serper API Web Search Agent.
-    Triggers live Google Searches on official .gov.in domains when RAG confidence is low.
-    Translates non-English queries to English before searching to avoid irrelevant news results.
+    Serper API Web Search Agent.
+    Triggers live Google Searches strictly on myscheme.gov.in domain when RAG confidence is low.
+    Translates non-English queries to English before searching to avoid irrelevant results.
     """
 
     def _translate_query_to_english(self, query: str) -> str:
         """
         If query is in a regional language, translate it to English first.
-        Serper/Google returns better scheme results for English queries on gov.in domains.
+        Serper/Google returns better scheme results for English queries on myscheme.gov.in.
         """
         try:
             translated = translator.translate_text(query, target_lang="en")
@@ -27,9 +27,9 @@ class SerperWebSearchAgent:
     def process(self, state: AgentState) -> AgentState:
         query = state.user_query
 
-        # Translate to English for better gov.in scheme search results
+        # Translate to English for better myscheme.gov.in search results
         english_query = self._translate_query_to_english(query)
-        safe_print(f"[WEB AGENT] Executing Serper search for query: '{english_query[:80]}'")
+        safe_print(f"[WEB AGENT] Executing Serper search on myscheme.gov.in for query: '{english_query[:80]}'")
 
         res = serper_tool.search_government_portals(english_query, num_results=3)
 
@@ -41,4 +41,3 @@ class SerperWebSearchAgent:
         return state
 
 web_agent = SerperWebSearchAgent()
-

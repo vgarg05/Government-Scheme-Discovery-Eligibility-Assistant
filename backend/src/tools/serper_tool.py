@@ -9,13 +9,13 @@ class SerperSearchTool:
 
     def search_government_portals(self, query: str, num_results: int = 5):
         """
-        Executes a targeted Google Search via Serper API, constraining results to official .gov.in domains.
+        Executes a targeted Google Search via Serper API, strictly constraining results to the official myscheme.gov.in portal.
         """
         # Strictly restrict search exclusively to the official myscheme.gov.in portal
         domain_restricted_query = f"{query} site:myscheme.gov.in"
 
         if not self.api_key or self.api_key == "your_serper_api_key_here":
-            print("[SERPER TOOL] Warning: No active SERPER_API_KEY configured. Returning fallback web results.")
+            print("[SERPER TOOL] Warning: No active SERPER_API_KEY configured. Returning fallback web results for myscheme.gov.in.")
             return self._fallback_response(query)
 
         headers = {
@@ -41,7 +41,7 @@ class SerperSearchTool:
                         "title": item.get("title", ""),
                         "link": item.get("link", ""),
                         "snippet": item.get("snippet", ""),
-                        "domain": "gov.in"
+                        "domain": "myscheme.gov.in"
                     })
 
                 return {
@@ -70,21 +70,21 @@ class SerperSearchTool:
         return {
             "success": True,
             "query": query,
-            "domain_query": f"{query} (site:gov.in)",
+            "domain_query": f"{query} site:myscheme.gov.in",
             "is_fallback": True,
             "total_results": 2,
             "results": [
                 {
-                    "title": f"Official Portal Info - {query}",
-                    "link": "https://www.myscheme.gov.in/",
-                    "snippet": f"Official government welfare portal providing details and eligibility rules for {query}.",
+                    "title": f"myScheme Portal Details - {query}",
+                    "link": f"https://www.myscheme.gov.in/search?q={query}",
+                    "snippet": f"Official myScheme portal details and eligibility criteria for {query}.",
                     "domain": "myscheme.gov.in"
                 },
                 {
-                    "title": f"National Portal of India - Welfare Schemes",
-                    "link": "https://www.india.gov.in/my-government/schemes",
-                    "snippet": "Central portal for citizen services and official government scheme notifications.",
-                    "domain": "india.gov.in"
+                    "title": f"myScheme Official Search",
+                    "link": "https://www.myscheme.gov.in/",
+                    "snippet": "National Government Portal consolidating central and state government schemes.",
+                    "domain": "myscheme.gov.in"
                 }
             ]
         }
