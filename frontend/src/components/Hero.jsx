@@ -13,16 +13,16 @@ export default function Hero({ onPresetClick }) {
     <section
       style={{
         borderBottom: '1px solid var(--border)',
-        paddingTop: '48px',
-        paddingBottom: '48px',
+        paddingTop: '52px',
+        paddingBottom: '52px',
       }}
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-12">
-        {/* 2-Column Asymmetric Grid (Vertically Centered with items-center) */}
+        {/* 2-Column Asymmetric Grid (50-50 Split for Larger Right Section) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* Left Column: Headline (Vertically Centered Relative to Right Column) */}
-          <div className="lg:col-span-7 self-center">
+          {/* Left Column: Headline */}
+          <div className="lg:col-span-6 self-center">
             <h1
               style={{
                 fontSize: 'clamp(32px, 4.8vw, 58px)',
@@ -40,39 +40,39 @@ export default function Hero({ onPresetClick }) {
             </h1>
           </div>
 
-          {/* Right Column: Sub-copy Paragraph + Preset Query Buttons */}
-          <div className="lg:col-span-5 flex flex-col justify-center">
-            {/* Editorial Sub-copy */}
+          {/* Right Column: Proportionally Enlarged Sub-copy + Query Buttons */}
+          <div className="lg:col-span-6 flex flex-col justify-center">
+            {/* Proportionally Enlarged Editorial Sub-copy */}
             <p
               style={{
-                fontSize: '15px',
-                lineHeight: 1.6,
+                fontSize: '17px',
+                lineHeight: 1.65,
                 color: '#57534A',
-                marginBottom: '20px',
+                marginBottom: '26px',
               }}
             >
               Describe your situation in plain language. The AI engine checks indexed scheme documents and live government sources to evaluate your eligibility.
             </p>
 
-            {/* Sample Preset Queries Buttons Grid */}
+            {/* Proportionally Enlarged Sample Preset Queries Buttons Grid */}
             <div>
               <p
-                className="label-meta mb-3"
-                style={{ color: 'var(--text-muted)', fontSize: '10px' }}
+                className="label-meta mb-3.5"
+                style={{ color: 'var(--text-muted)', fontSize: '11px', letterSpacing: '0.08em' }}
               >
                 SAMPLE PRESET QUERIES
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {SAMPLE_QUERIES.map(({ label, query }) => (
                   <button
                     key={label}
                     onClick={() => onPresetClick(query)}
-                    className="group flex items-start justify-between gap-2.5 text-left transition-all duration-150 active:scale-[0.98]"
+                    className="group flex items-start justify-between gap-3 text-left transition-all duration-150 active:scale-[0.98]"
                     style={{
                       background: 'var(--accent)',
                       color: 'var(--accent-text)',
-                      borderRadius: '4px',
-                      padding: '12px 14px',
+                      borderRadius: '5px',
+                      padding: '14px 16px',
                       border: 'none',
                       cursor: 'pointer',
                       boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
@@ -87,10 +87,10 @@ export default function Hero({ onPresetClick }) {
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div
                         style={{
-                          fontSize: '12px',
-                          fontWeight: 600,
+                          fontSize: '13.5px',
+                          fontWeight: 650,
                           color: '#171714',
-                          marginBottom: '4px',
+                          marginBottom: '5px',
                           letterSpacing: '0.01em',
                         }}
                       >
@@ -98,9 +98,9 @@ export default function Hero({ onPresetClick }) {
                       </div>
                       <div
                         style={{
-                          fontSize: '11px',
-                          color: 'rgba(23, 23, 20, 0.82)',
-                          lineHeight: 1.45,
+                          fontSize: '12px',
+                          color: 'rgba(23, 23, 20, 0.84)',
+                          lineHeight: 1.48,
                           whiteSpace: 'normal',
                           wordBreak: 'break-word',
                         }}
@@ -110,7 +110,7 @@ export default function Hero({ onPresetClick }) {
                     </div>
                     <ArrowUpRight
                       className="flex-shrink-0 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 mt-0.5"
-                      style={{ width: '15px', height: '15px', color: '#171714', strokeWidth: 2.2 }}
+                      style={{ width: '17px', height: '17px', color: '#171714', strokeWidth: 2.2 }}
                     />
                   </button>
                 ))}
