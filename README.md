@@ -186,8 +186,4 @@ npm run dev
   - **Vaibhav Garg** (Enrollment No. 01196402723)
 - **Project Guide:** Dr. Yogesh Sharma
 
----
 
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
