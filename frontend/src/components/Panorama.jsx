@@ -383,7 +383,7 @@ export default function Panorama() {
       style={{
         borderBottom: '1px solid var(--border)',
         overflow: 'hidden',
-        height: '96px',
+        height: '128px',
         position: 'relative',
         background: 'var(--bg)',
       }}
