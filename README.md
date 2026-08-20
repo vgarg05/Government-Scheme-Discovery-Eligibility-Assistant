@@ -6,7 +6,6 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688.svg)](https://fastapi.tiangolo.com/)
 [![Playwright](https://img.shields.io/badge/Scraper-Playwright%20Chromium-green.svg)](https://playwright.dev/)
 [![Python Pipeline](https://img.shields.io/badge/Orchestration-AgentState%20Pipeline-orange.svg)](https://fastapi.tiangolo.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
