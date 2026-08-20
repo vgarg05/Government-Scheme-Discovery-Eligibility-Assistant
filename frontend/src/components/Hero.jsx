@@ -18,20 +18,11 @@ export default function Hero({ onPresetClick }) {
       }}
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-12">
-        {/* 2-Column Asymmetric Grid (Top-Aligned for Higher Headline Position) */}
+        {/* 2-Column Asymmetric Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
-          {/* Left Column: Eyebrow + Large Editorial Headline */}
+          {/* Left Column: Large Editorial Headline */}
           <div className="lg:col-span-7">
-            {/* Eyebrow meta label */}
-            <p
-              className="label-meta mb-4"
-              style={{ color: 'var(--text-muted)' }}
-            >
-              01 GOVASSIST &middot; AI WELFARE ENGINE
-            </p>
-
-            {/* Huge Pleurat-Style Editorial Headline */}
             <h1
               style={{
                 fontSize: 'clamp(32px, 4.8vw, 58px)',
@@ -49,7 +40,7 @@ export default function Hero({ onPresetClick }) {
             </h1>
           </div>
 
-          {/* Right Column: Sub-copy Paragraph + Pleurat Reference Buttons */}
+          {/* Right Column: Sub-copy Paragraph + Preset Query Buttons */}
           <div className="lg:col-span-5 flex flex-col justify-start">
             {/* Editorial Sub-copy */}
             <p
