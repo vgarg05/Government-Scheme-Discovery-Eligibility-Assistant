@@ -34,7 +34,7 @@ export default function Hero({ onPresetClick }) {
             >
               Find welfare schemes
               <br />
-              <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>
+              <span style={{ color: '#8B8577', fontWeight: 400 }}>
                 you actually qualify for.
               </span>
             </h1>
