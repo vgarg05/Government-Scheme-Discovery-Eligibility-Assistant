@@ -13,16 +13,16 @@ export default function Hero({ onPresetClick }) {
     <section
       style={{
         borderBottom: '1px solid var(--border)',
-        paddingTop: '36px',
-        paddingBottom: '40px',
+        paddingTop: '48px',
+        paddingBottom: '48px',
       }}
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-12">
-        {/* 2-Column Asymmetric Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+        {/* 2-Column Asymmetric Grid (Vertically Centered with items-center) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* Left Column: Large Editorial Headline */}
-          <div className="lg:col-span-7">
+          {/* Left Column: Headline (Vertically Centered Relative to Right Column) */}
+          <div className="lg:col-span-7 self-center">
             <h1
               style={{
                 fontSize: 'clamp(32px, 4.8vw, 58px)',
@@ -41,7 +41,7 @@ export default function Hero({ onPresetClick }) {
           </div>
 
           {/* Right Column: Sub-copy Paragraph + Preset Query Buttons */}
-          <div className="lg:col-span-5 flex flex-col justify-start">
+          <div className="lg:col-span-5 flex flex-col justify-center">
             {/* Editorial Sub-copy */}
             <p
               style={{
