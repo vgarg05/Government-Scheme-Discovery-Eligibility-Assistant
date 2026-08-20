@@ -282,37 +282,37 @@
 
   /* Walk cycle classes */
   .walk-body {
-    animation: walk-bounce 0.75s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    animation: walk-bounce 0.9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
   }
   .walk-leg-near {
     transform-box: fill-box;
     transform-origin: 50% 0%;
-    animation: walk-leg-near 0.75s ease-in-out infinite;
+    animation: walk-leg-near 0.9s ease-in-out infinite;
   }
   .walk-leg-far {
     transform-box: fill-box;
     transform-origin: 50% 0%;
-    animation: walk-leg-far 0.75s ease-in-out infinite;
+    animation: walk-leg-far 0.9s ease-in-out infinite;
   }
   .walk-shin-near {
     transform-box: fill-box;
     transform-origin: 50% 0%;
-    animation: walk-shin-near 0.75s ease-in-out infinite;
+    animation: walk-shin-near 0.9s ease-in-out infinite;
   }
   .walk-shin-far {
     transform-box: fill-box;
     transform-origin: 50% 0%;
-    animation: walk-shin-far 0.75s ease-in-out infinite;
+    animation: walk-shin-far 0.9s ease-in-out infinite;
   }
   .walk-arm-near {
     transform-box: fill-box;
     transform-origin: 50% 0%;
-    animation: walk-arm-near 0.75s ease-in-out infinite;
+    animation: walk-arm-near 0.9s ease-in-out infinite;
   }
   .walk-arm-far {
     transform-box: fill-box;
     transform-origin: 50% 0%;
-    animation: walk-arm-far 0.75s ease-in-out infinite;
+    animation: walk-arm-far 0.9s ease-in-out infinite;
   }
 
   /* 2. Parallax Layer Scroll Speeds (Increased Speed) */
