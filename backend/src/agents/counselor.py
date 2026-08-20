@@ -6,7 +6,7 @@ def clean_url(url: str) -> str:
         return "https://www.myscheme.gov.in"
     return url.strip().rstrip(";").rstrip(".").rstrip(",")
 
-# Curated database of major schemes with exact verified myScheme portal URLs
+# Curated database of major schemes with exact verified myScheme portal URLs and point-by-point steps
 SCHEME_KNOWLEDGE_BASE = {
     "krishak_durghatna": {
         "name": "Mukhyamantri Krishak Durghatna Kalyan Yojana",
@@ -22,8 +22,14 @@ SCHEME_KNOWLEDGE_BASE = {
             "Bank Account Passbook with IFSC code for Direct Benefit Transfer (DBT)"
         ],
         "steps": [
-            "🌐 ONLINE APPLICATION: Visit the official myScheme portal (www.myscheme.gov.in/schemes/kdky) or UP e-District portal. Click 'Apply Online', log in with mobile OTP, fill the application form, upload scanned copies of land and medical documents, and submit.",
-            "🏢 OFFLINE APPLICATION: Visit your local Tehsil office, District Magistrate (DM) office, or nearest Common Service Centre (CSC). Collect the Krishak Durghatna Kalyan form, attach verified photocopies of Aadhaar, Khasra land records, and hospital death/disability certificate, and submit to the Tehsildar within 45 days of the incident."
+            "🌐 ONLINE METHOD — Step 1: Visit the official portal (www.myscheme.gov.in/schemes/kdky) or UP e-District portal.",
+            "🌐 ONLINE METHOD — Step 2: Click 'Apply Online' and log in using your registered mobile number and OTP.",
+            "🌐 ONLINE METHOD — Step 3: Fill out the digital application form with personal, land, and bank account details.",
+            "🌐 ONLINE METHOD — Step 4: Upload scanned copies of Aadhaar, Khasra land records, and hospital medical certificate, then click Submit.",
+            "🏢 OFFLINE METHOD — Step 1: Visit your local Tehsil Office, District Magistrate (DM) office, or nearest Common Service Centre (CSC).",
+            "🏢 OFFLINE METHOD — Step 2: Collect the physical Krishak Durghatna Kalyan application form from the Revenue Officer.",
+            "🏢 OFFLINE METHOD — Step 3: Attach self-attested photocopies of Aadhaar, Khasra land records, and hospital death/disability report.",
+            "🏢 OFFLINE METHOD — Step 4: Submit the completed form to the Tehsildar within 45 days of the incident to receive your tracking receipt."
         ]
     },
     "pm_kisan": {
@@ -38,8 +44,13 @@ SCHEME_KNOWLEDGE_BASE = {
             "Domicile / State Residence Certificate"
         ],
         "steps": [
-            "🌐 ONLINE APPLICATION: Visit pmkisan.gov.in or myscheme.gov.in/schemes/pm-kisan. Click 'New Farmer Registration', enter Aadhaar number, mobile number, and state. Fill land boundary details and submit after OTP e-KYC verification.",
-            "🏢 OFFLINE APPLICATION: Visit the nearest Common Service Centre (CSC) or Agriculture Development Officer at your local Block/Tehsil office. Submit physical copies of Aadhaar, land Khatauni, and bank passbook for portal registration."
+            "🌐 ONLINE METHOD — Step 1: Visit pmkisan.gov.in or myscheme.gov.in/schemes/pm-kisan portal.",
+            "🌐 ONLINE METHOD — Step 2: Click on 'Farmers Corner' → 'New Farmer Registration'.",
+            "🌐 ONLINE METHOD — Step 3: Enter your Aadhaar number, active mobile number, state, and land survey details.",
+            "🌐 ONLINE METHOD — Step 4: Complete OTP e-KYC verification and submit the online application.",
+            "🏢 OFFLINE METHOD — Step 1: Visit your local Block Development Office (BDO), Tehsil, or nearest CSC Centre.",
+            "🏢 OFFLINE METHOD — Step 2: Submit physical photocopies of your Aadhaar card, land Khatauni passbook, and bank details.",
+            "🏢 OFFLINE METHOD — Step 3: The Agriculture Nodal Officer will verify your land documents and register your profile on the PM-KISAN portal."
         ]
     },
     "pmfby": {
@@ -54,8 +65,13 @@ SCHEME_KNOWLEDGE_BASE = {
             "Bank Account Passbook details"
         ],
         "steps": [
-            "🌐 ONLINE APPLICATION: Visit pmfby.gov.in or myscheme.gov.in/schemes/pmfby. Click 'Farmer Application', enter crop name, area, survey number, and bank details. Pay the nominal premium (1.5% to 2%) online to receive your policy receipt.",
-            "🏢 OFFLINE APPLICATION: Visit your local Commercial Bank branch, Regional Rural Bank, or CSC Centre before the seasonal cut-off date. Fill the crop insurance form and submit along with your land sowing certificate."
+            "🌐 ONLINE METHOD — Step 1: Visit pmfby.gov.in or myscheme.gov.in/schemes/pmfby portal.",
+            "🌐 ONLINE METHOD — Step 2: Click 'Farmer Application' and log in with your mobile number.",
+            "🌐 ONLINE METHOD — Step 3: Enter crop details, land survey number, area sown, and bank account info.",
+            "🌐 ONLINE METHOD — Step 4: Pay nominal premium (1.5% to 2%) via net banking/UPI to download your policy receipt.",
+            "🏢 OFFLINE METHOD — Step 1: Visit your local Commercial Bank branch, Cooperative Bank, or nearest CSC Centre before cut-off date.",
+            "🏢 OFFLINE METHOD — Step 2: Fill the crop insurance application form and attach land sowing certificate and bank passbook copy.",
+            "🏢 OFFLINE METHOD — Step 3: Pay the premium in cash/cheque at bank counter and collect the stamped insurance acknowledgment."
         ]
     },
     "ayushman": {
@@ -69,8 +85,13 @@ SCHEME_KNOWLEDGE_BASE = {
             "Active Mobile Number for OTP verification"
         ],
         "steps": [
-            "🌐 ONLINE APPLICATION / VERIFICATION: Visit beneficiary.nha.gov.in or myscheme.gov.in/schemes/ab-pmjay. Enter mobile number, verify via OTP, search your family name, and generate your Ayushman Card online.",
-            "🏢 OFFLINE APPLICATION: Visit the Ayushman Mitra desk at any empanelled Government/Private Hospital or nearest CSC Centre. Present your Aadhaar and Ration Card to get your physical Ayushman Card generated on the spot."
+            "🌐 ONLINE METHOD — Step 1: Visit beneficiary.nha.gov.in or myscheme.gov.in/schemes/ab-pmjay portal.",
+            "🌐 ONLINE METHOD — Step 2: Enter your mobile number, verify with OTP, and search your family name.",
+            "🌐 ONLINE METHOD — Step 3: Complete e-KYC using Aadhaar OTP or facial authentication.",
+            "🌐 ONLINE METHOD — Step 4: Download your digital Ayushman Card directly to your mobile phone.",
+            "🏢 OFFLINE METHOD — Step 1: Visit the Ayushman Mitra desk at any empanelled Government or Private Hospital.",
+            "🏢 OFFLINE METHOD — Step 2: Present your physical Aadhaar Card and Ration Card to the Ayushman Mitra representative.",
+            "🏢 OFFLINE METHOD — Step 3: Get your biometric e-KYC verified on-site and receive your printed Ayushman PVC Card."
         ]
     },
     "surya_ghar": {
@@ -85,8 +106,13 @@ SCHEME_KNOWLEDGE_BASE = {
             "Bank Account Passbook for subsidy credit"
         ],
         "steps": [
-            "🌐 ONLINE APPLICATION: Visit pmsuryaghar.gov.in or myscheme.gov.in/schemes/pmsgmby. Register with state electricity DISCOM, enter consumer number, apply for rooftop solar installation, and select an empaneled vendor.",
-            "🏢 OFFLINE APPLICATION: Visit your local Electricity DISCOM office or CSC Kendra. Submit your electricity consumer bill and Aadhaar copy to get registered for solar feasibility inspection."
+            "🌐 ONLINE METHOD — Step 1: Visit pmsuryaghar.gov.in or myscheme.gov.in/schemes/pmsgmby portal.",
+            "🌐 ONLINE METHOD — Step 2: Register with your State Electricity DISCOM and consumer account number.",
+            "🌐 ONLINE METHOD — Step 3: Apply for rooftop solar installation and select an empaneled vendor.",
+            "🌐 ONLINE METHOD — Step 4: After vendor installation, submit net-metering application to receive subsidy direct to bank.",
+            "🏢 OFFLINE METHOD — Step 1: Visit your local Electricity DISCOM divisional office or CSC Kendra.",
+            "🏢 OFFLINE METHOD — Step 2: Submit physical application form along with latest electricity bill and roof ownership document.",
+            "🏢 OFFLINE METHOD — Step 3: DISCOM engineers inspect roof feasibility and assist with offline vendor allocation."
         ]
     }
 }
@@ -100,8 +126,14 @@ GENERAL_DOCS = [
 ]
 
 GENERAL_STEPS = [
-    "🌐 ONLINE METHOD: Visit the official myScheme portal (www.myscheme.gov.in). Search for the scheme name, click 'Apply Online', fill out the online application form with your demographic details, upload scanned documents, and submit.",
-    "🏢 OFFLINE METHOD: Visit your local Tehsil Office, Block Development Office (BDO), or nearest Common Service Centre (CSC). Obtain the physical application form, attach self-attested photocopies of your Aadhaar, income, and domicile certificates, and submit to the designated scheme officer."
+    "🌐 ONLINE METHOD — Step 1: Visit the official myScheme portal (www.myscheme.gov.in) and search for the scheme name.",
+    "🌐 ONLINE METHOD — Step 2: Click 'Apply Online', log in using your mobile number and OTP.",
+    "🌐 ONLINE METHOD — Step 3: Fill out the online application form with your personal and income details.",
+    "🌐 ONLINE METHOD — Step 4: Upload scanned copies of required documents and click Submit to get reference tracking number.",
+    "🏢 OFFLINE METHOD — Step 1: Visit your local Tehsil Office, Block Development Office (BDO), or nearest Common Service Centre (CSC).",
+    "🏢 OFFLINE METHOD — Step 2: Collect the physical application form from the designated nodal officer.",
+    "🏢 OFFLINE METHOD — Step 3: Attach self-attested photocopies of Aadhaar, income, and domicile certificates.",
+    "🏢 OFFLINE METHOD — Step 4: Submit the completed form to the office counter and retain the acknowledgment receipt."
 ]
 
 def find_matched_kb_scheme(scheme_title: str):
@@ -126,7 +158,7 @@ def find_matched_kb_scheme(scheme_title: str):
 class CounselorGuidanceAgent:
     """
     Counselor & Guidance Agent.
-    Generates simple-language scheme benefits, required documents, dual online/offline application steps,
+    Generates simple-language scheme benefits, required documents, point-by-point online & offline application steps,
     and exact clean myscheme.gov.in citation links.
     """
 
@@ -169,7 +201,6 @@ class CounselorGuidanceAgent:
             # Extract exact matching citation URL from web search results
             citations = []
             if mode == "web_search" and state.web_search_results:
-                # Find the result pointing to myscheme.gov.in/schemes/
                 scheme_results = [r for r in state.web_search_results if "/schemes/" in r.get("link", "")]
                 target_result = scheme_results[0] if scheme_results else state.web_search_results[0]
                 
@@ -191,7 +222,6 @@ class CounselorGuidanceAgent:
                     "url": "https://www.myscheme.gov.in"
                 }]
         else:
-            # Fallback for general query
             default_kb = SCHEME_KNOWLEDGE_BASE["krishak_durghatna"] if (profile.occupation and "farm" in profile.occupation.lower()) else SCHEME_KNOWLEDGE_BASE["pm_kisan"]
             scheme_title = default_kb["name"]
             docs = default_kb["docs"]
@@ -202,11 +232,10 @@ class CounselorGuidanceAgent:
                 "url": clean_url(default_kb["portal"])
             }]
 
-        # Summary in simple language
         if is_eligible:
             summary = (
                 f"Good news! Based on your profile, you are eligible for {scheme_title}. "
-                f"Below you will find the required documents, simple step-by-step application instructions "
+                f"Below you will find the required documents, simple point-by-point application steps "
                 f"(both Online & Offline), and the official myScheme portal link."
             )
         else:
