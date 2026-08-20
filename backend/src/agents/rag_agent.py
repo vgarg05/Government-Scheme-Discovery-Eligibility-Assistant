@@ -13,13 +13,14 @@ class RAGRetrievalAgent:
         # Translate to English if query is in a regional language
         search_query = query
         try:
-            from src.utils.translator import translator
+            from src.utils.translator import translator, safe_print
             translated = translator.translate_text(query, target_lang="en")
             if translated and translated.strip().lower() != query.strip().lower():
-                print(f"[RAG AGENT] Translated query for DB search: '{translated}'")
+                safe_print(f"[RAG AGENT] Translated query for DB search: '{translated}'")
                 search_query = translated
         except Exception as e:
-            print(f"[RAG AGENT] Translation error: {e}")
+            from src.utils.translator import safe_print
+            safe_print(f"[RAG AGENT] Translation error: {e}")
 
         res = vector_tool.search_schemes(search_query, top_k=4)
 

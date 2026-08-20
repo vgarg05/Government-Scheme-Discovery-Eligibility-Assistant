@@ -1,6 +1,6 @@
 from src.agents.state import AgentState
 from src.tools.serper_tool import serper_tool
-from src.utils.translator import translator
+from src.utils.translator import translator, safe_print
 
 class SerperWebSearchAgent:
     """
@@ -18,7 +18,7 @@ class SerperWebSearchAgent:
             translated = translator.translate_text(query, target_lang="en")
             # If translation returned same text, it was already English
             if translated and translated.strip() != query.strip():
-                print(f"[WEB AGENT] Translated query: '{translated[:80]}'")
+                safe_print(f"[WEB AGENT] Translated query: '{translated[:80]}'")
                 return translated
         except Exception:
             pass
@@ -29,7 +29,7 @@ class SerperWebSearchAgent:
 
         # Translate to English for better gov.in scheme search results
         english_query = self._translate_query_to_english(query)
-        print(f"[WEB AGENT] Executing Serper search for query: '{english_query[:80]}'")
+        safe_print(f"[WEB AGENT] Executing Serper search for query: '{english_query[:80]}'")
 
         res = serper_tool.search_government_portals(english_query, num_results=3)
 

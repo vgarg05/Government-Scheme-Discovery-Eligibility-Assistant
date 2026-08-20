@@ -152,12 +152,13 @@ def process_chat_query(request: ChatRequest):
                 # Re-map results back into output structure
                 idx = 0
                 for key, length in mapping:
-                    if length == 1:
-                        # Fallback check if batch translation returned fewer items or errored
+                    if key == "top_scheme":
+                        # Assign top_scheme as a single string
                         if idx < len(translated_results):
                             output[key] = translated_results[idx]
                             idx += 1
                     else:
+                        # Assign checklist, steps, and criteria as lists of strings (even if length is 1)
                         if idx + length <= len(translated_results):
                             output[key] = translated_results[idx : idx + length]
                             idx += length
