@@ -456,10 +456,54 @@ class CounselorGuidanceAgent:
 
         # ── Playwright Headless Chromium DOM Scraping ──
         dom_data = playwright_scraper.scrape_scheme_details(target_portal)
-        pw_benefits = dom_data.get("benefits", [])
-        pw_eligibility = dom_data.get("eligibility_text", "")
-        pw_docs = dom_data.get("docs", [])
-        pw_steps = dom_data.get("process_steps", [])
+        raw_benefits = dom_data.get("raw_benefits", "")
+        raw_eligibility = dom_data.get("raw_eligibility", "")
+        raw_docs = dom_data.get("raw_docs", "")
+        raw_online = dom_data.get("raw_process_online", "")
+        raw_offline = dom_data.get("raw_process_offline", "")
+
+        # ── Gemini LLM Post-Processing on Playwright DOM Text ──
+        pw_benefits = []
+        pw_docs = []
+        pw_steps = []
+        pw_eligibility = raw_eligibility
+
+        if raw_benefits or raw_docs or raw_online:
+            llm_summary_prompt = f"""
+You are an expert Government Scheme Assistant. Clean and summarize the following raw myScheme website DOM text into crisp, clean bullet points.
+
+SCHEME NAME: {target_scheme_query}
+PORTAL URL: {target_portal}
+
+RAW BENEFITS TEXT:
+{raw_benefits}
+
+RAW DOCUMENTS TEXT:
+{raw_docs}
+
+RAW ONLINE PROCESS:
+{raw_online}
+
+RAW OFFLINE PROCESS:
+{raw_offline}
+
+STRICT FORMATTING RULES:
+1. "benefits": Array of 3 to 6 clean, concise benefit bullet statements summarizing financial assistance, insurance, or subsidies. Do NOT output long narrative paragraphs.
+2. "docs": Array of clean required document names (e.g. ["Aadhaar Card", "Land Khatauni Record", "Domicile Certificate"]). Do NOT include titles like "List of the required documents".
+3. "steps": Array of application steps. Group online steps under "🌐 ONLINE METHOD" and offline steps under "🏢 OFFLINE METHOD". Convert any text referring to "official website" or "portal" into a clickable markdown link: [official website]({target_portal}).
+
+Respond strictly in valid JSON:
+{{
+  "benefits": ["Benefit statement 1", "Benefit statement 2"],
+  "docs": ["Document 1", "Document 2"],
+  "steps": ["🌐 ONLINE METHOD", "1. Step 1", "🏢 OFFLINE METHOD", "1. Step 1"]
+}}
+"""
+            llm_res = llm_client.generate_json(llm_summary_prompt)
+            if llm_res:
+                pw_benefits = llm_res.get("benefits", [])
+                pw_docs = llm_res.get("docs", [])
+                pw_steps = llm_res.get("steps", [])
 
         if not pw_benefits:
             pw_benefits = serper_tool.search_scheme_benefits(target_scheme_query)
