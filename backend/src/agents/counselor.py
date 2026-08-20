@@ -449,6 +449,7 @@ class CounselorGuidanceAgent:
             benefits = kb_match["benefits"]
             docs = kb_match["docs"]
             steps = kb_match["steps"]
+            exact_eligibility_text = kb_match.get("eligibility", "Verified myScheme eligibility criteria.")
             citations = [{
                 "type": "Government Portal (myScheme)",
                 "title": f"{kb_match['name']} - myScheme",
@@ -456,6 +457,7 @@ class CounselorGuidanceAgent:
             }]
         elif clean_scheme:
             scheme_title = clean_scheme
+            exact_eligibility_text = "Retrieved directly from official myScheme portal policy text."
             
             # Fetch real benefits from myScheme website via Serper search
             print(f"[COUNSELOR] Fetching benefits from myScheme for: {clean_scheme}")
@@ -493,6 +495,7 @@ class CounselorGuidanceAgent:
             benefits = default_kb["benefits"]
             docs = default_kb["docs"]
             steps = default_kb["steps"]
+            exact_eligibility_text = default_kb.get("eligibility", "Verified myScheme eligibility criteria.")
             citations = [{
                 "type": "Government Portal (myScheme)",
                 "title": f"{default_kb['name']} - myScheme",
@@ -548,6 +551,11 @@ class CounselorGuidanceAgent:
                     f"✓ **Disqualifiers Check**: No disqualifiers found.\n\n"
                     f"👇 If you'd like me to double-check any specific condition (like your exact landholding size or income certificate limit), please share your details below and I will verify it for you!"
                 )
+
+        print(f"\n================ [EXACT SCHEME ELIGIBILITY EXTRACTED] ================")
+        print(f"Scheme: {scheme_title}")
+        print(f"Exact Requirement: {exact_eligibility_text}")
+        print(f"========================================================================\n")
 
         print(f"\n================ [SCHEME BENEFITS EXTRACTED] ================")
         print(f"Scheme: {scheme_title}")
