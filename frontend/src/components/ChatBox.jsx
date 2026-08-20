@@ -108,15 +108,22 @@ function Message({ msg, selectedLang, onPlayAudio }) {
             borderRadius: '6px',
             fontSize: '14px',
             lineHeight: 1.6,
-            background: msg.isError ? 'rgba(184,92,82,0.06)' : 'var(--accent)',
+            background: isUser
+              ? 'var(--raised)'
+              : msg.isError
+              ? 'rgba(184,92,82,0.06)'
+              : 'var(--surface)',
             border: `1px solid ${
-              msg.isError ? 'rgba(184,92,82,0.2)' : 'var(--accent)'
+              isUser
+                ? 'var(--border)'
+                : msg.isError
+                ? 'rgba(184,92,82,0.2)'
+                : 'var(--border)'
             }`,
-            color: msg.isError ? 'var(--error)' : '#171714',
-            boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+            color: msg.isError ? 'var(--error)' : 'var(--text-primary)',
           }}
         >
-          <p style={{ whiteSpace: 'pre-wrap', margin: 0, fontWeight: isUser ? 500 : 450 }}>{msg.text}</p>
+          <p style={{ whiteSpace: 'pre-wrap', margin: 0 }}>{msg.text}</p>
 
           {/* TTS button */}
           {!isUser && !msg.isError && (
@@ -124,24 +131,24 @@ function Message({ msg, selectedLang, onPlayAudio }) {
               onClick={() => onPlayAudio(msg.translatedText || msg.text)}
               style={{
                 marginTop: '10px',
-                paddingTop: '8px',
+                paddingTop: '10px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
                 fontSize: '11px',
-                fontWeight: 600,
+                fontWeight: 500,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                color: 'rgba(23, 23, 20, 0.75)',
+                color: 'var(--text-muted)',
                 background: 'none',
                 border: 'none',
-                borderTop: '1px solid rgba(23, 23, 20, 0.18)',
+                borderTop: '1px solid var(--border-subtle)',
                 cursor: 'pointer',
                 width: '100%',
                 transition: 'color 0.15s',
               }}
-              onMouseEnter={e => e.currentTarget.style.color = '#171714'}
-              onMouseLeave={e => e.currentTarget.style.color = 'rgba(23, 23, 20, 0.75)'}
+              onMouseEnter={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
             >
               <Volume2 style={{ width: '12px', height: '12px' }} />
               <span>Listen</span>
