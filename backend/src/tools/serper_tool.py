@@ -112,5 +112,72 @@ class SerperSearchTool:
             ]
         }
 
+    def search_scheme_benefits(self, scheme_name: str):
+        """
+        Searches specifically for scheme benefits on myscheme.gov.in.
+        Returns a list of benefit strings parsed from Google's cached snippet.
+        """
+        if not self.api_key or self.api_key == "your_serper_api_key_here":
+            return []
+
+        benefits_query = f'"{scheme_name}" benefits site:myscheme.gov.in'
+        headers = {
+            "X-API-KEY": self.api_key,
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "q": benefits_query,
+            "num": 3,
+            "gl": "in"
+        }
+
+        try:
+            response = requests.post(self.endpoint, headers=headers, json=payload, timeout=10)
+            if response.status_code == 200:
+                data = response.json()
+                results = data.get("organic", [])
+                
+                # Collect all snippets from myscheme results
+                all_snippets = []
+                for item in results:
+                    link = item.get("link", "")
+                    if "myscheme.gov.in" in link and "rules." not in link:
+                        snippet = item.get("snippet", "")
+                        if snippet and len(snippet) > 20:
+                            all_snippets.append(snippet)
+
+                if not all_snippets:
+                    return []
+
+                # Parse benefit points from snippets
+                benefits = []
+                for snippet in all_snippets:
+                    # Split on common separators used in myScheme snippets
+                    # Snippets often contain multiple benefits separated by periods, semicolons, or numbered lists
+                    parts = re.split(r'(?:\.\s+|\;\s*|\d+\)\s*|\d+\.\s+)', snippet)
+                    for part in parts:
+                        cleaned = part.strip().rstrip('.').strip()
+                        # Filter out noise - keep only meaningful benefit statements
+                        if len(cleaned) > 15 and len(cleaned) < 300:
+                            # Skip if it looks like eligibility criteria rather than benefits
+                            skip_signals = ["applicant should", "must be", "eligibility", "exclusion", "not eligible", "who can apply", "required document"]
+                            if not any(sig in cleaned.lower() for sig in skip_signals):
+                                benefits.append(cleaned)
+
+                # Deduplicate while preserving order
+                seen = set()
+                unique_benefits = []
+                for b in benefits:
+                    b_lower = b.lower()
+                    if b_lower not in seen:
+                        seen.add(b_lower)
+                        unique_benefits.append(b)
+
+                return unique_benefits[:6]  # Cap at 6 benefits max
+            return []
+        except Exception as e:
+            print(f"[SERPER TOOL] Benefits search failed: {e}")
+            return []
+
 # Instantiated helper instance
 serper_tool = SerperSearchTool()

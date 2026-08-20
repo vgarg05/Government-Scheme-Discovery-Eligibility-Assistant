@@ -1,4 +1,5 @@
 from src.agents.state import AgentState
+from src.tools.serper_tool import serper_tool
 
 def clean_url(url: str) -> str:
     """Ensure clean URL without trailing semicolons or punctuation."""
@@ -235,7 +236,12 @@ class CounselorGuidanceAgent:
             }]
         elif clean_scheme:
             scheme_title = clean_scheme
-            benefits = GENERAL_BENEFITS
+            
+            # Fetch real benefits from myScheme website via Serper search
+            print(f"[COUNSELOR] Fetching benefits from myScheme for: {clean_scheme}")
+            web_benefits = serper_tool.search_scheme_benefits(clean_scheme)
+            benefits = web_benefits if web_benefits else GENERAL_BENEFITS
+            
             docs = GENERAL_DOCS
             steps = GENERAL_STEPS
             
