@@ -376,30 +376,40 @@ export default function ChatBox({ initialQuery, selectedLang }) {
         {/* Scroll-to-bottom pill */}
         {showScrollBtn && (
           <button
+            type="button"
             onClick={scrollToBottom}
             style={{
               position: 'absolute',
-              bottom: '76px',
+              bottom: '80px',
               left: '50%',
               transform: 'translateX(-50%)',
               display: 'flex',
               alignItems: 'center',
-              gap: '5px',
+              gap: '6px',
               fontSize: '11px',
-              fontWeight: 500,
+              fontWeight: 650,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              padding: '6px 12px',
+              padding: '7px 14px',
               borderRadius: '20px',
-              background: 'var(--raised)',
-              border: '1px solid var(--border)',
-              color: 'var(--text-secondary)',
+              background: '#FDFBF4',
+              border: '1px solid #D0C8B6',
+              color: '#171714',
               cursor: 'pointer',
-              boxShadow: '0 2px 8px rgba(23,23,20,0.08)',
+              boxShadow: '0 4px 14px rgba(23, 23, 20, 0.15)',
+              zIndex: 50,
               transition: 'all 0.15s',
             }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = 'var(--accent)';
+              e.currentTarget.style.borderColor = 'var(--accent)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = '#FDFBF4';
+              e.currentTarget.style.borderColor = '#D0C8B6';
+            }}
           >
-            <ArrowDown style={{ width: '11px', height: '11px' }} />
+            <ArrowDown style={{ width: '12px', height: '12px', color: '#171714' }} strokeWidth={2.5} />
             <span>Latest</span>
           </button>
         )}
