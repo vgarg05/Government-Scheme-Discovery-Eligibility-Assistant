@@ -282,40 +282,40 @@
 
   /* Walk cycle classes */
   .walk-body {
-    animation: walk-bounce 1.1s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    animation: walk-bounce 0.75s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
   }
   .walk-leg-near {
     transform-box: fill-box;
     transform-origin: 50% 0%;
-    animation: walk-leg-near 1.1s ease-in-out infinite;
+    animation: walk-leg-near 0.75s ease-in-out infinite;
   }
   .walk-leg-far {
     transform-box: fill-box;
     transform-origin: 50% 0%;
-    animation: walk-leg-far 1.1s ease-in-out infinite;
+    animation: walk-leg-far 0.75s ease-in-out infinite;
   }
   .walk-shin-near {
     transform-box: fill-box;
     transform-origin: 50% 0%;
-    animation: walk-shin-near 1.1s ease-in-out infinite;
+    animation: walk-shin-near 0.75s ease-in-out infinite;
   }
   .walk-shin-far {
     transform-box: fill-box;
     transform-origin: 50% 0%;
-    animation: walk-shin-far 1.1s ease-in-out infinite;
+    animation: walk-shin-far 0.75s ease-in-out infinite;
   }
   .walk-arm-near {
     transform-box: fill-box;
     transform-origin: 50% 0%;
-    animation: walk-arm-near 1.1s ease-in-out infinite;
+    animation: walk-arm-near 0.75s ease-in-out infinite;
   }
   .walk-arm-far {
     transform-box: fill-box;
     transform-origin: 50% 0%;
-    animation: walk-arm-far 1.1s ease-in-out infinite;
+    animation: walk-arm-far 0.75s ease-in-out infinite;
   }
 
-  /* 2. Parallax Layer Scroll Speeds */
+  /* 2. Parallax Layer Scroll Speeds (Increased Speed) */
   @keyframes parallax-bg {
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
@@ -330,15 +330,15 @@
   }
 
   .parallax-layer-bg {
-    animation: parallax-bg 75s linear infinite;
+    animation: parallax-bg 40s linear infinite;
     will-change: transform;
   }
   .parallax-layer-mid {
-    animation: parallax-mid 42s linear infinite;
+    animation: parallax-mid 22s linear infinite;
     will-change: transform;
   }
   .parallax-layer-fore {
-    animation: parallax-fore 26s linear infinite;
+    animation: parallax-fore 14s linear infinite;
     will-change: transform;
   }
 
