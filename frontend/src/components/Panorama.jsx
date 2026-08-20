@@ -3,24 +3,28 @@ import React from 'react';
 /*
   GovAssist — Reference-Exact Living Indian Landscape & Farmer Character
   ────────────────────────────────────────────────────────────────────────
-  Design & Palette (100% Faithful to Reference Image):
+  Design & Palette (100% Faithful to Reference Specification):
   - Background: #F7F5EC (warm ivory)
   - Primary Linework: #1A1916 (crisp charcoal)
-  - Secondary Linework: #7D7A6E (warm gray stroke)
+  - Secondary Linework: #858178 (warm gray stroke)
+  - Light Lines: #D9D5C8 (faint boundary lines)
   - Muted Sage Green: #6B7A6E (tree foliage & bushes)
   - Warm Roof/Wall Tan: #C4C1B5 (roof tiles & secondary fills)
   - Focal Accent Yellow: #F2B544 (farmer's bag, panchayat door, foreground lollipop tree)
 
-  Vector Character Specs (Natural Human Proportions, Editorial Art):
-  - Skin Tone: #5C5A4E (refined charcoal-brown tone)
-  - Topi Cap: #E4E0D5 off-white with thick rolled band
-  - Shirt: Solid #FFFFFF half-sleeved short kurta with cuffed sleeves
-  - Trousers: #C2BCAD (front leg) & #9E988A (rear leg) straight pyjamas
-  - Yellow Bag: #F2B544 pouch with a white document (#FFFFFF) sticking out
+  Farmer SVG Group Hierarchy (Exact Required Animation Structure):
+  - <g id="farmer">
+      - <g id="farmer-right-arm"> (far arm, swinging forward)
+      - <g id="farmer-right-leg"> (far leg, stride back)
+      - <g id="farmer-left-leg">  (near leg, stride forward)
+      - <g id="farmer-body">      (torso & loose white kurta)
+      - <g id="farmer-head">      (neck, realistic face profile, topi cap)
+      - <g id="farmer-left-arm">  (near arm, hanging down holding bag)
+      - <g id="farmer-bag">       (yellow accent pouch with document insert)
 */
 
 const P_LINE = '#1A1916';
-const S_LINE = '#7D7A6E';
+const S_LINE = '#858178';
 const F_LINE = '#D9D5C8';
 const SAGE_GREEN = '#6B7A6E';
 const ROOF_TAN = '#C4C1B5';
@@ -248,128 +252,184 @@ function ForegroundArtwork() {
   );
 }
 
-// ── REFERENCE-EXACT WALKING FARMER (NATURAL PROPORTIONS) ──
+// ── ANATOMICALLY REALISTIC EDITORIAL FARMER (EXACT GROUP STRUCTURE) ──
 function WalkingFarmerOnLeft() {
-  const SKIN = '#5C5A4E';
+  const SKIN = '#69685B';
   const SHIRT = '#FFFFFF';
   const PANTS_FRONT = '#C2BCAD';
   const PANTS_BACK = '#9E988A';
-  const CAP = '#E4E0D5';
+  const CAP = '#E2DDD0';
   const ACCENT_BAG = '#F2B544';
   const LINE = '#1A1916';
 
   return (
-    <g className="walk-body" style={{ transformBox: 'fill-box' }}>
-      {/* ── 1. REAR ARM (Extending forward naturally) ── */}
-      <g className="walk-arm-far">
+    <g id="farmer" className="walk-body" style={{ transformBox: 'fill-box' }}>
+      {/* ── 1. RIGHT ARM (Far arm, extending forward with bent elbow) ── */}
+      <g id="farmer-right-arm" className="walk-arm-far">
+        {/* Upper arm sleeve */}
         <path
-          d="M 162 76 L 173 86 C 174 87 175 87 176 85 C 176 83 175 82 173 81 L 164 74 Z"
+          d="M 160 74 C 163 76 167 78 168 80 L 165 82 C 163 80 159 76 158 75 Z"
+          fill={SHIRT}
+          stroke={LINE}
+          strokeWidth="0.75"
+        />
+        {/* Forearm skin extending forward */}
+        <path
+          d="M 166 81 C 170 84 175 86 177 86 C 178 85 178 83 176 82 C 173 81 168 79 165 78 Z"
           fill={SKIN}
           stroke={LINE}
-          strokeWidth="0.7"
+          strokeWidth="0.75"
           strokeLinejoin="round"
         />
+        {/* Cupped Hand */}
         <path
-          d="M 161 73 L 167 79 L 164 81 L 159 75 Z"
-          fill={SHIRT}
+          d="M 176 86 C 178 87 180 87 179 85 C 178 84 176 83 175 83 Z"
+          fill={SKIN}
           stroke={LINE}
           strokeWidth="0.7"
         />
       </g>
 
-      {/* ── 2. REAR LEG (Angled backward) ── */}
-      <g className="walk-leg-far">
+      {/* ── 2. RIGHT LEG (Far leg, natural backward stride with knee) ── */}
+      <g id="farmer-right-leg" className="walk-leg-far">
+        {/* Thigh (curved trouser contour) */}
         <path
-          d="M 158 87 L 147 107 L 152 108 L 163 87 Z"
+          d="M 157 87 C 153 94 148 100 145 107 L 150 108 C 154 101 159 95 163 87 Z"
           fill={PANTS_BACK}
           stroke={LINE}
-          strokeWidth="0.7"
+          strokeWidth="0.75"
           strokeLinejoin="round"
         />
-        <path
-          d="M 147 107 L 141 112 L 147 112 Z"
-          fill={SKIN}
-          stroke={LINE}
-          strokeWidth="0.7"
-        />
+        {/* Shin & Foot */}
+        <g className="walk-shin-far">
+          <path
+            d="M 145 107 L 140 111 L 145 111 L 150 108 Z"
+            fill={PANTS_BACK}
+            stroke={LINE}
+            strokeWidth="0.75"
+          />
+          {/* Barefoot profile */}
+          <path
+            d="M 139 111 C 137 112 144 112 146 112 C 146 111 142 110 139 111 Z"
+            fill={SKIN}
+            stroke={LINE}
+            strokeWidth="0.7"
+          />
+        </g>
       </g>
 
-      {/* ── 3. FRONT LEG (Angled forward) ── */}
-      <g className="walk-leg-near">
+      {/* ── 3. LEFT LEG (Near leg, natural forward stride with knee) ── */}
+      <g id="farmer-left-leg" className="walk-leg-near">
+        {/* Thigh (curved trouser contour) */}
         <path
-          d="M 160 87 L 168 107 L 174 107 L 165 87 Z"
+          d="M 160 87 C 164 94 168 100 171 107 L 176 107 C 173 100 167 94 164 87 Z"
           fill={PANTS_FRONT}
           stroke={LINE}
-          strokeWidth="0.7"
+          strokeWidth="0.75"
           strokeLinejoin="round"
         />
+        {/* Shin & Foot */}
+        <g className="walk-shin-near">
+          <path
+            d="M 171 107 L 175 111 L 179 111 L 176 107 Z"
+            fill={PANTS_FRONT}
+            stroke={LINE}
+            strokeWidth="0.75"
+          />
+          {/* Barefoot profile */}
+          <path
+            d="M 172 111 C 170 112 180 112 181 112 C 180 110 176 110 172 111 Z"
+            fill={SKIN}
+            stroke={LINE}
+            strokeWidth="0.7"
+          />
+        </g>
+      </g>
+
+      {/* ── 4. TORSO & LOOSE WHITE KURTA ── */}
+      <g id="farmer-body">
+        {/* Loose Kurta Shirt with fabric drape */}
         <path
-          d="M 169 107 L 177 112 L 168 112 Z"
+          d="M 157 73 C 162 73 166 73 167 74 L 168 87 Q 163 89 157 88 C 156 83 156 78 157 73 Z"
+          fill={SHIRT}
+          stroke={LINE}
+          strokeWidth="0.8"
+          strokeLinejoin="round"
+        />
+        {/* Side slit */}
+        <line x1="164" y1="84" x2="164" y2="88" stroke={LINE} strokeWidth="0.75" />
+        {/* V-neckline & Collar fold */}
+        <path d="M 159 73 Q 161 76 163 73" fill="none" stroke={LINE} strokeWidth="0.75" />
+      </g>
+
+      {/* ── 5. HEAD, NECK & FOLDED TOPI CAP ── */}
+      <g id="farmer-head">
+        {/* Neck */}
+        <path d="M 160 73 L 160 69 L 163 70 L 163 74 Z" fill={SKIN} stroke={LINE} strokeWidth="0.7" />
+        {/* Realistic Face Profile (Nose, lips, chin, ear) */}
+        <path
+          d="M 160 69 C 160 67 161 63 164 63 Q 167 63 168 66 C 168 68 167 69 165 70 C 163 70 161 70 160 69 Z"
           fill={SKIN}
           stroke={LINE}
-          strokeWidth="0.7"
+          strokeWidth="0.75"
+        />
+        {/* Nose profile detail */}
+        <path d="M 166 65 Q 168 66 167 67" fill="none" stroke={LINE} strokeWidth="0.6" />
+        {/* Ear */}
+        <circle cx="163" cy="66" r="0.8" fill={SKIN} stroke={LINE} strokeWidth="0.6" />
+
+        {/* Folded Topi Cap */}
+        <path
+          d="M 158 63 C 158 57 168 57 168 63 Z"
+          fill={CAP}
+          stroke={LINE}
+          strokeWidth="0.75"
+        />
+        {/* Thick Cap Band */}
+        <path
+          d="M 157 62 C 157 61 169 61 169 62 C 169 64 157 64 157 62 Z"
+          fill={CAP}
+          stroke={LINE}
+          strokeWidth="0.75"
         />
       </g>
 
-      {/* ── 4. TORSO & WHITE SHIRT ── */}
-      <path
-        d="M 158 72 L 165 73 L 165 87 L 162 88 L 162 86 L 158 86 Z"
-        fill={SHIRT}
-        stroke={LINE}
-        strokeWidth="0.8"
-        strokeLinejoin="round"
-      />
-      <line x1="162" y1="84" x2="162" y2="88" stroke={LINE} strokeWidth="0.7" />
-
-      {/* ── 5. HEAD, NECK & TOPI CAP ── */}
-      <path d="M 160 72 L 160 69 L 163 70 L 163 73 Z" fill={SKIN} stroke={LINE} strokeWidth="0.6" />
-      <path
-        d="M 160 69 C 160 66 161 63 164 63 C 166 63 168 64 168 66 C 168 67 167 68 166 69 Z"
-        fill={SKIN}
-        stroke={LINE}
-        strokeWidth="0.7"
-      />
-      <circle cx="163" cy="66" r="0.7" fill={SKIN} stroke={LINE} strokeWidth="0.5" />
-
-      {/* Topi Cap */}
-      <path
-        d="M 158 63 C 158 58 168 58 168 63 Z"
-        fill={CAP}
-        stroke={LINE}
-        strokeWidth="0.7"
-      />
-      <path
-        d="M 157 62 C 157 61 169 61 169 62 C 169 64 157 64 157 62 Z"
-        fill={CAP}
-        stroke={LINE}
-        strokeWidth="0.7"
-      />
-
-      {/* ── 6. FRONT ARM (Hanging straight down holding bag) ── */}
-      <g className="walk-arm-near">
+      {/* ── 6. LEFT ARM (Near arm, hanging down holding bag) ── */}
+      <g id="farmer-left-arm" className="walk-arm-near">
+        {/* Sleeve */}
         <path
-          d="M 158 72 L 164 73 L 163 79 L 157 78 Z"
+          d="M 157 73 L 163 74 L 162 80 L 156 79 Z"
           fill={SHIRT}
           stroke={LINE}
-          strokeWidth="0.7"
+          strokeWidth="0.75"
         />
+        {/* Cuffed sleeve line */}
+        <line x1="156" y1="79" x2="162" y2="80" stroke={LINE} strokeWidth="0.75" />
+
+        {/* Forearm skin down to wrist */}
         <path
-          d="M 158 78 L 163 79 L 162 89 L 157 88 Z"
+          d="M 157 79 L 162 80 L 161 89 L 156 88 Z"
           fill={SKIN}
           stroke={LINE}
-          strokeWidth="0.7"
+          strokeWidth="0.75"
         />
-        <ellipse cx="159.5" cy="90" rx="2.2" ry="1.8" fill={SKIN} stroke={LINE} strokeWidth="0.6" />
+        {/* Hand gripping handle */}
+        <ellipse cx="158.5" cy="90" rx="2" ry="1.6" fill={SKIN} stroke={LINE} strokeWidth="0.6" />
+      </g>
 
-        {/* ── 7. YELLOW ACCENT BAG WITH WHITE PAPER INSERT ── */}
-        <path d="M 158 89 Q 159 85 161 89" fill="none" stroke={LINE} strokeWidth="0.7" />
+      {/* ── 7. YELLOW ACCENT BAG WITH WHITE PAPER INSERT ── */}
+      <g id="farmer-bag">
+        {/* Bag strap handle */}
+        <path d="M 157 89 Q 158 85 160 89" fill="none" stroke={LINE} strokeWidth="0.75" />
+        {/* Mustard Yellow Accent Pouch */}
         <path
-          d="M 154 93 C 153 102 166 102 165 93 C 165 91 154 91 154 93 Z"
+          d="M 153 93 C 152 102 165 102 164 93 C 164 91 153 91 153 93 Z"
           fill={ACCENT_YELLOW}
           stroke={LINE}
-          strokeWidth="0.8"
+          strokeWidth="0.85"
         />
-        <rect x="156.5" y="89" width="6" height="4" fill="#FFFFFF" stroke={LINE} strokeWidth="0.5" />
+        {/* White document peeking out of top */}
+        <rect x="155.5" y="89" width="6" height="4" fill="#FFFFFF" stroke={LINE} strokeWidth="0.5" />
       </g>
     </g>
   );
