@@ -149,11 +149,17 @@ class ProfileExtractionAgent:
         query = state.user_query
         profile = UserProfile()
 
-        # 1. Seed profile from conversation history first
+        # 1. Seed profile from conversation history (both snapshots and turn texts)
         if state.conversation_history:
             merged = extract_profile_from_history(state.conversation_history)
             for field, val in merged.items():
-                setattr(profile, field, val)
+                if val is not None:
+                    setattr(profile, field, val)
+
+            # Scan text content of all previous user turns in history
+            for turn in state.conversation_history:
+                if turn.role == 'user' and turn.content:
+                    profile = self._extract_from_text(turn.content, profile)
 
         # 2. Overlay with what we can extract from the current query
         profile = self._extract_from_text(query, profile)

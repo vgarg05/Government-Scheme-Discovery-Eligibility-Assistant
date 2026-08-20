@@ -29,7 +29,10 @@ class EligibilityAdjudicatorAgent:
 
         # 3. Age Check
         if profile.age:
-            matched_rules.append(f"Age criterion met: {profile.age} years old")
+            if 18 <= profile.age <= 70:
+                matched_rules.append(f"Age criterion met: {profile.age} years old (18-70 age limit satisfied)")
+            else:
+                to_verify_rules.append(f"Age restriction: User age is {profile.age}")
         else:
             if "durghatna" in user_query_low or "krishak" in user_query_low:
                 to_verify_rules.append("Age eligibility (requires 18 to 70 years)")
