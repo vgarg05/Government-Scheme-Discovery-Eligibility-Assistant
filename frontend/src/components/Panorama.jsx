@@ -7,7 +7,7 @@ import farmerWalkData from '../assets/farmer-walk.json';
   ─────────────────────────────────────────────────────────────────
   Architecture:
   - Uses DotLottiePlayer (Option A) for smooth 60fps skeletal vector animation.
-  - Character is rendered via Lottie JSON player anchored on the left side.
+  - Character is rendered via Lottie JSON player anchored on the left side above ground.
   - Background, Midground, and Foreground parallax layers remain untouched.
 */
 
@@ -281,12 +281,12 @@ export default function Panorama() {
       <div
         style={{
           position: 'absolute',
-          top: '12px',
-          left: '140px',
-          width: '78px',
-          height: '78px',
+          bottom: '8px',
+          left: '12%',
+          width: '84px',
+          height: '84px',
           pointerEvents: 'none',
-          zIndex: 10,
+          zIndex: 20,
         }}
       >
         <DotLottiePlayer
