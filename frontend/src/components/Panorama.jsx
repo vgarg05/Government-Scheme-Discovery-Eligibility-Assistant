@@ -4,10 +4,10 @@ import React from 'react';
   GovAssist — Public Services & Rural Commerce Streetscape
   ─────────────────────────────────────────────────────────
   Concept:
-  - Editorial horizontal panorama illustrating public services & village commerce:
-    1. Krishi Seva Kendra (Farmer Material & Fertilizer Shop / कृषि सेवा केंद्र)
-    2. Primary Health Centre / Rural Hospital (स्वास्थ्य केंद्र)
-    3. Panchayat Bhavan & CSC E-Governance Kendra
+  - Editorial horizontal panorama illustrating public services & village commerce with crisp text signboards:
+    1. KRISHI SEVA KENDRA (Farmer Material & Fertilizer Shop)
+    2. HEALTH CENTRE (Primary Health Centre / Hospital)
+    3. PANCHAYAT BHAVAN (Village Administration & CSC Kendra)
     4. Rural Homestead, Vintage Bicycle, Utility Pole with Sagging Wires, Handpump & Fields
   - Pure continuous 3-layer parallax scroll: calm, soothing, and zero mechanical friction.
   - Color Palette: #F7F5EC background, #1A1916 lines, #6B7A6E sage green, #C2BCAD roof tan, #F2B544 yellow accent highlights.
@@ -96,10 +96,20 @@ function MidgroundArtwork() {
         <path d="M 382 66 L 452 50 L 522 66 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
         <rect x="388" y="66" width="129" height="7" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
 
-        {/* Shop Signboard Frame */}
-        <rect x="410" y="52" width="85" height="12" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
-        {/* Seed / Leaf emblem icon */}
-        <path d="M 452 54 C 448 57 448 61 452 62 C 456 61 456 57 452 54 Z" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.7" />
+        {/* Crisp Text Signboard: KRISHI SEVA KENDRA */}
+        <rect x="398" y="50" width="108" height="13" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" rx="1" />
+        <text
+          x="452"
+          y="59"
+          fontFamily="Inter, system-ui, sans-serif"
+          fontSize="6"
+          fontWeight="700"
+          fill={P_LINE}
+          textAnchor="middle"
+          letterSpacing="0.4px"
+        >
+          KRISHI SEVA KENDRA
+        </text>
 
         {/* Shop Entrance & Shutters */}
         <rect x="430" y="73" width="24" height="19" fill={ACCENT_YELLOW} opacity="0.9" stroke={P_LINE} strokeWidth="0.9" />
@@ -127,11 +137,23 @@ function MidgroundArtwork() {
         {/* Roof Parapet / Overhang */}
         <rect x="614" y="44" width="157" height="6" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
 
-        {/* Hospital Signboard with Red Cross Emblem */}
-        <rect x="655" y="32" width="75" height="12" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
-        {/* Red/Charcoal Medical Cross (+) Emblem */}
-        <rect x="689" y="34" width="7" height="8" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.7" />
-        <rect x="686" y="36.5" width="13" height="3" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.7" />
+        {/* Crisp Text Signboard: HEALTH CENTRE */}
+        <rect x="646" y="30" width="94" height="13" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" rx="1" />
+        {/* Red/Charcoal Medical Cross Emblem (+) */}
+        <rect x="652" y="33" width="5" height="7" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.6" />
+        <rect x="650" y="35" width="9" height="3" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.6" />
+        <text
+          x="697"
+          y="39"
+          fontFamily="Inter, system-ui, sans-serif"
+          fontSize="6"
+          fontWeight="700"
+          fill={P_LINE}
+          textAnchor="middle"
+          letterSpacing="0.4px"
+        >
+          HEALTH CENTRE
+        </text>
 
         {/* Main Double Glass Entrance Doors */}
         <rect x="678" y="62" width="14" height="25" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
@@ -142,9 +164,6 @@ function MidgroundArtwork() {
         <line x1="646" y1="58" x2="646" y2="74" stroke={S_LINE} strokeWidth="0.6" />
         <rect x="725" y="58" width="22" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
         <line x1="736" y1="58" x2="736" y2="74" stroke={S_LINE} strokeWidth="0.6" />
-
-        {/* Emergency Ambulance Entrance Sign */}
-        <path d="M 760 92 Q 772 82 785 92" stroke={SAGE_GREEN} strokeWidth="1" fill={SAGE_GREEN} />
       </g>
 
       {/* ══ 4. PANCHAYAT BHAVAN & CSC DIGITAL KENDRA (x: 830 - 1040) ══ */}
@@ -161,6 +180,21 @@ function MidgroundArtwork() {
 
         {/* Triangular Roof Gable */}
         <path d="M 850 52 L 925 34 L 1000 52 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.2" />
+
+        {/* Crisp Text Signboard: PANCHAYAT BHAVAN */}
+        <rect x="874" y="42" width="102" height="11" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" rx="1" />
+        <text
+          x="925"
+          y="50"
+          fontFamily="Inter, system-ui, sans-serif"
+          fontSize="5.5"
+          fontWeight="700"
+          fill={P_LINE}
+          textAnchor="middle"
+          letterSpacing="0.4px"
+        >
+          PANCHAYAT BHAVAN
+        </text>
 
         {/* Columns */}
         <line x1="880" y1="52" x2="880" y2="87" stroke={P_LINE} strokeWidth="0.8" />
@@ -183,11 +217,9 @@ function MidgroundArtwork() {
         <line x1="1058" y1="36" x2="1082" y2="36" strokeWidth="1" />
         <line x1="1060" y1="42" x2="1080" y2="42" strokeWidth="0.8" />
 
-        {/* Sagging wires from Hospital to Pole */}
         <path d="M 1070 36 Q 920 54 771 44" fill="none" stroke={P_LINE} strokeWidth="0.6" />
         <path d="M 1070 42 Q 920 60 771 50" fill="none" stroke={S_LINE} strokeWidth="0.5" />
 
-        {/* Sagging wires continuing right */}
         <path d="M 1070 36 Q 1180 50 1290 40" fill="none" stroke={P_LINE} strokeWidth="0.6" />
         <path d="M 1070 42 Q 1180 56 1290 46" fill="none" stroke={S_LINE} strokeWidth="0.5" />
       </g>
@@ -207,15 +239,12 @@ function MidgroundArtwork() {
 
       {/* ══ 7. RURAL HOMESTEAD & WATER PUMP (x: 1160 - 1380) ══ */}
       <g>
-        {/* Banyan / Neem tree silhouette */}
         <path d="M 1170 112 L 1170 75 Q 1155 60 1140 55 M 1170 75 Q 1185 58 1200 52" fill="none" stroke={P_LINE} strokeWidth="1.1" />
         <path d="M 1130 55 Q 1170 25 1210 52 Q 1220 75 1170 75 Z" fill="rgba(217,213,200,0.22)" stroke={S_LINE} strokeWidth="0.8" />
 
-        {/* Sloped Roof Home */}
         <rect x="1230" y="76" width="95" height="28" fill="rgba(243,241,230,0.8)" stroke={P_LINE} strokeWidth="1" />
         <path d="M 1222 76 L 1277 60 L 1332 76 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
 
-        {/* Handpump outline */}
         <line x1="1350" y1="112" x2="1350" y2="96" stroke={P_LINE} strokeWidth="1.2" />
         <line x1="1346" y1="96" x2="1354" y2="96" stroke={P_LINE} strokeWidth="1.2" />
         <line x1="1350" y1="99" x2="1362" y2="103" stroke={P_LINE} strokeWidth="0.9" />
@@ -235,7 +264,6 @@ function MidgroundArtwork() {
 function ForegroundArtwork() {
   return (
     <>
-      {/* Main Ground Road Line with Driveway Dips in front of Hospital & Krishi Shop */}
       <path
         d="M 0 112 L 380 112 Q 450 116 520 112 L 610 112 Q 690 116 775 112 L 1600 112"
         fill="none"
@@ -243,7 +271,6 @@ function ForegroundArtwork() {
         strokeWidth="1.5"
       />
 
-      {/* Foreground Lollipop Trees */}
       <g stroke={P_LINE} strokeWidth="0.8">
         <circle cx="280" cy="102" r="7" fill={ACCENT_YELLOW} />
         <line x1="280" y1="109" x2="280" y2="118" />
