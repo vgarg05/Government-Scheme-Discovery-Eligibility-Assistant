@@ -11,6 +11,12 @@ def clean_url(url: str) -> str:
 SCHEME_KNOWLEDGE_BASE = {
     "krishak_durghatna": {
         "name": "Mukhyamantri Krishak Durghatna Kalyan Yojana",
+        "short_desc": "Accident compensation up to ₹5 Lakh for farmers injured or killed while working on agricultural land.",
+        "highlights": [
+            "Up to ₹5 Lakh for accidental death or permanent disability",
+            "Direct Bank Transfer (DBT) to farmer/nominee account",
+            "For UP farmers aged 18-70 years"
+        ],
         "benefits": [
             "Financial compensation of up to Rs 5,00,000 (5 Lakh) in case of accidental death while working on agricultural land.",
             "Financial assistance of Rs 5,00,000 for 100% permanent disability (loss of both hands, both feet, or both eyes).",
@@ -42,6 +48,12 @@ SCHEME_KNOWLEDGE_BASE = {
     },
     "pm_kisan": {
         "name": "PM Kisan Samman Nidhi (PM-KISAN)",
+        "short_desc": "₹6,000 per year direct income support for all landholding farmer families in 3 installments.",
+        "highlights": [
+            "₹6,000/year in 3 installments of ₹2,000",
+            "100% Central Govt funded via DBT",
+            "For small & marginal farmer families"
+        ],
         "benefits": [
             "Direct income support of Rs 6,000 per year for all landholding farmer families.",
             "Transferred directly into bank accounts in 3 equal installments of Rs 2,000 every 4 months.",
@@ -69,6 +81,12 @@ SCHEME_KNOWLEDGE_BASE = {
     },
     "pmfby": {
         "name": "Pradhan Mantri Fasal Bima Yojana (PMFBY)",
+        "short_desc": "Crop insurance against drought, flood, pest loss — low premium, government pays the rest.",
+        "highlights": [
+            "Premium just 2% Kharif, 1.5% Rabi crops",
+            "Covers drought, flood, pest, hailstorm",
+            "Apply via bank or PMFBY portal before cutoff"
+        ],
         "benefits": [
             "Insurance cover against non-preventable natural risks (drought, flood, unseasonal rainfall, pests, diseases).",
             "Low farmer premium rates: 2% for Kharif crops, 1.5% for Rabi crops, and 5% for commercial/horticulture crops.",
@@ -96,6 +114,12 @@ SCHEME_KNOWLEDGE_BASE = {
     },
     "ayushman": {
         "name": "Ayushman Bharat PM-JAY Health Scheme",
+        "short_desc": "Free cashless health insurance up to ₹5 Lakh per family per year at any empanelled hospital.",
+        "highlights": [
+            "₹5 Lakh free health cover per family/year",
+            "Cashless at govt & private hospitals",
+            "No age, gender, or family size limit"
+        ],
         "benefits": [
             "Free cashless health insurance coverage up to Rs 5,00,000 (5 Lakh) per family per year.",
             "Covers pre-hospitalization, hospitalization, surgeries, diagnostics, and medicines across empanelled government and private hospitals.",
@@ -122,6 +146,12 @@ SCHEME_KNOWLEDGE_BASE = {
     },
     "surya_ghar": {
         "name": "PM Surya Ghar Free Electricity Solar Scheme",
+        "short_desc": "Get subsidy up to ₹78,000 for rooftop solar and up to 300 units free electricity per month.",
+        "highlights": [
+            "Subsidy up to ₹78,000 for rooftop solar",
+            "Up to 300 units free electricity/month",
+            "Sell surplus power back to DISCOM grid"
+        ],
         "benefits": [
             "Subsidy up to Rs 78,000 for installing rooftop solar systems.",
             "Up to 300 units of free electricity every month for the household.",
@@ -145,6 +175,38 @@ SCHEME_KNOWLEDGE_BASE = {
             "Visit your local Electricity DISCOM divisional office or CSC Kendra.",
             "Submit physical application form along with latest electricity bill and roof ownership document.",
             "DISCOM engineers inspect roof feasibility and assist with offline vendor allocation."
+        ]
+    },
+    "kcc": {
+        "name": "Kisan Credit Card (KCC) Scheme",
+        "short_desc": "Low-interest credit up to ₹3 Lakh for crop cultivation, animal husbandry, and fisheries.",
+        "highlights": [
+            "Credit limit up to ₹3 Lakh at 4% interest",
+            "2% extra subvention for timely repayment",
+            "Covers crops, dairy, poultry & fisheries"
+        ],
+        "benefits": [
+            "Short-term credit at subsidized interest rate of 7% per annum (effective 4% after subvention).",
+            "Additional 2% interest subvention for prompt repayment, making effective rate just 4%.",
+            "Credit limit up to Rs 3,00,000 for crop cultivation, post-harvest, and allied activities."
+        ],
+        "eligibility": "All farmers, sharecroppers, tenant farmers, and SHG members engaged in crop/animal husbandry/fisheries.",
+        "portal": "https://www.myscheme.gov.in/schemes/kcc",
+        "docs": [
+            "Aadhaar Card of the farmer",
+            "Land Ownership / Tenancy document",
+            "Passport size photographs",
+            "Bank Account details"
+        ],
+        "steps": [
+            "🌐 ONLINE METHOD",
+            "Visit your bank's internet banking portal or PM-KISAN portal (pmkisan.gov.in).",
+            "Click 'KCC Application' and fill the online form with land and crop details.",
+            "Upload Aadhaar, land records, and submit.",
+            "🏢 OFFLINE METHOD",
+            "Visit your nearest Commercial Bank, Cooperative Bank, or Regional Rural Bank (RRB).",
+            "Fill the KCC application form and submit land ownership documents.",
+            "Bank will process and issue the Kisan Credit Card within 14 working days."
         ]
     }
 }
@@ -184,22 +246,53 @@ def find_matched_kb_scheme(scheme_title: str):
     
     if "durghatna" in title_low or "kdky" in title_low or "krishak" in title_low:
         return SCHEME_KNOWLEDGE_BASE["krishak_durghatna"]
-    elif "pm kisan" in title_low or "samman nidhi" in title_low:
+    elif "pm kisan" in title_low or "samman nidhi" in title_low or "pm-kisan" in title_low:
         return SCHEME_KNOWLEDGE_BASE["pm_kisan"]
     elif "fasal bima" in title_low or "pmfby" in title_low:
         return SCHEME_KNOWLEDGE_BASE["pmfby"]
-    elif "ayushman" in title_low or "health" in title_low or "pm-jay" in title_low:
+    elif "ayushman" in title_low or "pm-jay" in title_low or "pmjay" in title_low:
         return SCHEME_KNOWLEDGE_BASE["ayushman"]
     elif "surya ghar" in title_low or "solar" in title_low:
         return SCHEME_KNOWLEDGE_BASE["surya_ghar"]
+    elif "kisan credit" in title_low or "kcc" in title_low:
+        return SCHEME_KNOWLEDGE_BASE["kcc"]
         
     return None
+
+def generate_scheme_cards(profile, user_query=""):
+    """
+    Generate 6 scheme recommendation cards based on user profile.
+    Returns list of card dicts with name, short_desc, highlights, scheme_key.
+    """
+    cards = []
+    query_low = (user_query or "").lower()
+    occupation_low = (profile.occupation or "").lower()
+    is_farmer = "farm" in occupation_low or "kisan" in query_low or "krishak" in query_low
+
+    if is_farmer:
+        # Farmer-specific ordering
+        priority_keys = ["pm_kisan", "pmfby", "krishak_durghatna", "kcc", "ayushman", "surya_ghar"]
+    else:
+        # General ordering
+        priority_keys = ["ayushman", "surya_ghar", "pm_kisan", "pmfby", "kcc", "krishak_durghatna"]
+
+    for key in priority_keys:
+        kb = SCHEME_KNOWLEDGE_BASE[key]
+        cards.append({
+            "name": kb["name"],
+            "short_desc": kb["short_desc"],
+            "highlights": kb["highlights"],
+            "scheme_key": key,
+            "portal": kb["portal"]
+        })
+
+    return cards[:6]
+
 
 class CounselorGuidanceAgent:
     """
     Counselor & Guidance Agent.
-    Generates dynamic summary messages breaking down held eligibility criteria vs criteria to verify,
-    followed by a call-to-action asking for missing details.
+    Generates scheme carousel cards for initial discovery, and full details for selected scheme.
     """
 
     def _clean_scheme_name(self, name: str) -> str:
@@ -302,6 +395,9 @@ class CounselorGuidanceAgent:
                 f"👇 If you'd like me to double-check any specific condition (like your exact landholding size or income certificate limit), please share your details below and I will verify it for you!"
             )
 
+        # ── Generate Scheme Carousel Cards ──
+        scheme_cards = generate_scheme_cards(profile, state.user_query)
+
         guidance = {
             "summary": summary,
             "top_scheme": scheme_title,
@@ -314,6 +410,7 @@ class CounselorGuidanceAgent:
             "application_steps": steps,
             "citations": citations,
             "retrieval_mode": mode,
+            "scheme_cards": scheme_cards,
         }
 
         state.guidance_response = guidance

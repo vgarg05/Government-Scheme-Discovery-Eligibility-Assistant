@@ -3,6 +3,7 @@ import { Send, Volume2, ArrowDown } from 'lucide-react';
 import VoiceInput from './VoiceInput';
 import EligibilityCard from './EligibilityCard';
 import DocumentChecklist from './DocumentChecklist';
+import SchemeCarousel from './SchemeCarousel';
 import { sendChatQuery, getTTSAudioUrl } from '../services/api';
 
 /* ── Lightweight markdown renderer for chat messages ── */
@@ -100,7 +101,7 @@ function TypingIndicator() {
 }
 
 /* ── Message bubble ───────────────────────────────── */
-function Message({ msg, selectedLang, onPlayAudio }) {
+function Message({ msg, selectedLang, onPlayAudio, onSchemeSelect }) {
   const isUser = msg.sender === 'user';
 
   return (
@@ -178,9 +179,19 @@ function Message({ msg, selectedLang, onPlayAudio }) {
           )}
         </div>
 
-        {/* Eligibility + Docs panels */}
+        {/* Scheme Carousel + Eligibility + Docs panels */}
         {msg.data && (
           <div style={{ width: '100%' }}>
+            {msg.data.scheme_cards && msg.data.scheme_cards.length > 0 && (
+              <SchemeCarousel
+                cards={msg.data.scheme_cards}
+                onSchemeSelect={(card) => {
+                  if (onSchemeSelect) {
+                    onSchemeSelect(`Tell me full details about ${card.name}`);
+                  }
+                }}
+              />
+            )}
             <EligibilityCard data={msg.data} />
             <DocumentChecklist
               benefits={msg.data.benefits}
@@ -353,6 +364,7 @@ export default function ChatBox({ initialQuery, selectedLang }) {
               msg={msg}
               selectedLang={selectedLang}
               onPlayAudio={handlePlayAudio}
+              onSchemeSelect={handleSend}
             />
           ))}
           {isLoading && <TypingIndicator />}
