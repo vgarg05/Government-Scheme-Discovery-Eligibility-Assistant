@@ -8,16 +8,15 @@ import React from 'react';
   - Primary Linework: #1A1916 (crisp charcoal)
   - Secondary Linework: #7D7A6E (warm gray stroke)
   - Muted Sage Green: #6B7A6E (tree foliage & bushes)
-  - Warm Roof/Wall Tan: #C4C1B5 (roof tiles & subtle fills)
+  - Warm Roof/Wall Tan: #C4C1B5 (roof tiles & pants fills)
   - Focal Accent Yellow: #F2B544 (farmer's bag, panchayat door, foreground lollipop tree)
 
-  Visual Features:
-  1. Farmer Character on LEFT: Kurta-pyjama + Gandhi cap silhouette holding yellow accent bag.
-  2. Converging Perspective Fields (Left).
-  3. Sagging Overhead Power Lines between Utility Pole and Panchayat Office.
-  4. Curved Road Dip at building entrance.
-  5. Capsule Trees with vertical center stroke and sage green fills.
-  6. Detailed Vintage Bicycle near utility pole.
+  Farmer Character Specs (Reference Faithful):
+  - Headwear: Traditional folded topi/cap with distinct band
+  - Top: Loose white/ivory short-sleeved Kurta with collar
+  - Bottom: Straight-cut warm slate-tan pyjama trousers
+  - Handheld: Yellow accent bag held by top handle
+  - Gait: Multi-joint walking stride with knee flex, arm swing & body bounce
 */
 
 const P_LINE = '#1A1916';
@@ -249,61 +248,96 @@ function ForegroundArtwork() {
   );
 }
 
-// ── WALKING FARMER CHARACTER (ANCHORED ON LEFT AT X: 160) ──
+// ── REFERENCE-FAITHFUL WALKING INDIAN FARMER (ANCHORED ON LEFT AT X: 160) ──
 function WalkingFarmerOnLeft() {
   /*
-    Articulated Silhouette on LEFT (x = 160):
-    - Kurta, straight pyjamas, Gandhi cap/neat headwear silhouette.
-    - Carrying yellow accent bag (#F2B544).
-    - Gait cycle animated via CSS keyframes in index.css.
+    Detailed Reference-Faithful Farmer Character:
+    - Head & Topi: Soft white/tan folded topi cap with rim band
+    - Face & Neck: Charcoal profile
+    - Kurta: Ivory shirt (#F7F5EC fill) with short sleeves and collar
+    - Pyjamas: Warm slate-tan straight trousers (#C4C1B5 fill)
+    - Yellow Accent Bag: Round pot/bag in yellow (#F2B544) held in right hand
+    - Feet: Flat sandals/chappals
   */
   return (
     <g className="walk-body" style={{ transformBox: 'fill-box' }}>
-      {/* 1. FAR ARM (Behind) */}
+      
+      {/* 1. FAR ARM (Behind torso) */}
       <g className="walk-arm-far">
-        <line x1="160" y1="78" x2="154" y2="92" stroke={P_LINE} strokeWidth="1.5" strokeLinecap="round" />
+        {/* Sleeve */}
+        <path d="M 157 74 L 150 82 L 154 84 L 159 76 Z" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
+        {/* Forearm */}
+        <line x1="152" y1="83" x2="147" y2="91" stroke={P_LINE} strokeWidth="1.4" strokeLinecap="round" />
       </g>
 
-      {/* 2. FAR LEG (Behind) */}
+      {/* 2. FAR LEG (Behind - Trouser leg) */}
       <g className="walk-leg-far">
-        <line x1="160" y1="91" x2="156" y2="102" stroke={P_LINE} strokeWidth="1.8" strokeLinecap="round" />
+        {/* Thigh trouser */}
+        <path d="M 157 88 L 150 99 L 155 101 L 161 90 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.8" />
         <g className="walk-shin-far">
-          <line x1="156" y1="102" x2="153" y2="112" stroke={P_LINE} strokeWidth="1.6" strokeLinecap="round" />
+          {/* Lower trouser leg */}
+          <path d="M 150 99 L 145 109 L 149 110 L 155 101 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.8" />
+          {/* Foot / Sandal */}
+          <path d="M 143 110 L 151 110 M 144 108 L 148 110" stroke={P_LINE} strokeWidth="0.9" strokeLinecap="round" />
         </g>
       </g>
 
-      {/* 3. TORSO, HEAD & GANDHI CAP */}
-      {/* Gandhi Cap / Headwear */}
-      <path d="M 154 67 Q 160 62 166 67 L 166 70 L 154 70 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.8" />
-      {/* Head */}
-      <circle cx="160" cy="71" r="3.8" fill={P_LINE} />
-      {/* Kurta Collar & Torso */}
-      <line x1="160" y1="75" x2="160" y2="91" stroke={P_LINE} strokeWidth="2.8" strokeLinecap="round" />
-      {/* Kurta Hem line */}
-      <line x1="156" y1="89" x2="164" y2="89" stroke={P_LINE} strokeWidth="1" />
-
-      {/* Yellow Accent Bag in Hand */}
+      {/* 3. TORSO & KURTA SHIRT */}
+      {/* Loose Ivory Kurta Body */}
       <path
-        d="M 166 84 Q 171 84 170 94 Q 164 96 162 89 Z"
-        fill={ACCENT_YELLOW}
+        d="M 156 73 L 165 73 L 167 89 L 155 89 Z"
+        fill="#F7F5EC"
         stroke={P_LINE}
-        strokeWidth="0.9"
+        strokeWidth="1"
       />
-      {/* Bag handle */}
-      <path d="M 164 82 Q 167 78 168 84" fill="none" stroke={P_LINE} strokeWidth="0.8" />
+      {/* Kurta Collar & V-slit */}
+      <path d="M 159 73 L 160 77 L 162 73" stroke={P_LINE} strokeWidth="0.8" fill="none" />
+      {/* Kurta Side Slit Line */}
+      <line x1="167" y1="84" x2="167" y2="89" stroke={P_LINE} strokeWidth="0.8" />
 
-      {/* 4. NEAR LEG (Front) */}
+      {/* 4. HEAD & TRADITIONAL TOPI / CAP */}
+      {/* Head profile */}
+      <ellipse cx="161" cy="68" rx="3.5" ry="4" fill={P_LINE} />
+      {/* Neck */}
+      <line x1="160" y1="71" x2="159" y2="74" stroke={P_LINE} strokeWidth="1.5" />
+      {/* Folded Topi Cap */}
+      <path
+        d="M 156 66 Q 161 60 167 66 L 167 69 L 156 69 Z"
+        fill="#F7F5EC"
+        stroke={P_LINE}
+        strokeWidth="0.8"
+      />
+      {/* Cap Rim Band */}
+      <line x1="156" y1="69" x2="167" y2="69" stroke={P_LINE} strokeWidth="0.9" />
+
+      {/* 5. NEAR LEG (Front - Trouser leg) */}
       <g className="walk-leg-near">
-        <line x1="160" y1="91" x2="164" y2="102" stroke={P_LINE} strokeWidth="2" strokeLinecap="round" />
+        {/* Thigh trouser */}
+        <path d="M 160 88 L 167 99 L 162 101 L 156 89 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.9" />
         <g className="walk-shin-near">
-          <line x1="164" y1="102" x2="167" y2="112" stroke={P_LINE} strokeWidth="1.7" strokeLinecap="round" />
+          {/* Lower trouser leg */}
+          <path d="M 167 99 L 172 109 L 167 110 L 162 101 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.9" />
+          {/* Foot / Sandal */}
+          <path d="M 166 110 L 174 110 M 168 108 L 172 110" stroke={P_LINE} strokeWidth="1" strokeLinecap="round" />
         </g>
       </g>
 
-      {/* 5. NEAR ARM (Front holding bag handle) */}
+      {/* 6. NEAR ARM (Front holding bag handle) */}
       <g className="walk-arm-near">
-        <line x1="160" y1="78" x2="165" y2="84" stroke={P_LINE} strokeWidth="1.6" strokeLinecap="round" />
+        {/* Sleeve */}
+        <path d="M 162 74 L 169 81 L 166 83 L 159 76 Z" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
+        {/* Forearm extending down to bag */}
+        <line x1="167" y1="82" x2="171" y2="90" stroke={P_LINE} strokeWidth="1.5" strokeLinecap="round" />
       </g>
+
+      {/* 7. REFERENCE-ACCURATE YELLOW BAG */}
+      {/* Bag Strap Handle */}
+      <path d="M 170 88 Q 172 85 174 89" fill="none" stroke={P_LINE} strokeWidth="0.9" />
+      {/* Round Yellow Accent Bag */}
+      <circle cx="173" cy="94" r="5" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
+      {/* Bag Gathering Top Line */}
+      <line x1="170" y1="91" x2="176" y2="91" stroke={P_LINE} strokeWidth="0.8" />
+
     </g>
   );
 }
@@ -381,7 +415,7 @@ export default function Panorama() {
         </svg>
       </div>
 
-      {/* ── LAYER 4: Walking Farmer Character (ANCHORED ON LEFT) ── */}
+      {/* ── LAYER 4: Reference-Faithful Farmer Character (ANCHORED ON LEFT) ── */}
       <div
         style={{
           position: 'absolute',
