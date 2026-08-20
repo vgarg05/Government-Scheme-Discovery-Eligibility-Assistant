@@ -281,20 +281,21 @@ class CounselorGuidanceAgent:
         matched_items = evaluation.get("matched_criteria", ["Demographic profile alignment"])
         verify_items = evaluation.get("unmatched_criteria", [])
 
-        matched_text = ", ".join(matched_items)
+        matched_points = "\n".join([f"  • {item}" for item in matched_items])
         
         if verify_items:
-            verify_text = ", ".join(verify_items)
+            verify_points = "\n".join([f"  • {item}" for item in verify_items])
+            verify_short = ", ".join(verify_items)
             summary = (
                 f"Good news! Based on the details provided, you match the primary requirements for **{scheme_title}**.\n\n"
-                f"✅ **Criteria You Currently Hold**: {matched_text}\n"
-                f"⚠️ **Criteria We Need to Check**: {verify_text}\n\n"
-                f"👇 **Please share your details for ({verify_text})**, and I will confirm whether you qualify or not!"
+                f"✅ **Criteria You Currently Hold**:\n{matched_points}\n\n"
+                f"⚠️ **Criteria We Need to Check**:\n{verify_points}\n\n"
+                f"👇 **Please share your details for ({verify_short})**, and I will confirm whether you qualify or not!"
             )
         else:
             summary = (
                 f"Great news! Based on your profile, you hold full eligibility for **{scheme_title}**.\n\n"
-                f"✅ **Criteria You Currently Hold**: {matched_text}\n"
+                f"✅ **Criteria You Currently Hold**:\n{matched_points}\n\n"
                 f"✓ **Disqualifiers Check**: No disqualifiers found.\n\n"
                 f"👇 If you'd like me to double-check any specific condition (like your exact landholding size or income certificate limit), please share your details below and I will verify it for you!"
             )
