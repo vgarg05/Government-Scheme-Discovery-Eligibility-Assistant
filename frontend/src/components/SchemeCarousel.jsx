@@ -6,8 +6,15 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
 
   if (!cards || cards.length === 0) return null;
 
-  const goLeft = () => setActiveIndex(prev => (prev > 0 ? prev - 1 : cards.length - 1));
-  const goRight = () => setActiveIndex(prev => (prev < cards.length - 1 ? prev + 1 : 0));
+  const goLeft = (e) => {
+    e.stopPropagation();
+    setActiveIndex(prev => (prev > 0 ? prev - 1 : cards.length - 1));
+  };
+
+  const goRight = (e) => {
+    e.stopPropagation();
+    setActiveIndex(prev => (prev < cards.length - 1 ? prev + 1 : 0));
+  };
 
   const card = cards[activeIndex];
 
@@ -15,33 +22,35 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
     <div
       className="animate-enter"
       style={{
-        borderRadius: '8px',
+        borderRadius: '12px',
         overflow: 'hidden',
-        border: '1px solid var(--border)',
-        background: '#FDFBF4',
-        marginTop: '10px',
-        marginBottom: '8px',
+        border: '1px solid #2A2A26',
+        background: '#1A1A17',
+        color: '#FFFFFF',
+        marginTop: '12px',
+        marginBottom: '10px',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25)',
       }}
     >
-      {/* ── Card Content ── */}
+      {/* ── Card Body (Clickable) ── */}
       <div
+        onClick={() => onSchemeSelect && onSchemeSelect(card)}
         style={{
-          padding: '20px 22px 16px',
+          padding: '22px 24px 18px',
           cursor: 'pointer',
           transition: 'background 0.15s',
         }}
-        onClick={() => onSchemeSelect && onSchemeSelect(card)}
-        onMouseEnter={e => { e.currentTarget.style.background = '#F8F5EA'; }}
-        onMouseLeave={e => { e.currentTarget.style.background = '#FDFBF4'; }}
+        onMouseEnter={e => { e.currentTarget.style.background = '#22221E'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = '#1A1A17'; }}
       >
-        {/* Scheme Name */}
+        {/* Scheme Title */}
         <h3
           style={{
-            fontSize: '16px',
+            fontSize: '17px',
             fontWeight: 600,
             letterSpacing: '-0.01em',
             lineHeight: 1.3,
-            color: 'var(--text-primary)',
+            color: '#FDFBF4',
             margin: '0 0 8px 0',
           }}
         >
@@ -52,35 +61,37 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
         <p
           style={{
             fontSize: '13px',
-            lineHeight: 1.5,
-            color: 'var(--text-muted)',
-            margin: '0 0 14px 0',
+            lineHeight: 1.55,
+            color: '#B0B0A8',
+            margin: '0 0 16px 0',
           }}
         >
           {card.short_desc}
         </p>
 
-        {/* Highlight Chips */}
+        {/* 3 Highlight Chips */}
         {card.highlights && card.highlights.length > 0 && (
           <div
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '8px',
+              gap: '10px',
             }}
           >
             {card.highlights.map((hl, i) => (
               <div
                 key={i}
                 style={{
-                  padding: '10px 12px',
-                  borderRadius: '6px',
-                  border: '1px solid var(--border)',
-                  background: 'var(--raised)',
+                  padding: '12px 14px',
+                  borderRadius: '8px',
+                  border: '1px solid #33332D',
+                  background: '#242420',
                   fontSize: '12px',
                   lineHeight: 1.45,
-                  color: 'var(--text-secondary)',
+                  color: '#E2E2DC',
                   fontWeight: 450,
+                  display: 'flex',
+                  alignItems: 'center',
                 }}
               >
                 {hl}
@@ -89,68 +100,79 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
           </div>
         )}
 
-        {/* Click hint */}
+        {/* Action Prompt */}
         <div
           style={{
-            marginTop: '14px',
-            display: 'flex',
+            marginTop: '16px',
+            display: 'inline-flex',
             alignItems: 'center',
             gap: '6px',
             fontSize: '11px',
-            fontWeight: 500,
-            letterSpacing: '0.06em',
-            color: 'var(--accent)',
+            fontWeight: 600,
+            letterSpacing: '0.07em',
+            color: '#F2B544',
             textTransform: 'uppercase',
           }}
         >
-          <span>Click to view full details</span>
-          <ExternalLink style={{ width: '11px', height: '11px' }} />
+          <span>Click to check full details</span>
+          <ExternalLink style={{ width: '12px', height: '12px' }} />
         </div>
       </div>
 
-      {/* ── Navigation Bar ── */}
+      {/* ── Navigation Bar (Arrow Buttons + Dot Indicators) ── */}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '10px 18px',
-          borderTop: '1px solid var(--border-subtle)',
-          background: 'var(--raised)',
+          padding: '12px 20px',
+          borderTop: '1px solid #2A2A26',
+          background: '#141412',
         }}
       >
-        {/* Left Arrow */}
+        {/* Left Arrow Button */}
         <button
+          type="button"
           onClick={goLeft}
           style={{
             width: '32px',
             height: '32px',
-            borderRadius: '50%',
-            border: '1px solid var(--border)',
-            background: 'var(--surface)',
+            borderRadius: '6px',
+            border: '1px solid #33332D',
+            background: '#242420',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
             transition: 'all 0.15s',
           }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--text-muted)'; }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; }}
+          onMouseEnter={e => {
+            e.currentTarget.style.borderColor = '#F2B544';
+            e.currentTarget.style.background = '#2E2E28';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.borderColor = '#33332D';
+            e.currentTarget.style.background = '#242420';
+          }}
         >
-          <ChevronLeft style={{ width: '16px', height: '16px', color: 'var(--text-secondary)' }} />
+          <ChevronLeft style={{ width: '16px', height: '16px', color: '#E2E2DC' }} />
         </button>
 
-        {/* Dots */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        {/* 6 Dots */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           {cards.map((_, i) => (
             <button
               key={i}
-              onClick={() => setActiveIndex(i)}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveIndex(i);
+              }}
               style={{
-                width: i === activeIndex ? '18px' : '7px',
-                height: '7px',
-                borderRadius: i === activeIndex ? '4px' : '50%',
-                background: i === activeIndex ? 'var(--accent)' : 'var(--border)',
+                width: i === activeIndex ? '16px' : '6px',
+                height: '6px',
+                borderRadius: i === activeIndex ? '3px' : '50%',
+                background: i === activeIndex ? '#F2B544' : '#44443E',
                 border: 'none',
                 cursor: 'pointer',
                 padding: 0,
@@ -160,25 +182,32 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
           ))}
         </div>
 
-        {/* Right Arrow */}
+        {/* Right Arrow Button */}
         <button
+          type="button"
           onClick={goRight}
           style={{
             width: '32px',
             height: '32px',
-            borderRadius: '50%',
-            border: '1px solid var(--border)',
-            background: 'var(--surface)',
+            borderRadius: '6px',
+            border: '1px solid #33332D',
+            background: '#242420',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
             transition: 'all 0.15s',
           }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--text-muted)'; }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; }}
+          onMouseEnter={e => {
+            e.currentTarget.style.borderColor = '#F2B544';
+            e.currentTarget.style.background = '#2E2E28';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.borderColor = '#33332D';
+            e.currentTarget.style.background = '#242420';
+          }}
         >
-          <ChevronRight style={{ width: '16px', height: '16px', color: 'var(--text-secondary)' }} />
+          <ChevronRight style={{ width: '16px', height: '16px', color: '#E2E2DC' }} />
         </button>
       </div>
     </div>

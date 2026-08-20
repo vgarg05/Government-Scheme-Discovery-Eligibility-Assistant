@@ -148,6 +148,18 @@ def process_chat_query(request: ChatRequest):
                 to_translate.extend(output["unmatched_criteria"])
                 mapping.append(("unmatched_criteria", len(output["unmatched_criteria"])))
 
+            if "scheme_cards" in output and output["scheme_cards"]:
+                for c_idx, card in enumerate(output["scheme_cards"]):
+                    if card.get("name"):
+                        to_translate.append(card["name"])
+                        mapping.append((f"card_{c_idx}_name", 1))
+                    if card.get("short_desc"):
+                        to_translate.append(card["short_desc"])
+                        mapping.append((f"card_{c_idx}_short_desc", 1))
+                    if card.get("highlights"):
+                        to_translate.extend(card["highlights"])
+                        mapping.append((f"card_{c_idx}_highlights", len(card["highlights"])))
+
             # Translate all card elements in batch (1 request instead of 15)
             if to_translate:
                 print(f"[MAIN] Batch translating {len(to_translate)} card elements to '{target_lang}'...")
@@ -157,10 +169,24 @@ def process_chat_query(request: ChatRequest):
                 idx = 0
                 for key, length in mapping:
                     if key == "top_scheme":
-                        # Assign top_scheme as a single string
                         if idx < len(translated_results):
                             output[key] = translated_results[idx]
                             idx += 1
+                    elif key.startswith("card_"):
+                        parts = key.split("_")
+                        c_idx = int(parts[1])
+                        field = "_".join(parts[2:])
+                        if idx < len(translated_results):
+                            if field == "name":
+                                output["scheme_cards"][c_idx]["name"] = translated_results[idx]
+                                idx += 1
+                            elif field == "short_desc":
+                                output["scheme_cards"][c_idx]["short_desc"] = translated_results[idx]
+                                idx += 1
+                            elif field == "highlights":
+                                if idx + length <= len(translated_results):
+                                    output["scheme_cards"][c_idx]["highlights"] = translated_results[idx : idx + length]
+                                    idx += length
                     else:
                         # Assign checklist, steps, and criteria as lists of strings (even if length is 1)
                         if idx + length <= len(translated_results):
