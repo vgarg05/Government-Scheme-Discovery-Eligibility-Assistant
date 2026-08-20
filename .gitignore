@@ -21,25 +21,23 @@ ENV/
 # Environment variables (secrets)
 .env
 *.env.local
+.env.production
 
-# ChromaDB vector store (large binary, regenerated via ingest.py)
+# Vector store binaries (regenerated via ingest script)
 backend/data/chroma_db/
+backend/vectorstore/
 
-# Raw PDFs (regenerated via auto_downloader.py)
-backend/data/raw_pdfs/
-
-# Python cache and logs
+# Scratch & Temporary Logs
+scratch/
 *.log
 *.tmp
+*.mp3
+*.wav
 
 # Node.js / Frontend
 frontend/node_modules/
 frontend/dist/
 frontend/.vite/
-
-# Audio temp files
-*.mp3
-*.wav
 
 # OS files
 .DS_Store
@@ -52,10 +50,8 @@ desktop.ini
 *.swp
 *.swo
 
-# Jupyter
+# Jupyter & Test artifacts
 .ipynb_checkpoints/
-
-# Test artifacts
-*.pytest_cache/
+.pytest_cache/
 .coverage
 htmlcov/

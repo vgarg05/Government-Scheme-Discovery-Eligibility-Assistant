@@ -17,7 +17,7 @@
 
 ## 1. Title of the Project
 **Government Scheme Discovery & Eligibility Assistant**  
-A Hybrid Multi-Agent AI Framework for Citizen Empowerment that flips the paradigm from citizens searching for schemes to the system finding schemes for the citizen using a dual-engine (100 Master Schemes Local RAG + Serper API Web Search) approach and an interactive React web dashboard.
+A Hybrid Multi-Agent AI Framework for Citizen Empowerment that flips the paradigm from citizens searching for schemes to the system finding schemes for the citizen using a dual-engine (100 Master Schemes Local RAG + Playwright DOM Scraper + Serper API Web Search) approach and an interactive React web dashboard.
 
 ---
 
@@ -27,7 +27,7 @@ Millions of citizens, especially those from marginalized or rural communities, f
 ---
 
 ## 3. Why is the Particular Topic Chosen?
-The core challenge in public welfare is a lack of accessible and up-to-date information. This topic was chosen because it sits at the critical intersection of "Tech for Good" and advanced AI. By combining a local RAG Knowledge Base indexing **100 Master Government Schemes** with a live Serper API Web Search Agent for real-time online Google Search updates (`site:gov.in`), the system covers all 500+ state and central schemes while guaranteeing 100% demo reliability.
+The core challenge in public welfare is a lack of accessible and up-to-date information. This topic was chosen because it sits at the critical intersection of "Tech for Good" and advanced AI. By combining a local RAG Knowledge Base indexing **100+ Master Government Schemes** with Playwright Headless Chromium DOM scraping and live Serper API Web Search (`site:gov.in`), the system covers all 500+ state and central schemes while guaranteeing 100% demo reliability.
 
 ---
 
@@ -35,21 +35,23 @@ The core challenge in public welfare is a lack of accessible and up-to-date info
 
 ### Objectives
 - **Natural Language Profile Extraction:** Allow citizens to explain their situation in their own natural words or regional language via text or voice.
-- **Dual-Engine Scheme Retrieval:** Retrieve core scheme policies from a local RAG vector store of **100 Master Scheme PDFs**, falling back dynamically to Serper API Web Search for all remaining 500+ schemes.
-- **Determine Eligibility:** Programmatically match extracted policy rules against the user's provided demographic profile.
+- **Dual-Engine Scheme Retrieval:** Retrieve core scheme policies from a local RAG vector store of **100+ Master Schemes**, falling back dynamically to Playwright Chromium DOM scraping and Serper API Web Search for all remaining 500+ schemes.
+- **Dynamic Policy Adjudication:** Programmatically evaluate Gemini 2.5 Flash policy rules against the user's demographic profile to filter out ineligible schemes and display disqualification warnings.
 - **Explain & Guide:** Summarize schemes in simple terms, generate step-by-step application roadmaps, and provide required document checklists.
 - **Multilingual & Voice Support:** Support seamless translation into regional Indian languages with audio playback.
 
 ### Scope
-The initial prototype focuses on conversational search, a hybrid multi-agent backend system (Profile Extractor, RAG Agent, Serper Web Search Agent, Eligibility Adjudicator, and Counselor Agent), and an interactive **React.js + Tailwind CSS** web dashboard. Future scope includes integration with government verification APIs (such as DigiLocker) and deployment on messaging channels like WhatsApp.
+The initial prototype focuses on conversational search, a hybrid multi-agent backend pipeline (Profile Extractor, RAG Agent, Playwright Scraper, Serper Web Search Agent, Gemini 2.5 Flash Adjudicator, and Counselor Agent), and an interactive **React.js + Tailwind CSS** web dashboard. Future scope includes integration with government verification APIs (such as DigiLocker) and deployment on messaging channels like WhatsApp.
 
 ---
 
 ## 5. Hardware, Software, and Technology Stack
 - **Frontend Stack:** **React.js + Tailwind CSS + Lucide Icons** (Vite build tool)
-- **Backend & AI Frameworks:** Python 3.10+, FastAPI REST API, LangGraph / LangChain multi-agent framework.
-- **Dual Retrieval Engine:** Retrieval-Augmented Generation (RAG) over 100 Master Scheme PDFs via ChromaDB alongside Serper API (Google Search API).
-- **Speech & Multilingual Engine:** OpenAI Whisper (Speech-to-Text), gTTS (Text-to-Speech), and Deep Translator API.
+- **Backend & AI Frameworks:** Python 3.10+, FastAPI REST API, Python AgentState Multi-Agent Pipeline.
+- **DOM Scraper:** Playwright Headless Chromium (scrapes dynamic Next.js React SPA elements `#benefits`, `#eligibility`, `#documents-required`, `#application-process`).
+- **LLM Reasoning & Policy Engine:** Google Gemini 2.5 Flash (`gemini-2.5-flash`).
+- **Dual Retrieval Engine:** Retrieval-Augmented Generation (RAG) over 100+ Scheme Documents via ChromaDB alongside Serper API (Google Search API).
+- **Speech & Multilingual Engine:** Web Speech API (Speech-to-Text), gTTS (Text-to-Speech), and Deep Translator API.
 
 ---
 
@@ -62,8 +64,8 @@ This system fundamentally empowers marginalized citizens by bringing government 
 
 | Phase / Activity | Timeline |
 | :--- | :--- |
-| Environment Setup & Data Ingestion (100 Master Scheme PDFs) | Days 1–6 |
-| Multi-Agent Logic (Profile, RAG, Serper, Eligibility Agents) | Days 7–14 |
+| Environment Setup & Data Ingestion (100+ Master Schemes) | Days 1–6 |
+| Multi-Agent Logic (Profile, RAG, Playwright, Serper, Eligibility Agents) | Days 7–14 |
 | FastAPI Backend Development & Audio API Endpoints | Days 15–18 |
 | React Frontend Development (React.js + Tailwind CSS + Speech UI) | Days 19–25 |
 | Multilingual Integration, Testing & Quantitative Benchmarking | Days 26–28 |
@@ -72,12 +74,12 @@ This system fundamentally empowers marginalized citizens by bringing government 
 ---
 
 ## 8. Conclusion
-The Government Scheme Discovery & Eligibility Assistant proposes a highly scalable, hybrid multi-agent AI solution to public information asymmetry. By combining RAG over 100 official scheme PDFs with live Serper API search and eligibility prediction capabilities, the system consolidates fragmented bureaucratic processes into a single, user-friendly conversational interface.
+The Government Scheme Discovery & Eligibility Assistant proposes a highly scalable, hybrid multi-agent AI solution to public information asymmetry. By combining RAG over 100+ official scheme documents with Playwright DOM scraping and live Serper API search and eligibility prediction capabilities, the system consolidates fragmented bureaucratic processes into a single, user-friendly conversational interface.
 
 ---
 
 ## 9. References / Bibliography
 1. Lewis, P., et al. "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks," *NeurIPS*, 2020.
-2. LangChain Documentation: Multi-Agent Systems & Tool Integration. [Online]. Available: https://python.langchain.com
+2. Playwright Documentation: Fast and reliable end-to-end testing for modern web apps. [Online]. Available: https://playwright.dev
 3. National Portal of India & myScheme Portal. [Online]. Available: https://www.myscheme.gov.in
 4. Serper API Documentation (Google Search API). [Online]. Available: https://serper.dev
