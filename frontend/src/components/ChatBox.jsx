@@ -110,6 +110,7 @@ function Message({ msg, selectedLang, onPlayAudio }) {
               checklist={msg.data.document_checklist}
               applicationSteps={msg.data.application_steps}
               citations={msg.data.citations}
+              language={msg.data.language || selectedLang}
             />
           </div>
         )}

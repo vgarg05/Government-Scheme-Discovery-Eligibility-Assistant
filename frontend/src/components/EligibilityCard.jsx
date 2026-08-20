@@ -1,9 +1,77 @@
 import React from 'react';
 import { CheckCircle2, AlertTriangle, Database, Globe } from 'lucide-react';
 
-function ScoreRing({ score }) {
+const TRANSLATIONS = {
+  en: {
+    match: "match",
+    bestMatch: "Best match",
+    qualified: "Qualified",
+    verify: "Verify",
+    generalAlignment: "General alignment",
+    noDisqualifiers: "No disqualifiers found"
+  },
+  hi: {
+    match: "मिलान",
+    bestMatch: "सर्वश्रेष्ठ मिलान",
+    qualified: "पात्र / योग्य",
+    verify: "सत्यापन",
+    generalAlignment: "सामान्य जनसांख्यिकीय संरेखण",
+    noDisqualifiers: "कोई अयोग्यता मानदंड नहीं मिला"
+  },
+  bn: {
+    match: "মিল",
+    bestMatch: "সেরা মিল",
+    qualified: "যোগ্য",
+    verify: "যাচাই করুন",
+    generalAlignment: "সাধারণ জনসংখ্যাগত প্রান্তিককরণ",
+    noDisqualifiers: "কোন অযোগ্যতা পাওয়া যায়নি"
+  },
+  mr: {
+    match: "साम्य",
+    bestMatch: "सर्वोत्कृष्ट साम्य",
+    qualified: "पात्र",
+    verify: "पडताळणी",
+    generalAlignment: "सामान्य लोकसंख्याशास्त्रीय संरेखन",
+    noDisqualifiers: "कोणतीही अपात्रता आढळली नाही"
+  },
+  pa: {
+    match: "ਮੇਲ",
+    bestMatch: "ਸਭ ਤੋਂ ਵਧੀਆ ਮੇਲ",
+    qualified: "ਯੋਗ",
+    verify: "ਪੁਸ਼ਟੀ ਕਰੋ",
+    generalAlignment: "ਆਮ ਜਨਸੰਖਿਆਤਮਕ ਅਨੁਕੂਲਤਾ",
+    noDisqualifiers: "ਕੋਈ ਅਯੋਗਤਾ ਨਹੀਂ ਮਿਲੀ"
+  },
+  ta: {
+    match: "பொருத்தம்",
+    bestMatch: "சிறந்த பொருத்தம்",
+    qualified: "தகுதி",
+    verify: "சரிபார்",
+    generalAlignment: "பொதுவான புள்ளிவிவர சீரமைப்பு",
+    noDisqualifiers: "தகுதியின்மை எதுவும் காணப்படவில்லை"
+  },
+  te: {
+    match: "సరిపోలిక",
+    bestMatch: "ఉత్తమ సరిపోలిక",
+    qualified: "అర్హత",
+    verify: "ధృవీకరించు",
+    generalAlignment: "సాధారణ జనాభా అమరిక",
+    noDisqualifiers: "అనర్హతలు ఏవీ కనుగొనబడలేదు"
+  },
+  gu: {
+    match: "મેળ",
+    bestMatch: "શ્રેષ્ઠ મેળ",
+    qualified: "યોગ્ય",
+    verify: "ચકાસો",
+    generalAlignment: "સામાન્ય વસ્તીવિષયક ગોઠવણી",
+    noDisqualifiers: "કોઈ ગેરલાયકાત મળી નથી"
+  }
+};
+
+function ScoreRing({ score, lang = 'en' }) {
   const clamped = Math.max(0, Math.min(100, score || 0));
   const color = clamped >= 80 ? '#3ecf8e' : clamped >= 50 ? '#f59e0b' : '#f87171';
+  const labels = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   return (
     <div className="flex flex-col items-center gap-0.5">
@@ -14,7 +82,7 @@ function ScoreRing({ score }) {
         {clamped}%
       </div>
       <div className="text-xs font-medium" style={{ color: '#55556a' }}>
-        match
+        {labels.match}
       </div>
     </div>
   );
@@ -23,8 +91,9 @@ function ScoreRing({ score }) {
 export default function EligibilityCard({ data }) {
   if (!data) return null;
 
-  const { top_scheme, match_score, matched_criteria, unmatched_criteria, retrieval_mode } = data;
+  const { top_scheme, match_score, matched_criteria, unmatched_criteria, retrieval_mode, language = 'en' } = data;
   const isRag = retrieval_mode === 'rag';
+  const labels = TRANSLATIONS[language] || TRANSLATIONS.en;
 
   return (
     <div
@@ -38,7 +107,7 @@ export default function EligibilityCard({ data }) {
       >
         <div className="min-w-0 flex-1">
           <p className="text-xs font-medium mb-0.5" style={{ color: '#55556a' }}>
-            Best match
+            {labels.bestMatch}
           </p>
           <h3
             className="font-semibold text-sm leading-snug truncate"
@@ -49,7 +118,7 @@ export default function EligibilityCard({ data }) {
         </div>
 
         <div className="flex flex-col items-end gap-2 flex-shrink-0">
-          <ScoreRing score={match_score} />
+          <ScoreRing score={match_score} lang={language} />
           <div
             className="flex items-center gap-1 text-xs px-2 py-0.5 rounded"
             style={{
@@ -71,7 +140,7 @@ export default function EligibilityCard({ data }) {
           <div className="flex items-center gap-1.5 mb-2">
             <CheckCircle2 className="h-3.5 w-3.5 flex-shrink-0" style={{ color: '#3ecf8e' }} />
             <span className="text-xs font-medium" style={{ color: '#3ecf8e' }}>
-              Qualified
+              {labels.qualified}
             </span>
           </div>
           <ul className="space-y-1.5">
@@ -86,7 +155,7 @@ export default function EligibilityCard({ data }) {
               ))
             ) : (
               <li className="text-xs" style={{ color: '#55556a' }}>
-                General alignment
+                {labels.generalAlignment}
               </li>
             )}
           </ul>
@@ -97,7 +166,7 @@ export default function EligibilityCard({ data }) {
           <div className="flex items-center gap-1.5 mb-2">
             <AlertTriangle className="h-3.5 w-3.5 flex-shrink-0" style={{ color: '#f59e0b' }} />
             <span className="text-xs font-medium" style={{ color: '#f59e0b' }}>
-              Verify
+              {labels.verify}
             </span>
           </div>
           <ul className="space-y-1.5">
@@ -112,7 +181,7 @@ export default function EligibilityCard({ data }) {
               ))
             ) : (
               <li className="text-xs" style={{ color: '#3ecf8e' }}>
-                No disqualifiers found
+                {labels.noDisqualifiers}
               </li>
             )}
           </ul>

@@ -41,6 +41,11 @@ class MultiAgentOrchestrator:
             }
             return state
 
+        # If listing all schemes or providing application steps, go straight to counselor
+        if state.intent in ("list_schemes", "apply_info"):
+            state = counselor_agent.process(state)
+            return state
+
         # 4. Local RAG Retrieval
         state = rag_agent.process(state)
 

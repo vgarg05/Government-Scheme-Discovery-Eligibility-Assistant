@@ -1,8 +1,52 @@
 import React, { useState } from 'react';
 import { Check, ExternalLink } from 'lucide-react';
 
-export default function DocumentChecklist({ checklist, applicationSteps, citations }) {
+const TRANSLATIONS = {
+  en: {
+    docsRequired: "Documents required",
+    howToApply: "How to apply",
+    sources: "Sources"
+  },
+  hi: {
+    docsRequired: "आवश्यक दस्तावेज़",
+    howToApply: "आवेदन कैसे करें",
+    sources: "स्रोत संदर्भ"
+  },
+  bn: {
+    docsRequired: "প্রয়োজনীয় নথি",
+    howToApply: "কীভাবে আবেদন করবেন",
+    sources: "উৎস"
+  },
+  mr: {
+    docsRequired: "आवश्यक कागदपत्रे",
+    howToApply: "कसे अर्ज करावे",
+    sources: "स्रोत"
+  },
+  pa: {
+    docsRequired: "ਲੋੜੀਂਦੇ ਦਸਤਾਵੇਜ਼",
+    howToApply: "ਕਿਵੇਂ ਅਪਲਾਈ ਕਰਨਾ ਹੈ",
+    sources: "ਸਰੋਤ"
+  },
+  ta: {
+    docsRequired: "தேவையான ஆவணங்கள்",
+    howToApply: "எப்படி விண்ணப்பிப்பது",
+    sources: "ஆதாரங்கள்"
+  },
+  te: {
+    docsRequired: "అవసరమైన పత్రాలు",
+    howToApply: "ఎలా దరఖాస్తు చేయాలి",
+    sources: "మూలాధారాలు"
+  },
+  gu: {
+    docsRequired: "જરૂરી દસ્તાવેજો",
+    howToApply: "કેવી રીતે અરજી કરવી",
+    sources: "સ્ત્રોતો"
+  }
+};
+
+export default function DocumentChecklist({ checklist, applicationSteps, citations, language = 'en' }) {
   const [checked, setChecked] = useState({});
+  const labels = TRANSLATIONS[language] || TRANSLATIONS.en;
 
   const toggle = (i) => setChecked(prev => ({ ...prev, [i]: !prev[i] }));
 
@@ -22,7 +66,7 @@ export default function DocumentChecklist({ checklist, applicationSteps, citatio
       {checklist && checklist.length > 0 && (
         <div className="px-4 py-3">
           <p className="text-xs font-medium mb-3" style={{ color: '#8888a0' }}>
-            Documents required
+            {labels.docsRequired}
           </p>
           <ul className="space-y-2">
             {checklist.map((doc, i) => (
@@ -61,7 +105,7 @@ export default function DocumentChecklist({ checklist, applicationSteps, citatio
       {applicationSteps && applicationSteps.length > 0 && (
         <div className="px-4 py-3">
           <p className="text-xs font-medium mb-3" style={{ color: '#8888a0' }}>
-            How to apply
+            {labels.howToApply}
           </p>
           <ol className="space-y-3">
             {applicationSteps.map((step, i) => (
@@ -90,7 +134,7 @@ export default function DocumentChecklist({ checklist, applicationSteps, citatio
       {citations && citations.length > 0 && (
         <div className="px-4 py-3">
           <p className="text-xs font-medium mb-2.5" style={{ color: '#8888a0' }}>
-            Sources
+            {labels.sources}
           </p>
           <div className="flex flex-wrap gap-2">
             {citations.map((cite, i) => (
