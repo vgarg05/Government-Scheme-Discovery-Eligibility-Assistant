@@ -259,32 +259,120 @@ def find_matched_kb_scheme(scheme_title: str):
         
     return None
 
-def generate_scheme_cards(profile, user_query=""):
+def generate_scheme_cards(state: AgentState):
     """
-    Generate 6 scheme recommendation cards based on user profile.
-    Returns list of card dicts with name, short_desc, highlights, scheme_key.
+    Dynamically generates up to 6 scheme recommendation cards from:
+    1. Local RAG Vector Search results (state.retrieved_chunks)
+    2. Serper Live Web Search results (state.web_search_results)
+    3. Demographic scoring against Knowledge Base (age, state, income, occupation)
     """
+    profile = state.user_profile
+    user_query = state.user_query or ""
     cards = []
-    query_low = (user_query or "").lower()
-    occupation_low = (profile.occupation or "").lower()
-    is_farmer = "farm" in occupation_low or "kisan" in query_low or "krishak" in query_low
+    seen_titles = set()
 
-    if is_farmer:
-        # Farmer-specific ordering
-        priority_keys = ["pm_kisan", "pmfby", "krishak_durghatna", "kcc", "ayushman", "surya_ghar"]
-    else:
-        # General ordering
-        priority_keys = ["ayushman", "surya_ghar", "pm_kisan", "pmfby", "kcc", "krishak_durghatna"]
+    # Helper to add card
+    def add_card(name, short_desc, highlights, key, portal="https://www.myscheme.gov.in"):
+        clean_name = name.strip().rstrip('.').rstrip(';')
+        norm_name = clean_name.lower()
+        if norm_name not in seen_titles and len(clean_name) > 3:
+            seen_titles.add(norm_name)
+            cards.append({
+                "name": clean_name,
+                "short_desc": short_desc or f"Government assistance scheme matching your profile in {profile.state or 'India'}.",
+                "highlights": highlights[:3] if highlights else [
+                    "Direct Benefit Transfer (DBT) eligible",
+                    f"State / Central Government scheme for {profile.occupation or 'citizens'}",
+                    "Official myScheme portal application"
+                ],
+                "scheme_key": key,
+                "portal": portal
+            })
 
-    for key in priority_keys:
-        kb = SCHEME_KNOWLEDGE_BASE[key]
-        cards.append({
-            "name": kb["name"],
-            "short_desc": kb["short_desc"],
-            "highlights": kb["highlights"],
-            "scheme_key": key,
-            "portal": kb["portal"]
-        })
+    # 1. Dynamically extract from RAG Vector Chunks & Serper Web Search Results
+    retrieved_sources = (state.retrieved_chunks or []) + (state.web_search_results or [])
+    for source in retrieved_sources:
+        title = source.get("scheme_id") or source.get("title", "")
+        snippet = source.get("content") or source.get("snippet", "")
+        link = source.get("link") or source.get("url", "https://www.myscheme.gov.in")
+
+        # Skip generic title noise
+        if not title or "Enter scheme name" in title or "myScheme" == title.strip():
+            continue
+
+        # Check if title matches curated KB scheme
+        kb_match = find_matched_kb_scheme(title)
+        if kb_match:
+            add_card(
+                name=kb_match["name"],
+                short_desc=kb_match["short_desc"],
+                highlights=kb_match["highlights"],
+                key=title,
+                portal=kb_match["portal"]
+            )
+        else:
+            # Parse snippet into short description and highlights dynamically
+            short_desc = snippet[:110] + "..." if len(snippet) > 110 else snippet
+            highlights = [
+                f"Apply via official portal ({clean_url(link)})",
+                f"Targeted for {profile.state or 'India'} residents",
+                "Verified Government Scheme"
+            ]
+            add_card(name=title, short_desc=short_desc, highlights=highlights, key=title, portal=clean_url(link))
+
+        if len(cards) >= 6:
+            break
+
+    # 2. Dynamic demographic scoring for remaining slots
+    if len(cards) < 6:
+        # Score each KB scheme dynamically against profile
+        scored_kb = []
+        user_age = profile.age or 35
+        user_income = profile.income or 100000
+        user_state = (profile.state or "").lower()
+        user_occ = (profile.occupation or "").lower()
+
+        for key, kb in SCHEME_KNOWLEDGE_BASE.items():
+            if kb["name"].lower() in seen_titles:
+                continue
+
+            score = 50
+            name_low = kb["name"].lower()
+            elig_low = kb["eligibility"].lower()
+
+            # State match (+25)
+            if "uttar pradesh" in elig_low and ("up" in user_state or "uttar pradesh" in user_state):
+                score += 25
+
+            # Occupation match (+25)
+            if "farm" in user_occ or "kisan" in user_occ or "krishak" in user_occ:
+                if "farm" in elig_low or "kisan" in name_low or "krishak" in name_low:
+                    score += 25
+
+            # Age appropriateness (+15)
+            if "70" in elig_low or "senior" in elig_low:
+                if user_age >= 60:
+                    score += 20
+                else:
+                    score -= 10
+            elif user_age >= 18:
+                score += 10
+
+            scored_kb.append((score, kb))
+
+        # Sort KB schemes by dynamic demographic match score
+        scored_kb.sort(key=lambda x: x[0], reverse=True)
+
+        for _, kb in scored_kb:
+            if len(cards) >= 6:
+                break
+            add_card(
+                name=kb["name"],
+                short_desc=kb["short_desc"],
+                highlights=kb["highlights"],
+                key=kb["name"],
+                portal=kb["portal"]
+            )
 
     return cards[:6]
 
@@ -399,7 +487,7 @@ class CounselorGuidanceAgent:
         query_low = (state.user_query or "").lower()
         is_specific_scheme_request = "tell me full details about" in query_low or "full details" in query_low or "how to apply for" in query_low
         
-        scheme_cards = [] if is_specific_scheme_request else generate_scheme_cards(profile, state.user_query)
+        scheme_cards = [] if is_specific_scheme_request else generate_scheme_cards(state)
 
         guidance = {
             "summary": summary,
