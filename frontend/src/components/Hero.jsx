@@ -25,10 +25,10 @@ export default function Hero({ onPresetClick }) {
           <div className="lg:col-span-7 self-center">
             <h1
               style={{
-                fontSize: 'clamp(26px, 3.8vw, 46px)',
+                fontSize: 'clamp(32px, 4.8vw, 58px)',
                 fontWeight: 500,
                 letterSpacing: '-0.03em',
-                lineHeight: 1.08,
+                lineHeight: 1.06,
                 color: 'var(--text-primary)',
               }}
             >
