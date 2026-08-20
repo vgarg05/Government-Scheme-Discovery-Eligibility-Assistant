@@ -4,7 +4,7 @@ import React from 'react';
   GovAssist — Public Services & Rural Commerce Streetscape
   ─────────────────────────────────────────────────────────
   Concept:
-  - Editorial horizontal panorama illustrating public services & village commerce with crisp text signboards:
+  - Editorial horizontal panorama illustrating public services & village commerce with crisp, prominent text signboards:
     1. KRISHI SEVA KENDRA (Farmer Material & Fertilizer Shop)
     2. HEALTH CENTRE (Primary Health Centre / Hospital)
     3. PANCHAYAT BHAVAN (Village Administration & CSC Kendra)
@@ -90,35 +90,35 @@ function MidgroundArtwork() {
         <line x1="360" y1="36" x2="360" y2="92" stroke={P_LINE} strokeWidth="0.9" />
 
         {/* Shop Main Building */}
-        <rect x="390" y="66" width="125" height="26" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.1" />
+        <rect x="385" y="66" width="135" height="26" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.1" />
 
         {/* Sloped Roof & Awning in Yellow Accent */}
-        <path d="M 382 66 L 452 50 L 522 66 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
-        <rect x="388" y="66" width="129" height="7" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
+        <path d="M 376 66 L 452 48 L 528 66 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
+        <rect x="382" y="66" width="141" height="7" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
 
-        {/* Crisp Text Signboard: KRISHI SEVA KENDRA */}
-        <rect x="398" y="50" width="108" height="13" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" rx="1" />
+        {/* Prominent Large Text Signboard: KRISHI SEVA KENDRA */}
+        <rect x="385" y="46" width="134" height="17" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" rx="2" />
         <text
           x="452"
-          y="59"
+          y="58"
           fontFamily="Inter, system-ui, sans-serif"
-          fontSize="6"
-          fontWeight="700"
+          fontSize="9"
+          fontWeight="800"
           fill={P_LINE}
           textAnchor="middle"
-          letterSpacing="0.4px"
+          letterSpacing="0.6px"
         >
           KRISHI SEVA KENDRA
         </text>
 
         {/* Shop Entrance & Shutters */}
         <rect x="430" y="73" width="24" height="19" fill={ACCENT_YELLOW} opacity="0.9" stroke={P_LINE} strokeWidth="0.9" />
-        <rect x="400" y="75" width="18" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
-        <rect x="466" y="75" width="18" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
+        <rect x="398" y="75" width="20" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
+        <rect x="466" y="75" width="20" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
 
         {/* Seed & Fertilizer Sacks lined up outside shop */}
-        <ellipse cx="394" cy="90" rx="5" ry="3" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.7" />
-        <ellipse cx="403" cy="90" rx="5" ry="3" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.7" />
+        <ellipse cx="392" cy="90" rx="5" ry="3" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.7" />
+        <ellipse cx="401" cy="90" rx="5" ry="3" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.7" />
         <ellipse cx="512" cy="90" rx="5" ry="3" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.7" />
       </g>
 
@@ -137,20 +137,20 @@ function MidgroundArtwork() {
         {/* Roof Parapet / Overhang */}
         <rect x="614" y="44" width="157" height="6" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
 
-        {/* Crisp Text Signboard: HEALTH CENTRE */}
-        <rect x="646" y="30" width="94" height="13" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" rx="1" />
-        {/* Red/Charcoal Medical Cross Emblem (+) */}
-        <rect x="652" y="33" width="5" height="7" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.6" />
-        <rect x="650" y="35" width="9" height="3" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.6" />
+        {/* Prominent Large Text Signboard: HEALTH CENTRE */}
+        <rect x="635" y="26" width="115" height="17" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" rx="2" />
+        {/* Medical Cross Emblem (+) */}
+        <rect x="643" y="29.5" width="6" height="10" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.7" />
+        <rect x="641" y="31.5" width="10" height="6" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.7" />
         <text
-          x="697"
-          y="39"
+          x="698"
+          y="38"
           fontFamily="Inter, system-ui, sans-serif"
-          fontSize="6"
-          fontWeight="700"
+          fontSize="9"
+          fontWeight="800"
           fill={P_LINE}
           textAnchor="middle"
-          letterSpacing="0.4px"
+          letterSpacing="0.6px"
         >
           HEALTH CENTRE
         </text>
@@ -181,17 +181,17 @@ function MidgroundArtwork() {
         {/* Triangular Roof Gable */}
         <path d="M 850 52 L 925 34 L 1000 52 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.2" />
 
-        {/* Crisp Text Signboard: PANCHAYAT BHAVAN */}
-        <rect x="874" y="42" width="102" height="11" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" rx="1" />
+        {/* Prominent Large Text Signboard: PANCHAYAT BHAVAN */}
+        <rect x="865" y="38" width="120" height="15" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" rx="2" />
         <text
           x="925"
-          y="50"
+          y="49"
           fontFamily="Inter, system-ui, sans-serif"
-          fontSize="5.5"
-          fontWeight="700"
+          fontSize="8.5"
+          fontWeight="800"
           fill={P_LINE}
           textAnchor="middle"
-          letterSpacing="0.4px"
+          letterSpacing="0.6px"
         >
           PANCHAYAT BHAVAN
         </text>
@@ -304,7 +304,7 @@ export default function Panorama() {
         background: 'var(--bg)',
       }}
     >
-      {/* ── LAYER 1: Background Horizon (55s cycle) ── */}
+      {/* ── LAYER 1: Background Horizon (25s cycle) ── */}
       <div
         className="parallax-layer-bg"
         style={{
@@ -324,7 +324,7 @@ export default function Panorama() {
         </svg>
       </div>
 
-      {/* ── LAYER 2: Midground Main Public Service Streetscape (30s cycle) ── */}
+      {/* ── LAYER 2: Midground Main Public Service Streetscape (14s cycle) ── */}
       <div
         className="parallax-layer-mid"
         style={{
@@ -344,7 +344,7 @@ export default function Panorama() {
         </svg>
       </div>
 
-      {/* ── LAYER 3: Foreground Road, Driveway Dips & Lollipop Trees (18s cycle) ── */}
+      {/* ── LAYER 3: Foreground Road, Driveway Dips & Lollipop Trees (8s cycle) ── */}
       <div
         className="parallax-layer-fore"
         style={{
