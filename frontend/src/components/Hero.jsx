@@ -99,7 +99,7 @@ export default function Hero({ onPresetClick }) {
                           fontSize: '12px',
                           fontWeight: 600,
                           color: '#171714',
-                          marginBottom: '3px',
+                          marginBottom: '4px',
                           letterSpacing: '0.01em',
                         }}
                       >
@@ -108,12 +108,10 @@ export default function Hero({ onPresetClick }) {
                       <div
                         style={{
                           fontSize: '11px',
-                          color: 'rgba(23, 23, 20, 0.8)',
-                          lineHeight: 1.4,
-                          overflow: 'hidden',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
+                          color: 'rgba(23, 23, 20, 0.82)',
+                          lineHeight: 1.45,
+                          whiteSpace: 'normal',
+                          wordBreak: 'break-word',
                         }}
                       >
                         {query}
