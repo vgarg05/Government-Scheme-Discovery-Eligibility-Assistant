@@ -1,236 +1,308 @@
 import React from 'react';
 
 /*
-  GovAssist — Living Indian Landscape & Walking Character
-  ────────────────────────────────────────────────────────
-  Design & Architecture:
-  1. Character: Articulated editorial silhouette of an everyday Indian citizen
-     walking in side-profile. Anatomically natural, with head, torso, shoulder-joint arms,
-     hip-joint legs, knee flex, and a small shoulder bag filled with yellow accent (#F2B544).
-     Uses CSS keyframe animations (walk-body, walk-leg-near, walk-leg-far, etc.) for a 
-     seamless 1.1s human gait cycle with vertical bounce and cross-body arm swing.
+  GovAssist — Reference-Faithful Living Indian Landscape & Farmer (Left Side)
+  ─────────────────────────────────────────────────────────────────────────────
+  Design & Palette (Matching Reference Image):
+  - Background: #F7F5EC (warm ivory)
+  - Primary Linework: #1A1916 (crisp charcoal)
+  - Secondary Linework: #7D7A6E (warm gray stroke)
+  - Muted Sage Green: #6B7A6E (tree foliage & bushes)
+  - Warm Roof/Wall Tan: #C4C1B5 (roof tiles & subtle fills)
+  - Focal Accent Yellow: #F2B544 (farmer's bag, panchayat door, foreground lollipop tree)
 
-  2. Parallax Environment:
-     - Background (75s): Faint rolling horizon, distant tree silhouette line.
-     - Midground (42s): Panchayat Kendra, CSC center, neem/banyan trees, electric poles,
-       sloped roof homes, agricultural fields, leaning bicycle.
-     - Foreground (26s): Ground road line, passing roadside grass & wheat tufts.
-
-  3. Color Palette:
-     - Background: #F7F5EC (warm ivory)
-     - Primary linework: #1A1916 (charcoal black)
-     - Secondary linework: #8A877D (warm gray)
-     - Faint lines: #D9D5C8
-     - Accent: #F2B544 (used sparingly on bag, door, flag)
+  Visual Features:
+  1. Farmer Character on LEFT: Kurta-pyjama + Gandhi cap silhouette holding yellow accent bag.
+  2. Converging Perspective Fields (Left).
+  3. Sagging Overhead Power Lines between Utility Pole and Panchayat Office.
+  4. Curved Road Dip at building entrance.
+  5. Capsule Trees with vertical center stroke and sage green fills.
+  6. Detailed Vintage Bicycle near utility pole.
 */
 
 const P_LINE = '#1A1916';
-const S_LINE = '#8A877D';
+const S_LINE = '#7D7A6E';
 const F_LINE = '#D9D5C8';
-const ACCENT = '#F2B544';
+const SAGE_GREEN = '#6B7A6E';
+const ROOF_TAN = '#C4C1B5';
+const ACCENT_YELLOW = '#F2B544';
 
-// ── Background Parallax Artwork (Faint horizon & trees) ──
+// ── LAYER 1: Background Horizon & Distant Structures ──
 function BackgroundArtwork() {
   return (
     <>
-      {/* Low rolling horizon line */}
-      <path
-        d="M 0 92 Q 200 86 400 90 T 800 88 T 1200 92 T 1600 88"
-        fill="none"
-        stroke={F_LINE}
-        strokeWidth="0.8"
-        opacity="0.7"
-      />
-      {/* Faint distant tree line shapes */}
-      <path
-        d="M 120 91 Q 140 76 160 91 M 150 91 Q 170 78 190 91 M 480 89 Q 505 72 530 89 M 860 88 Q 885 74 910 88 M 1280 91 Q 1305 75 1330 91"
-        fill="none"
-        stroke={F_LINE}
-        strokeWidth="0.7"
-        opacity="0.6"
-      />
+      {/* Horizon Line */}
+      <line x1="0" y1="92" x2="1600" y2="92" stroke={F_LINE} strokeWidth="0.8" opacity="0.8" />
+
+      {/* Far Left: Distant Grain Silos & Factory/Mill Outlines */}
+      <g opacity="0.45" fill="none" stroke={S_LINE} strokeWidth="0.6">
+        <path d="M 40 92 L 40 76 A 6 6 0 0 1 52 76 L 52 92 Z" />
+        <path d="M 56 92 L 56 74 A 6 6 0 0 1 68 74 L 68 92 Z" />
+        <rect x="74" y="80" width="18" height="12" />
+        <path d="M 72 80 L 83 72 L 94 80 Z" />
+        <line x1="46" y1="70" x2="46" y2="64" />
+        <line x1="62" y1="68" x2="62" y2="60" />
+      </g>
+
+      {/* Far Right Distant Village Silhouette */}
+      <g opacity="0.4" fill="none" stroke={S_LINE} strokeWidth="0.6">
+        <rect x="1450" y="78" width="22" height="14" />
+        <path d="M 1446 78 L 1461 70 L 1476 78 Z" />
+        <circle cx="1510" cy="74" r="10" />
+        <line x1="1510" y1="84" x2="1510" y2="92" />
+      </g>
     </>
   );
 }
 
-// ── Midground Parallax Artwork (Seamless 1600px segment) ──
+// ── LAYER 2: Midground Main Scene (Seamless 1600px segment) ──
 function MidgroundArtwork() {
   return (
     <>
-      {/* ── Segment 1: Open Agricultural Fields (0 - 320) ── */}
-      <g opacity="0.85">
-        <rect x="30" y="88" width="160" height="24" fill="rgba(217,213,200,0.18)" stroke={S_LINE} strokeWidth="0.7" />
-        {/* Field rows */}
-        <line x1="30" y1="96" x2="190" y2="96" stroke={S_LINE} strokeWidth="0.5" opacity="0.5" />
-        <line x1="30" y1="104" x2="190" y2="104" stroke={S_LINE} strokeWidth="0.5" opacity="0.5" />
-        {/* Boundary stones / fence posts */}
-        <line x1="30" y1="84" x2="30" y2="112" stroke={S_LINE} strokeWidth="0.8" />
-        <line x1="190" y1="84" x2="190" y2="112" stroke={S_LINE} strokeWidth="0.8" />
-        {/* Electric pole with thin crossbar */}
-        <line x1="240" y1="52" x2="240" y2="112" stroke={P_LINE} strokeWidth="0.9" />
-        <line x1="232" y1="58" x2="248" y2="58" stroke={P_LINE} strokeWidth="0.8" />
-        <line x1="230" y1="56" x2="250" y2="56" stroke={S_LINE} strokeWidth="0.4" />
-      </g>
+      {/* ══ 1. PERSPECTIVE AGRICULTURAL FIELDS (x: 20 - 320) ══ */}
+      <g stroke={P_LINE} strokeWidth="0.8">
+        {/* Converging perspective field boundary lines */}
+        <line x1="30" y1="92" x2="0" y2="112" strokeWidth="1" />
+        <line x1="140" y1="92" x2="40" y2="112" />
+        <line x1="250" y1="92" x2="190" y2="112" />
+        <line x1="340" y1="92" x2="310" y2="112" />
 
-      {/* ── Segment 2: Panchayat & CSC Center (350 - 640) ── */}
-      <g>
-        {/* Plinth */}
-        <rect x="370" y="107" width="220" height="5" fill="rgba(217,213,200,0.4)" stroke={P_LINE} strokeWidth="0.8" />
-        {/* Main Panchayat Building */}
-        <rect x="390" y="68" width="180" height="39" fill="rgba(243,241,230,0.85)" stroke={P_LINE} strokeWidth="1.2" />
-        {/* Roof Gable */}
-        <path d="M 380 68 L 480 44 L 580 68 Z" fill="rgba(237,234,224,0.6)" stroke={P_LINE} strokeWidth="1.2" />
-        {/* Columns */}
-        <line x1="415" y1="68" x2="415" y2="107" stroke={P_LINE} strokeWidth="0.8" />
-        <line x1="445" y1="68" x2="445" y2="107" stroke={P_LINE} strokeWidth="0.8" />
-        <line x1="515" y1="68" x2="515" y2="107" stroke={P_LINE} strokeWidth="0.8" />
-        <line x1="545" y1="68" x2="545" y2="107" stroke={P_LINE} strokeWidth="0.8" />
-        {/* Accent Yellow Door */}
-        <rect x="468" y="82" width="24" height="25" fill={ACCENT} stroke={P_LINE} strokeWidth="1" />
-        {/* Signboard */}
-        <rect x="440" y="52" width="80" height="11" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
-        <line x1="448" y1="57.5" x2="512" y2="57.5" stroke={S_LINE} strokeWidth="0.8" strokeDasharray="3 2" />
-        {/* Flag Pole + Small Accent Flag */}
-        <line x1="480" y1="44" x2="480" y2="28" stroke={P_LINE} strokeWidth="0.9" />
-        <path d="M 480 28 L 493 32 L 480 36 Z" fill={ACCENT} stroke={P_LINE} strokeWidth="0.6" />
+        {/* Horizontal field ridge lines */}
+        <line x1="22" y1="97" x2="330" y2="97" stroke={S_LINE} strokeWidth="0.5" />
+        <line x1="15" y1="102" x2="322" y2="102" stroke={S_LINE} strokeWidth="0.5" />
+        <line x1="8" y1="107" x2="315" y2="107" stroke={S_LINE} strokeWidth="0.5" />
 
-        {/* Leaning Bicycle next to wall */}
-        <g opacity="0.85">
-          <circle cx="602" cy="106" r="6" fill="none" stroke={P_LINE} strokeWidth="0.7" />
-          <circle cx="618" cy="106" r="6" fill="none" stroke={P_LINE} strokeWidth="0.7" />
-          <line x1="602" y1="106" x2="610" y2="99" stroke={P_LINE} strokeWidth="0.7" />
-          <line x1="610" y1="99" x2="618" y2="106" stroke={P_LINE} strokeWidth="0.7" />
-          <line x1="610" y1="99" x2="607" y2="93" stroke={P_LINE} strokeWidth="0.7" />
-          <line x1="604" y1="93" x2="610" y2="93" stroke={P_LINE} strokeWidth="0.8" />
-        </g>
-      </g>
-
-      {/* ── Segment 3: Trees & Rural Home (680 - 950) ── */}
-      <g>
-        {/* Banyan / Neem tree silhouette */}
-        <path d="M 690 112 L 690 75 Q 675 60 660 55 M 690 75 Q 705 58 720 52 M 690 70 Q 695 50 690 40" fill="none" stroke={P_LINE} strokeWidth="1.1" />
-        <path d="M 650 55 Q 690 25 730 52 Q 740 75 690 75 Q 640 75 650 55 Z" fill="rgba(217,213,200,0.22)" stroke={S_LINE} strokeWidth="0.8" />
-
-        {/* Rural Home with Sloped Roof */}
-        <rect x="760" y="80" width="110" height="32" fill="rgba(243,241,230,0.7)" stroke={P_LINE} strokeWidth="1" />
-        <path d="M 752 80 L 815 64 L 878 80 Z" fill="rgba(228,220,204,0.5)" stroke={P_LINE} strokeWidth="1" />
-        <rect x="800" y="92" width="16" height="20" fill="rgba(138,135,125,0.2)" stroke={P_LINE} strokeWidth="0.8" />
-        <rect x="772" y="88" width="14" height="12" fill="#F7F5EC" stroke={S_LINE} strokeWidth="0.7" />
-      </g>
-
-      {/* ── Segment 4: Agricultural Boundary & Handpump (1000 - 1280) ── */}
-      <g>
-        {/* Handpump outline */}
-        <line x1="1010" y1="112" x2="1010" y2="96" stroke={P_LINE} strokeWidth="1.2" />
-        <line x1="1006" y1="96" x2="1014" y2="96" stroke={P_LINE} strokeWidth="1.2" />
-        <line x1="1010" y1="99" x2="1022" y2="103" stroke={P_LINE} strokeWidth="0.9" />
-
-        {/* Diagonal hatched crops */}
-        <rect x="1050" y="86" width="180" height="26" fill="rgba(217,213,200,0.18)" stroke={S_LINE} strokeWidth="0.7" />
-        {Array.from({ length: 8 }, (_, i) => (
+        {/* Crop rows (hatch inside perspective plots) */}
+        {Array.from({ length: 12 }, (_, i) => (
           <line
             key={i}
-            x1={1050 + i * 22}
-            y1="86"
-            x2={1040 + i * 22}
+            x1={45 + i * 22}
+            y1="92"
+            x2={20 + i * 24}
             y2="112"
             stroke={S_LINE}
-            strokeWidth="0.5"
-            opacity="0.4"
+            strokeWidth="0.4"
+            opacity="0.6"
           />
         ))}
-
-        {/* Electric pole 2 */}
-        <line x1="1310" y1="52" x2="1310" y2="112" stroke={P_LINE} strokeWidth="0.9" />
-        <line x1="1302" y1="58" x2="1318" y2="58" stroke={P_LINE} strokeWidth="0.8" />
       </g>
 
-      {/* ── Segment 5: Small Homestead & Tree (1340 - 1600) ── */}
+      {/* ══ 2. VILLAGE HOMESTEAD 1 (x: 370 - 550) ══ */}
       <g>
-        <rect x="1370" y="84" width="95" height="28" fill="rgba(243,241,230,0.7)" stroke={P_LINE} strokeWidth="0.9" />
-        <path d="M 1362 84 L 1417 70 L 1472 84 Z" fill="rgba(228,220,204,0.5)" stroke={P_LINE} strokeWidth="0.9" />
-        
-        {/* Tree cluster */}
-        <path d="M 1520 112 L 1520 72 M 1520 72 L 1505 58 M 1520 72 L 1535 56" stroke={P_LINE} strokeWidth="1" />
-        <circle cx="1505" cy="54" r="12" fill="rgba(217,213,200,0.25)" stroke={S_LINE} strokeWidth="0.7" />
-        <circle cx="1535" cy="52" r="14" fill="rgba(217,213,200,0.25)" stroke={S_LINE} strokeWidth="0.7" />
+        {/* Background Capsule Trees */}
+        <g stroke={P_LINE} strokeWidth="0.9">
+          {/* Tree 1 */}
+          <ellipse cx="360" cy="62" rx="11" ry="17" fill={SAGE_GREEN} />
+          <line x1="360" y1="45" x2="360" y2="92" />
+          {/* Tree 2 */}
+          <ellipse cx="380" cy="56" rx="13" ry="20" fill="rgba(196,193,181,0.6)" />
+          <line x1="380" y1="36" x2="380" y2="92" />
+          {/* Tree 3 */}
+          <ellipse cx="500" cy="48" rx="14" ry="22" fill={SAGE_GREEN} />
+          <line x1="500" y1="26" x2="500" y2="92" />
+          {/* Tree 4 */}
+          <ellipse cx="525" cy="58" rx="10" ry="16" fill="rgba(196,193,181,0.7)" />
+          <line x1="525" y1="42" x2="525" y2="92" />
+        </g>
+
+        {/* House 1 (Double Pitched Roof) */}
+        <rect x="400" y="72" width="60" height="20" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
+        <path d="M 392 72 L 430 55 L 468 72 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
+        <rect x="445" y="70" width="65" height="22" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
+        <path d="M 440 70 L 477 56 L 514 70 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
+        {/* Doors & Windows */}
+        <rect x="420" y="78" width="12" height="14" fill={S_LINE} stroke={P_LINE} strokeWidth="0.8" />
+        <rect x="475" y="78" width="12" height="14" fill={S_LINE} stroke={P_LINE} strokeWidth="0.8" />
+        <rect x="495" y="76" width="10" height="8" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.7" />
+        {/* Bush at base */}
+        <path d="M 390 92 Q 400 84 410 92 Q 420 84 430 92" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.8" />
+      </g>
+
+      {/* ══ 3. VILLAGE HOMESTEAD 2 (x: 580 - 710) ══ */}
+      <g>
+        {/* Tree behind house */}
+        <ellipse cx="660" cy="50" rx="14" ry="20" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.9" />
+        <line x1="660" y1="30" x2="660" y2="92" stroke={P_LINE} strokeWidth="0.9" />
+
+        {/* House 2 with awning window */}
+        <rect x="600" y="68" width="85" height="24" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
+        <path d="M 592 68 L 642 52 L 692 68 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
+        <rect x="625" y="76" width="14" height="16" fill={S_LINE} stroke={P_LINE} strokeWidth="0.8" />
+        {/* Window with awning shadow */}
+        <rect x="655" y="75" width="16" height="10" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
+        <path d="M 652 75 L 674 75 L 671 72 L 655 72 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.7" />
+      </g>
+
+      {/* ══ 4. PANCHAYAT / GOVERNMENT OFFICE (x: 740 - 930) ══ */}
+      <g>
+        {/* Tree behind office */}
+        <ellipse cx="765" cy="52" rx="15" ry="22" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1" />
+        <line x1="765" y1="30" x2="765" y2="92" stroke={P_LINE} strokeWidth="1" />
+
+        {/* Building Steps / Plinth */}
+        <rect x="750" y="87" width="150" height="5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.9" />
+
+        {/* Main Flat Building Body */}
+        <rect x="760" y="52" width="130" height="35" fill="rgba(243,241,230,0.95)" stroke={P_LINE} strokeWidth="1.2" />
+
+        {/* Roof Overhang / Parapet */}
+        <rect x="754" y="46" width="142" height="6" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
+
+        {/* Yellow Accent Door */}
+        <rect x="808" y="64" width="16" height="23" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
+        <rect x="824" y="64" width="16" height="23" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
+
+        {/* Office Windows */}
+        <rect x="775" y="62" width="18" height="14" fill={ACCENT_YELLOW} opacity="0.85" stroke={P_LINE} strokeWidth="0.8" />
+        <rect x="852" y="62" width="18" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
+
+        {/* Bush right of building */}
+        <path d="M 890 92 Q 902 82 915 92 Q 925 84 935 92 Z" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.9" />
+      </g>
+
+      {/* ══ 5. UTILITY POLE & OVERHEAD SAGGING POWER WIRES (x: 960) ══ */}
+      <g stroke={P_LINE}>
+        {/* Pole */}
+        <line x1="960" y1="32" x2="960" y2="112" strokeWidth="1.2" />
+        <line x1="948" y1="38" x2="972" y2="38" strokeWidth="1" />
+        <line x1="950" y1="44" x2="970" y2="44" strokeWidth="0.8" />
+
+        {/* Sagging Overhead Wires connecting Pole to Panchayat Roof */}
+        <path d="M 960 38 Q 870 55 754 48" fill="none" stroke={P_LINE} strokeWidth="0.6" />
+        <path d="M 960 44 Q 870 60 754 52" fill="none" stroke={S_LINE} strokeWidth="0.5" />
+
+        {/* Sagging Wires continuing to Right background */}
+        <path d="M 960 38 Q 1060 52 1160 42" fill="none" stroke={P_LINE} strokeWidth="0.6" />
+        <path d="M 960 44 Q 1060 58 1160 48" fill="none" stroke={S_LINE} strokeWidth="0.5" />
+      </g>
+
+      {/* ══ 6. VINTAGE BICYCLE (x: 1010) ══ */}
+      <g stroke={P_LINE} strokeWidth="0.8" fill="none">
+        {/* Wheels */}
+        <circle cx="1000" cy="104" r="8" />
+        <circle cx="1024" cy="104" r="8" />
+        {/* Frame */}
+        <line x1="1000" y1="104" x2="1012" y2="95" />
+        <line x1="1012" y1="95" x2="1024" y2="104" />
+        <line x1="1000" y1="104" x2="1010" y2="104" />
+        <line x1="1010" y1="104" x2="1012" y2="95" />
+        {/* Handlebars & Seat */}
+        <line x1="1024" y1="104" x2="1021" y2="92" />
+        <line x1="1018" y1="92" x2="1023" y2="92" />
+        <line x1="1008" y1="93" x2="1015" y2="93" />
+      </g>
+
+      {/* ══ 7. RIGHT TREES & BACKGROUND BUILDINGS (x: 1060 - 1300) ══ */}
+      <g stroke={P_LINE} strokeWidth="0.9">
+        <ellipse cx="1075" cy="58" rx="10" ry="16" fill="rgba(196,193,181,0.7)" />
+        <line x1="1075" y1="42" x2="1075" y2="92" />
+
+        <ellipse cx="1100" cy="46" rx="16" ry="24" fill={SAGE_GREEN} />
+        <line x1="1100" y1="22" x2="1100" y2="92" />
+      </g>
+
+      {/* ══ 8. SECONDARY FIELD PLOTS (x: 1320 - 1600) ══ */}
+      <g stroke={S_LINE} strokeWidth="0.5" opacity="0.6">
+        <line x1="1320" y1="92" x2="1300" y2="112" />
+        <line x1="1440" y1="92" x2="1410" y2="112" />
+        <line x1="1560" y1="92" x2="1530" y2="112" />
       </g>
     </>
   );
 }
 
-// ── Foreground Parallax Artwork (Ground road line + passing grass) ──
+// ── LAYER 3: Foreground Road, Curve Dip & Lollipop Trees ──
 function ForegroundArtwork() {
   return (
     <>
-      {/* Continuous main ground road line */}
-      <line x1="0" y1="112" x2="1600" y2="112" stroke={P_LINE} strokeWidth="1.4" />
-
-      {/* Sparse roadside grass / wheat tufts */}
+      {/* Main Road Line with Dip at Panchayat Entrance (x: 740 - 930) */}
       <path
-        d="M 80 112 L 78 106 M 83 112 L 85 104 M 310 112 L 307 105 M 312 112 L 315 104 M 670 112 L 667 105 M 980 112 L 977 106 M 983 112 L 986 104 M 1420 112 L 1417 105"
-        stroke={S_LINE}
-        strokeWidth="0.8"
-        strokeLinecap="round"
+        d="M 0 112 L 730 112 Q 815 116 900 112 L 1600 112"
+        fill="none"
+        stroke={P_LINE}
+        strokeWidth="1.5"
       />
+
+      {/* Foreground Lollipop Trees (x: 440 - 520) */}
+      <g stroke={P_LINE} strokeWidth="0.8">
+        {/* Yellow Accent Lollipop Tree */}
+        <circle cx="450" cy="102" r="7" fill={ACCENT_YELLOW} />
+        <line x1="450" y1="109" x2="450" y2="118" />
+
+        {/* Sage Green Lollipop Tree */}
+        <circle cx="468" cy="99" r="8.5" fill={SAGE_GREEN} />
+        <line x1="468" y1="107.5" x2="468" y2="118" />
+
+        {/* Larger Yellow Lollipop Tree */}
+        <circle cx="490" cy="94" r="11" fill={ACCENT_YELLOW} />
+        <line x1="490" y1="105" x2="490" y2="118" />
+
+        {/* Sage Green Lollipop Tree */}
+        <circle cx="514" cy="100" r="8" fill={SAGE_GREEN} />
+        <line x1="514" y1="108" x2="514" y2="118" />
+      </g>
+
+      {/* Roadside Dash Markers */}
+      <line x1="600" y1="115" x2="630" y2="115" stroke={S_LINE} strokeWidth="0.6" strokeDasharray="4 4" />
+      <line x1="1020" y1="115" x2="1060" y2="115" stroke={S_LINE} strokeWidth="0.6" strokeDasharray="4 4" />
     </>
   );
 }
 
-// ── Walking Indian Person Character (Editorial Silhouette) ──
-function WalkingCharacter() {
+// ── WALKING FARMER CHARACTER (ANCHORED ON LEFT AT X: 160) ──
+function WalkingFarmerOnLeft() {
   /*
-    Articulated Silhouette Structure:
-    Hip joint: (x: 180, y: 92)
-    Ground level: y = 112
-    Body Height: ~36px
+    Articulated Silhouette on LEFT (x = 160):
+    - Kurta, straight pyjamas, Gandhi cap/neat headwear silhouette.
+    - Carrying yellow accent bag (#F2B544).
+    - Gait cycle animated via CSS keyframes in index.css.
   */
   return (
     <g className="walk-body" style={{ transformBox: 'fill-box' }}>
-      {/* 1. FAR ARM (Behind torso) */}
+      {/* 1. FAR ARM (Behind) */}
       <g className="walk-arm-far">
-        <line x1="180" y1="80" x2="175" y2="94" stroke={P_LINE} strokeWidth="1.4" strokeLinecap="round" />
+        <line x1="160" y1="78" x2="154" y2="92" stroke={P_LINE} strokeWidth="1.5" strokeLinecap="round" />
       </g>
 
       {/* 2. FAR LEG (Behind) */}
       <g className="walk-leg-far">
-        <line x1="180" y1="92" x2="177" y2="102" stroke={P_LINE} strokeWidth="1.6" strokeLinecap="round" />
+        <line x1="160" y1="91" x2="156" y2="102" stroke={P_LINE} strokeWidth="1.8" strokeLinecap="round" />
         <g className="walk-shin-far">
-          <line x1="177" y1="102" x2="175" y2="112" stroke={P_LINE} strokeWidth="1.4" strokeLinecap="round" />
+          <line x1="156" y1="102" x2="153" y2="112" stroke={P_LINE} strokeWidth="1.6" strokeLinecap="round" />
         </g>
       </g>
 
-      {/* 3. TORSO & HEAD */}
+      {/* 3. TORSO, HEAD & GANDHI CAP */}
+      {/* Gandhi Cap / Headwear */}
+      <path d="M 154 67 Q 160 62 166 67 L 166 70 L 154 70 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.8" />
       {/* Head */}
-      <circle cx="180" cy="71" r="4.2" fill={P_LINE} />
-      {/* Neck */}
-      <line x1="180" y1="75.2" x2="180" y2="78" stroke={P_LINE} strokeWidth="1.5" />
-      {/* Torso (slight forward tilt) */}
-      <line x1="180" y1="78" x2="180" y2="92" stroke={P_LINE} strokeWidth="2.4" strokeLinecap="round" />
-      
-      {/* Shoulder Bag / Document Bag (Accented in Yellow #F2B544) */}
+      <circle cx="160" cy="71" r="3.8" fill={P_LINE} />
+      {/* Kurta Collar & Torso */}
+      <line x1="160" y1="75" x2="160" y2="91" stroke={P_LINE} strokeWidth="2.8" strokeLinecap="round" />
+      {/* Kurta Hem line */}
+      <line x1="156" y1="89" x2="164" y2="89" stroke={P_LINE} strokeWidth="1" />
+
+      {/* Yellow Accent Bag in Hand */}
       <path
-        d="M 178 79 L 184 91 L 177 94 L 173 82 Z"
-        fill={ACCENT}
+        d="M 166 84 Q 171 84 170 94 Q 164 96 162 89 Z"
+        fill={ACCENT_YELLOW}
         stroke={P_LINE}
-        strokeWidth="0.8"
+        strokeWidth="0.9"
       />
-      {/* Bag Strap across shoulder */}
-      <line x1="177" y1="78" x2="182" y2="91" stroke={P_LINE} strokeWidth="0.9" />
+      {/* Bag handle */}
+      <path d="M 164 82 Q 167 78 168 84" fill="none" stroke={P_LINE} strokeWidth="0.8" />
 
       {/* 4. NEAR LEG (Front) */}
       <g className="walk-leg-near">
-        <line x1="180" y1="92" x2="183" y2="102" stroke={P_LINE} strokeWidth="1.8" strokeLinecap="round" />
+        <line x1="160" y1="91" x2="164" y2="102" stroke={P_LINE} strokeWidth="2" strokeLinecap="round" />
         <g className="walk-shin-near">
-          <line x1="183" y1="102" x2="185" y2="112" stroke={P_LINE} strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="164" y1="102" x2="167" y2="112" stroke={P_LINE} strokeWidth="1.7" strokeLinecap="round" />
         </g>
       </g>
 
-      {/* 5. NEAR ARM (Front, holding walking stick / rolled document) */}
+      {/* 5. NEAR ARM (Front holding bag handle) */}
       <g className="walk-arm-near">
-        <line x1="180" y1="80" x2="187" y2="93" stroke={P_LINE} strokeWidth="1.6" strokeLinecap="round" />
-        {/* Rolled document / stick */}
-        <line x1="185" y1="89" x2="191" y2="97" stroke={S_LINE} strokeWidth="1.1" strokeLinecap="round" />
+        <line x1="160" y1="78" x2="165" y2="84" stroke={P_LINE} strokeWidth="1.6" strokeLinecap="round" />
       </g>
     </g>
   );
@@ -244,12 +316,12 @@ export default function Panorama() {
         borderTop: '1px solid var(--border)',
         borderBottom: '1px solid var(--border)',
         overflow: 'hidden',
-        height: '92px',
+        height: '96px',
         position: 'relative',
         background: 'var(--bg)',
       }}
     >
-      {/* ── LAYER 1: Background Parallax (75s cycle) ── */}
+      {/* ── LAYER 1: Background Horizon & Distant Silos (40s cycle) ── */}
       <div
         className="parallax-layer-bg"
         style={{
@@ -269,7 +341,7 @@ export default function Panorama() {
         </svg>
       </div>
 
-      {/* ── LAYER 2: Midground Parallax (42s cycle) ── */}
+      {/* ── LAYER 2: Midground Main Scene (22s cycle) ── */}
       <div
         className="parallax-layer-mid"
         style={{
@@ -289,7 +361,7 @@ export default function Panorama() {
         </svg>
       </div>
 
-      {/* ── LAYER 3: Foreground Parallax (26s cycle) ── */}
+      {/* ── LAYER 3: Foreground Road, Dip & Lollipop Trees (14s cycle) ── */}
       <div
         className="parallax-layer-fore"
         style={{
@@ -309,7 +381,7 @@ export default function Panorama() {
         </svg>
       </div>
 
-      {/* ── LAYER 4: Stationary Character (Walk cycle active relative to moving ground) ── */}
+      {/* ── LAYER 4: Walking Farmer Character (ANCHORED ON LEFT) ── */}
       <div
         style={{
           position: 'absolute',
@@ -321,7 +393,7 @@ export default function Panorama() {
         }}
       >
         <svg viewBox="0 0 1600 120" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%' }}>
-          <WalkingCharacter />
+          <WalkingFarmerOnLeft />
         </svg>
       </div>
     </div>
