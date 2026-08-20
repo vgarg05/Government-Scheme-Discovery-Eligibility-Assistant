@@ -263,10 +263,10 @@ export default function ChatBox({ initialQuery, selectedLang }) {
 
   return (
     <section
+      className="max-w-7xl mx-auto px-6 sm:px-12"
       style={{
-        maxWidth: '820px',
-        margin: '0 auto',
-        padding: '40px 16px 48px',
+        paddingTop: '40px',
+        paddingBottom: '48px',
       }}
     >
       {/* Section label */}
