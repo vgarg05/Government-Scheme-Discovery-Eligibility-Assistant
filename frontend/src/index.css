@@ -234,29 +234,134 @@
   }
 
   /* ─────────────────────────────────────────────────────────────────
-     B: Panorama horizontal scroll — 50 s per cycle, pure CSS.
+     B: Living Indian Landscape — Parallax & Walk Cycle Animations
   ───────────────────────────────────────────────────────────────── */
-  @keyframes panorama-scroll {
+  
+  /* 1. Walk Cycle Keyframes (Natural Human Gait) */
+  @keyframes walk-bounce {
+    0%, 100% { transform: translateY(0px); }
+    25%      { transform: translateY(-2.5px); } /* Push-off peak height */
+    50%      { transform: translateY(0px); }
+    75%      { transform: translateY(-2.5px); }
+  }
+
+  @keyframes walk-leg-near {
+    0%, 100% { transform: rotate(-22deg); }
+    50%      { transform: rotate(22deg); }
+  }
+
+  @keyframes walk-leg-far {
+    0%, 100% { transform: rotate(22deg); }
+    50%      { transform: rotate(-22deg); }
+  }
+
+  @keyframes walk-shin-near {
+    0%   { transform: rotate(0deg); }
+    25%  { transform: rotate(28deg); }  /* Knee flex on swing-through */
+    50%  { transform: rotate(0deg); }
+    75%  { transform: rotate(5deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  @keyframes walk-shin-far {
+    0%   { transform: rotate(0deg); }
+    50%  { transform: rotate(0deg); }
+    75%  { transform: rotate(28deg); }  /* Knee flex on opposite swing */
+    100% { transform: rotate(0deg); }
+  }
+
+  @keyframes walk-arm-near {
+    0%, 100% { transform: rotate(18deg); }
+    50%      { transform: rotate(-18deg); }
+  }
+
+  @keyframes walk-arm-far {
+    0%, 100% { transform: rotate(-18deg); }
+    50%      { transform: rotate(18deg); }
+  }
+
+  /* Walk cycle classes */
+  .walk-body {
+    animation: walk-bounce 1.1s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  }
+  .walk-leg-near {
+    transform-box: fill-box;
+    transform-origin: 50% 0%;
+    animation: walk-leg-near 1.1s ease-in-out infinite;
+  }
+  .walk-leg-far {
+    transform-box: fill-box;
+    transform-origin: 50% 0%;
+    animation: walk-leg-far 1.1s ease-in-out infinite;
+  }
+  .walk-shin-near {
+    transform-box: fill-box;
+    transform-origin: 50% 0%;
+    animation: walk-shin-near 1.1s ease-in-out infinite;
+  }
+  .walk-shin-far {
+    transform-box: fill-box;
+    transform-origin: 50% 0%;
+    animation: walk-shin-far 1.1s ease-in-out infinite;
+  }
+  .walk-arm-near {
+    transform-box: fill-box;
+    transform-origin: 50% 0%;
+    animation: walk-arm-near 1.1s ease-in-out infinite;
+  }
+  .walk-arm-far {
+    transform-box: fill-box;
+    transform-origin: 50% 0%;
+    animation: walk-arm-far 1.1s ease-in-out infinite;
+  }
+
+  /* 2. Parallax Layer Scroll Speeds */
+  @keyframes parallax-bg {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes parallax-mid {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @keyframes parallax-fore {
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
   }
 
-  .panorama-strip {
-    animation: panorama-scroll 50s linear infinite;
+  .parallax-layer-bg {
+    animation: parallax-bg 75s linear infinite;
+    will-change: transform;
+  }
+  .parallax-layer-mid {
+    animation: parallax-mid 42s linear infinite;
+    will-change: transform;
+  }
+  .parallax-layer-fore {
+    animation: parallax-fore 26s linear infinite;
     will-change: transform;
   }
 
-  /* ─────────────────────────────────────────────────────────────────
-     prefers-reduced-motion — disable all non-essential motion.
-     Typing dots are exempt (they are UI feedback, not decoration).
-  ───────────────────────────────────────────────────────────────── */
+  /* 3. Reduced Motion Overrides */
   @media (prefers-reduced-motion: reduce) {
-    .panorama-strip { animation: none; }
+    .parallax-layer-bg,
+    .parallax-layer-mid,
+    .parallax-layer-fore,
+    .walk-body,
+    .walk-leg-near,
+    .walk-leg-far,
+    .walk-shin-near,
+    .walk-shin-far,
+    .walk-arm-near,
+    .walk-arm-far {
+      animation: none !important;
+      transform: none !important;
+    }
     .animate-enter,
     .animate-enter-delayed {
-      animation: none;
-      opacity: 1;
-      transform: none;
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
     }
     @keyframes accent-pulse { 0%, 100% { box-shadow: none; } }
   }
