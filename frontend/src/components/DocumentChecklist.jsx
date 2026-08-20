@@ -177,53 +177,83 @@ export default function DocumentChecklist({ checklist, applicationSteps, citatio
       )}
 
       {/* How to Apply */}
-      {applicationSteps && applicationSteps.length > 0 && (
-        <div
-          style={{
-            padding: '16px 18px',
-            borderBottom: citations?.length > 0 ? '1px solid var(--border-subtle)' : 'none',
-          }}
-        >
-          <SectionHeader label={labels.howToApply} />
-          <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            {applicationSteps.map((step, i) => (
-              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-                {/* Step number */}
-                <span
-                  style={{
-                    flexShrink: 0,
-                    width: '20px',
-                    height: '20px',
-                    borderRadius: '4px',
-                    background: 'var(--raised)',
-                    border: '1px solid var(--border)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '10px',
-                    fontWeight: 600,
-                    color: 'var(--text-secondary)',
-                    letterSpacing: '0.01em',
-                    marginTop: '2px',
-                  }}
-                >
-                  {i + 1}
-                </span>
-                <span
-                  style={{
-                    fontSize: '13px',
-                    lineHeight: 1.55,
-                    color: 'var(--text-secondary)',
-                    paddingTop: '2px',
-                  }}
-                >
-                  {step}
-                </span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      )}
+      {applicationSteps && applicationSteps.length > 0 && (() => {
+        let currentStepNum = 0;
+        return (
+          <div
+            style={{
+              padding: '16px 18px',
+              borderBottom: citations?.length > 0 ? '1px solid var(--border-subtle)' : 'none',
+            }}
+          >
+            <SectionHeader label={labels.howToApply} />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {applicationSteps.map((step, i) => {
+                const isHeader = typeof step === 'string' && (step.includes('METHOD') || step.includes('ONLINE') || step.includes('OFFLINE') || step.startsWith('🌐') || step.startsWith('🏢'));
+
+                if (isHeader) {
+                  currentStepNum = 0; // Reset counter for new method section
+                  return (
+                    <div
+                      key={i}
+                      style={{
+                        fontSize: '12.5px',
+                        fontWeight: 700,
+                        letterSpacing: '0.04em',
+                        color: 'var(--text-primary)',
+                        marginTop: i > 0 ? '12px' : '2px',
+                        paddingBottom: '2px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                      }}
+                    >
+                      <span>{step}</span>
+                    </div>
+                  );
+                }
+
+                currentStepNum += 1;
+                return (
+                  <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', paddingLeft: '4px' }}>
+                    {/* Step number */}
+                    <span
+                      style={{
+                        flexShrink: 0,
+                        width: '20px',
+                        height: '20px',
+                        borderRadius: '4px',
+                        background: 'var(--raised)',
+                        border: '1px solid var(--border)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '10px',
+                        fontWeight: 650,
+                        color: 'var(--text-secondary)',
+                        letterSpacing: '0.01em',
+                        marginTop: '2px',
+                      }}
+                    >
+                      {currentStepNum}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: '13px',
+                        lineHeight: 1.55,
+                        color: 'var(--text-secondary)',
+                        paddingTop: '1px',
+                      }}
+                    >
+                      {step}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Official Sources */}
       {citations && citations.length > 0 && (
