@@ -563,7 +563,7 @@ class CounselorGuidanceAgent:
         print(f"\n================ [SCHEME BENEFITS EXTRACTED] ================")
         print(f"Scheme: {scheme_title}")
         for b in benefits:
-            print(f"  • {b}")
+            print(f"  * {b}")
         print(f"===========================================================\n")
 
         guidance = {

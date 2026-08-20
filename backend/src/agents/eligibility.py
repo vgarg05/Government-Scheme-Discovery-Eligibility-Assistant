@@ -106,10 +106,10 @@ Respond ONLY with valid JSON in this exact structure:
         print(f"Is Eligible: {is_eligible} | Match Score: {score}%")
         print("Matched Criteria:")
         for m in matched_rules:
-            print(f"  ✅ {m}")
+            print(f"  [OK] {m}")
         print("Disqualification / Unmatched Criteria:")
         for u in unmatched_rules:
-            print(f"  ⚠️ {u}")
+            print(f"  [WARN] {u}")
         print(f"===========================================================\n")
 
         state.eligibility_evaluation = {
