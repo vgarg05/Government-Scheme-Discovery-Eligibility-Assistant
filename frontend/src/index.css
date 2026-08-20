@@ -237,47 +237,47 @@
      B: Living Indian Landscape — Parallax & Walk Cycle Animations
   ───────────────────────────────────────────────────────────────── */
   
-  /* 1. Walk Cycle Keyframes (Natural Human Gait) */
+  /* 1. Walk Cycle Keyframes (Natural Human Gait - Subtle & Grounded) */
   @keyframes walk-bounce {
     0%, 100% { transform: translateY(0px); }
-    25%      { transform: translateY(-2.5px); } /* Push-off peak height */
+    25%      { transform: translateY(-1px); } /* Subtle natural stride lift */
     50%      { transform: translateY(0px); }
-    75%      { transform: translateY(-2.5px); }
+    75%      { transform: translateY(-1px); }
   }
 
   @keyframes walk-leg-near {
-    0%, 100% { transform: rotate(-22deg); }
-    50%      { transform: rotate(22deg); }
+    0%, 100% { transform: rotate(-10deg); }
+    50%      { transform: rotate(10deg); }
   }
 
   @keyframes walk-leg-far {
-    0%, 100% { transform: rotate(22deg); }
-    50%      { transform: rotate(-22deg); }
+    0%, 100% { transform: rotate(10deg); }
+    50%      { transform: rotate(-10deg); }
   }
 
   @keyframes walk-shin-near {
     0%   { transform: rotate(0deg); }
-    25%  { transform: rotate(28deg); }  /* Knee flex on swing-through */
+    25%  { transform: rotate(12deg); }
     50%  { transform: rotate(0deg); }
-    75%  { transform: rotate(5deg); }
+    75%  { transform: rotate(3deg); }
     100% { transform: rotate(0deg); }
   }
 
   @keyframes walk-shin-far {
     0%   { transform: rotate(0deg); }
     50%  { transform: rotate(0deg); }
-    75%  { transform: rotate(28deg); }  /* Knee flex on opposite swing */
+    75%  { transform: rotate(12deg); }
     100% { transform: rotate(0deg); }
   }
 
   @keyframes walk-arm-near {
-    0%, 100% { transform: rotate(18deg); }
-    50%      { transform: rotate(-18deg); }
+    0%, 100% { transform: rotate(8deg); }
+    50%      { transform: rotate(-8deg); }
   }
 
   @keyframes walk-arm-far {
-    0%, 100% { transform: rotate(-18deg); }
-    50%      { transform: rotate(18deg); }
+    0%, 100% { transform: rotate(-8deg); }
+    50%      { transform: rotate(8deg); }
   }
 
   /* Walk cycle classes */

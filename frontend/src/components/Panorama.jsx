@@ -11,13 +11,12 @@ import React from 'react';
   - Warm Roof/Wall Tan: #C4C1B5 (roof tiles & secondary fills)
   - Focal Accent Yellow: #F2B544 (farmer's bag, panchayat door, foreground lollipop tree)
 
-  Vector Character Specs (Extracted directly from Reference Crop):
-  - Skin Tone: #69685B (solid warm charcoal-gray fill)
-  - Topi Cap: #E2DDD0 off-white with thick rolled band
-  - Shirt: Solid #FFFFFF half-sleeved short kurta with elbow cuffed sleeves and side slit
-  - Trousers: #C2BCAD (front leg) & #9E988A (rear leg shadow) straight-cut pyjamas
-  - Yellow Bag: #F2B544 pouch with a white document (#FFFFFF) sticking out of the top
-  - Feet: Barefoot profile touching ground line
+  Vector Character Specs (Natural Human Proportions, Editorial Art):
+  - Skin Tone: #5C5A4E (refined charcoal-brown tone)
+  - Topi Cap: #E4E0D5 off-white with thick rolled band
+  - Shirt: Solid #FFFFFF half-sleeved short kurta with cuffed sleeves
+  - Trousers: #C2BCAD (front leg) & #9E988A (rear leg) straight pyjamas
+  - Yellow Bag: #F2B544 pouch with a white document (#FFFFFF) sticking out
 */
 
 const P_LINE = '#1A1916';
@@ -249,151 +248,128 @@ function ForegroundArtwork() {
   );
 }
 
-// ── 100% REFERENCE-EXACT WALKING FARMER (ANCHORED ON LEFT AT X: 160) ──
+// ── REFERENCE-EXACT WALKING FARMER (NATURAL PROPORTIONS) ──
 function WalkingFarmerOnLeft() {
-  const SKIN = '#69685B';
+  const SKIN = '#5C5A4E';
   const SHIRT = '#FFFFFF';
   const PANTS_FRONT = '#C2BCAD';
   const PANTS_BACK = '#9E988A';
-  const CAP = '#E2DDD0';
+  const CAP = '#E4E0D5';
   const ACCENT_BAG = '#F2B544';
   const LINE = '#1A1916';
 
   return (
     <g className="walk-body" style={{ transformBox: 'fill-box' }}>
-      {/* ── 1. REAR ARM (Extending forward) ── */}
+      {/* ── 1. REAR ARM (Extending forward naturally) ── */}
       <g className="walk-arm-far">
-        {/* Arm skin */}
         <path
-          d="M 163 76 L 175 87 C 176 88 177 88 178 86 C 178 84 177 83 175 82 L 165 74 Z"
+          d="M 162 76 L 173 86 C 174 87 175 87 176 85 C 176 83 175 82 173 81 L 164 74 Z"
           fill={SKIN}
           stroke={LINE}
-          strokeWidth="0.8"
+          strokeWidth="0.7"
           strokeLinejoin="round"
         />
-        {/* Sleeve */}
         <path
-          d="M 161 73 L 168 80 L 165 82 L 159 75 Z"
+          d="M 161 73 L 167 79 L 164 81 L 159 75 Z"
           fill={SHIRT}
           stroke={LINE}
-          strokeWidth="0.8"
+          strokeWidth="0.7"
         />
-        {/* Sleeve cuff */}
-        <line x1="165" y1="82" x2="168" y2="80" stroke={LINE} strokeWidth="0.8" />
       </g>
 
       {/* ── 2. REAR LEG (Angled backward) ── */}
       <g className="walk-leg-far">
-        {/* Rear pant leg */}
         <path
-          d="M 158 88 L 146 108 L 151 109 L 163 88 Z"
+          d="M 158 87 L 147 107 L 152 108 L 163 87 Z"
           fill={PANTS_BACK}
           stroke={LINE}
-          strokeWidth="0.8"
+          strokeWidth="0.7"
           strokeLinejoin="round"
         />
-        {/* Rear foot (barefoot) */}
         <path
-          d="M 146 108 L 140 112 L 146 112 Z"
+          d="M 147 107 L 141 112 L 147 112 Z"
           fill={SKIN}
           stroke={LINE}
-          strokeWidth="0.8"
+          strokeWidth="0.7"
         />
       </g>
 
       {/* ── 3. FRONT LEG (Angled forward) ── */}
       <g className="walk-leg-near">
-        {/* Front pant leg */}
         <path
-          d="M 160 88 L 169 108 L 175 108 L 165 88 Z"
+          d="M 160 87 L 168 107 L 174 107 L 165 87 Z"
           fill={PANTS_FRONT}
           stroke={LINE}
-          strokeWidth="0.8"
+          strokeWidth="0.7"
           strokeLinejoin="round"
         />
-        {/* Front foot (barefoot) */}
         <path
-          d="M 170 108 L 178 112 L 168 112 Z"
+          d="M 169 107 L 177 112 L 168 112 Z"
           fill={SKIN}
           stroke={LINE}
-          strokeWidth="0.8"
+          strokeWidth="0.7"
         />
       </g>
 
       {/* ── 4. TORSO & WHITE SHIRT ── */}
       <path
-        d="M 158 72 L 165 73 L 165 88 L 162 89 L 162 87 L 158 87 Z"
+        d="M 158 72 L 165 73 L 165 87 L 162 88 L 162 86 L 158 86 Z"
         fill={SHIRT}
         stroke={LINE}
         strokeWidth="0.8"
         strokeLinejoin="round"
       />
-      {/* Side slit */}
-      <line x1="162" y1="85" x2="162" y2="89" stroke={LINE} strokeWidth="0.8" />
-      {/* Neck line */}
-      <path d="M 159 72 C 160 74 163 74 164 73" fill="none" stroke={LINE} strokeWidth="0.8" />
+      <line x1="162" y1="84" x2="162" y2="88" stroke={LINE} strokeWidth="0.7" />
 
       {/* ── 5. HEAD, NECK & TOPI CAP ── */}
-      {/* Neck */}
-      <path d="M 160 72 L 160 69 L 163 70 L 163 73 Z" fill={SKIN} stroke={LINE} strokeWidth="0.7" />
-      {/* Head profile (Nose, chin, ear) */}
+      <path d="M 160 72 L 160 69 L 163 70 L 163 73 Z" fill={SKIN} stroke={LINE} strokeWidth="0.6" />
       <path
         d="M 160 69 C 160 66 161 63 164 63 C 166 63 168 64 168 66 C 168 67 167 68 166 69 Z"
         fill={SKIN}
         stroke={LINE}
-        strokeWidth="0.8"
+        strokeWidth="0.7"
       />
-      {/* Ear */}
-      <circle cx="163" cy="66" r="0.8" fill={SKIN} stroke={LINE} strokeWidth="0.6" />
+      <circle cx="163" cy="66" r="0.7" fill={SKIN} stroke={LINE} strokeWidth="0.5" />
 
-      {/* Folded Topi Cap */}
+      {/* Topi Cap */}
       <path
         d="M 158 63 C 158 58 168 58 168 63 Z"
         fill={CAP}
         stroke={LINE}
-        strokeWidth="0.8"
+        strokeWidth="0.7"
       />
-      {/* Thick Cap Roll Band */}
       <path
         d="M 157 62 C 157 61 169 61 169 62 C 169 64 157 64 157 62 Z"
         fill={CAP}
         stroke={LINE}
-        strokeWidth="0.8"
+        strokeWidth="0.7"
       />
 
       {/* ── 6. FRONT ARM (Hanging straight down holding bag) ── */}
       <g className="walk-arm-near">
-        {/* Sleeve */}
         <path
-          d="M 158 72 L 164 73 L 163 80 L 157 79 Z"
+          d="M 158 72 L 164 73 L 163 79 L 157 78 Z"
           fill={SHIRT}
           stroke={LINE}
-          strokeWidth="0.8"
+          strokeWidth="0.7"
         />
-        <line x1="157" y1="79" x2="163" y2="80" stroke={LINE} strokeWidth="0.8" />
-
-        {/* Forearm skin */}
         <path
-          d="M 158 79 L 163 80 L 162 90 L 157 89 Z"
+          d="M 158 78 L 163 79 L 162 89 L 157 88 Z"
           fill={SKIN}
           stroke={LINE}
+          strokeWidth="0.7"
+        />
+        <ellipse cx="159.5" cy="90" rx="2.2" ry="1.8" fill={SKIN} stroke={LINE} strokeWidth="0.6" />
+
+        {/* ── 7. YELLOW ACCENT BAG WITH WHITE PAPER INSERT ── */}
+        <path d="M 158 89 Q 159 85 161 89" fill="none" stroke={LINE} strokeWidth="0.7" />
+        <path
+          d="M 154 93 C 153 102 166 102 165 93 C 165 91 154 91 154 93 Z"
+          fill={ACCENT_YELLOW}
+          stroke={LINE}
           strokeWidth="0.8"
         />
-        {/* Hand */}
-        <ellipse cx="159.5" cy="91" rx="2.5" ry="2" fill={SKIN} stroke={LINE} strokeWidth="0.7" />
-
-        {/* ── 7. YELLOW BAG WITH WHITE PAPER INSERT ── */}
-        {/* Bag strap handle */}
-        <path d="M 158 90 Q 159 86 161 90" fill="none" stroke={LINE} strokeWidth="0.8" />
-        {/* Mustard Yellow Bag Pouch */}
-        <path
-          d="M 154 94 C 153 103 166 103 165 94 C 165 92 154 92 154 94 Z"
-          fill={ACCENT_BAG}
-          stroke={LINE}
-          strokeWidth="0.9"
-        />
-        {/* White document peeking out of bag */}
-        <rect x="156.5" y="90" width="6" height="4" fill="#FFFFFF" stroke={LINE} strokeWidth="0.6" />
+        <rect x="156.5" y="89" width="6" height="4" fill="#FFFFFF" stroke={LINE} strokeWidth="0.5" />
       </g>
     </g>
   );
