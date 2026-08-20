@@ -1,27 +1,39 @@
 import React from 'react';
-import { DotLottiePlayer } from '@dotlottie/react-player';
 
 /*
-  GovAssist — Living Indian Landscape & Lottie Option A Character
-  ─────────────────────────────────────────────────────────────────
-  Architecture:
-  - Uses DotLottiePlayer (Option A) fetching `/farmer-walk.json` public URL.
-  - Also includes inline SVG fallback so the character is 100% guaranteed visible on screen.
+  GovAssist — Public Services & Rural Commerce Streetscape
+  ─────────────────────────────────────────────────────────
+  Concept:
+  - Editorial horizontal panorama illustrating public services & village commerce:
+    1. Krishi Seva Kendra (Farmer Material & Fertilizer Shop / कृषि सेवा केंद्र)
+    2. Primary Health Centre / Rural Hospital (स्वास्थ्य केंद्र)
+    3. Panchayat Bhavan & CSC E-Governance Kendra
+    4. Rural Homestead, Vintage Bicycle, Utility Pole with Sagging Wires, Handpump & Fields
+  - Pure continuous 3-layer parallax scroll: calm, soothing, and zero mechanical friction.
+  - Color Palette: #F7F5EC background, #1A1916 lines, #6B7A6E sage green, #C2BCAD roof tan, #F2B544 yellow accent highlights.
 */
 
 const P_LINE = '#1A1916';
-const S_LINE = '#858178';
+const S_LINE = '#7D7A6E';
 const F_LINE = '#D9D5C8';
 const SAGE_GREEN = '#6B7A6E';
 const ROOF_TAN = '#C2BCAD';
 const ACCENT_YELLOW = '#F2B544';
 
-// ── LAYER 1: Background Horizon & Distant Structures ──
+// ── LAYER 1: Background Horizon & Distant Silos ──
 function BackgroundArtwork() {
   return (
     <>
-      <line x1="0" y1="92" x2="1600" y2="92" stroke={F_LINE} strokeWidth="0.8" opacity="0.8" />
+      {/* Low rolling horizon line */}
+      <path
+        d="M 0 92 Q 200 86 400 90 T 800 88 T 1200 92 T 1600 88"
+        fill="none"
+        stroke={F_LINE}
+        strokeWidth="0.8"
+        opacity="0.8"
+      />
 
+      {/* Distant Grain Silos & Water Tower (Far Left) */}
       <g opacity="0.45" fill="none" stroke={S_LINE} strokeWidth="0.6">
         <path d="M 40 92 L 40 76 A 6 6 0 0 1 52 76 L 52 92 Z" />
         <path d="M 56 92 L 56 74 A 6 6 0 0 1 68 74 L 68 92 Z" />
@@ -31,20 +43,22 @@ function BackgroundArtwork() {
         <line x1="62" y1="68" x2="62" y2="60" />
       </g>
 
+      {/* Distant Tree Line & Solar Array (Far Right) */}
       <g opacity="0.4" fill="none" stroke={S_LINE} strokeWidth="0.6">
-        <rect x="1450" y="78" width="22" height="14" />
-        <path d="M 1446 78 L 1461 70 L 1476 78 Z" />
-        <circle cx="1510" cy="74" r="10" />
-        <line x1="1510" y1="84" x2="1510" y2="92" />
+        <rect x="1420" y="82" width="28" height="10" transform="rotate(-5 1420 82)" />
+        <rect x="1455" y="82" width="28" height="10" transform="rotate(-5 1455 82)" />
+        <circle cx="1520" cy="76" r="11" />
+        <line x1="1520" y1="87" x2="1520" y2="92" />
       </g>
     </>
   );
 }
 
-// ── LAYER 2: Midground Main Scene (Seamless 1600px segment) ──
+// ── LAYER 2: Midground Main Public Service Streetscape (1600px segment) ──
 function MidgroundArtwork() {
   return (
     <>
+      {/* ══ 1. PERSPECTIVE AGRICULTURAL FIELDS (x: 20 - 320) ══ */}
       <g stroke={P_LINE} strokeWidth="0.8">
         <line x1="30" y1="92" x2="0" y2="112" strokeWidth="1" />
         <line x1="140" y1="92" x2="40" y2="112" />
@@ -69,190 +83,184 @@ function MidgroundArtwork() {
         ))}
       </g>
 
+      {/* ══ 2. KRISHI SEVA KENDRA / FARMER MATERIAL & SEEDS SHOP (x: 350 - 540) ══ */}
       <g>
-        <g stroke={P_LINE} strokeWidth="0.9">
-          <ellipse cx="360" cy="62" rx="11" ry="17" fill={SAGE_GREEN} />
-          <line x1="360" y1="45" x2="360" y2="92" />
-          <ellipse cx="380" cy="56" rx="13" ry="20" fill="rgba(196,193,181,0.6)" />
-          <line x1="380" y1="36" x2="380" y2="92" />
-          <ellipse cx="500" cy="48" rx="14" ry="22" fill={SAGE_GREEN} />
-          <line x1="500" y1="26" x2="500" y2="92" />
-          <ellipse cx="525" cy="58" rx="10" ry="16" fill="rgba(196,193,181,0.7)" />
-          <line x1="525" y1="42" x2="525" y2="92" />
-        </g>
+        {/* Background Trees */}
+        <ellipse cx="360" cy="56" rx="13" ry="20" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.9" />
+        <line x1="360" y1="36" x2="360" y2="92" stroke={P_LINE} strokeWidth="0.9" />
 
-        <rect x="400" y="72" width="60" height="20" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
-        <path d="M 392 72 L 430 55 L 468 72 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
-        <rect x="445" y="70" width="65" height="22" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
-        <path d="M 440 70 L 477 56 L 514 70 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
-        <rect x="420" y="78" width="12" height="14" fill={S_LINE} stroke={P_LINE} strokeWidth="0.8" />
-        <rect x="475" y="78" width="12" height="14" fill={S_LINE} stroke={P_LINE} strokeWidth="0.8" />
-        <rect x="495" y="76" width="10" height="8" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.7" />
-        <path d="M 390 92 Q 400 84 410 92 Q 420 84 430 92" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.8" />
+        {/* Shop Main Building */}
+        <rect x="390" y="66" width="125" height="26" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.1" />
+
+        {/* Sloped Roof & Awning in Yellow Accent */}
+        <path d="M 382 66 L 452 50 L 522 66 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
+        <rect x="388" y="66" width="129" height="7" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
+
+        {/* Shop Signboard Frame */}
+        <rect x="410" y="52" width="85" height="12" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
+        {/* Seed / Leaf emblem icon */}
+        <path d="M 452 54 C 448 57 448 61 452 62 C 456 61 456 57 452 54 Z" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.7" />
+
+        {/* Shop Entrance & Shutters */}
+        <rect x="430" y="73" width="24" height="19" fill={ACCENT_YELLOW} opacity="0.9" stroke={P_LINE} strokeWidth="0.9" />
+        <rect x="400" y="75" width="18" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
+        <rect x="466" y="75" width="18" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
+
+        {/* Seed & Fertilizer Sacks lined up outside shop */}
+        <ellipse cx="394" cy="90" rx="5" ry="3" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.7" />
+        <ellipse cx="403" cy="90" rx="5" ry="3" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.7" />
+        <ellipse cx="512" cy="90" rx="5" ry="3" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.7" />
       </g>
 
+      {/* ══ 3. PRIMARY HEALTH CENTRE / RURAL HOSPITAL (x: 580 - 790) ══ */}
       <g>
-        <ellipse cx="660" cy="50" rx="14" ry="20" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.9" />
-        <line x1="660" y1="30" x2="660" y2="92" stroke={P_LINE} strokeWidth="0.9" />
+        {/* Background Neem/Banyan Tree */}
+        <ellipse cx="600" cy="48" rx="16" ry="24" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1" />
+        <line x1="600" y1="24" x2="600" y2="92" stroke={P_LINE} strokeWidth="1" />
 
-        <rect x="600" y="68" width="85" height="24" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
-        <path d="M 592 68 L 642 52 L 692 68 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
-        <rect x="625" y="76" width="14" height="16" fill={S_LINE} stroke={P_LINE} strokeWidth="0.8" />
-        <rect x="655" y="75" width="16" height="10" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
-        <path d="M 652 75 L 674 75 L 671 72 L 655 72 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.7" />
+        {/* Hospital Building Plinth / Ramp */}
+        <rect x="610" y="87" width="165" height="5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
+
+        {/* Modern Clean Hospital Building Body */}
+        <rect x="620" y="50" width="145" height="37" fill="rgba(247,245,236,0.95)" stroke={P_LINE} strokeWidth="1.3" />
+
+        {/* Roof Parapet / Overhang */}
+        <rect x="614" y="44" width="157" height="6" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
+
+        {/* Hospital Signboard with Red Cross Emblem */}
+        <rect x="655" y="32" width="75" height="12" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
+        {/* Red/Charcoal Medical Cross (+) Emblem */}
+        <rect x="689" y="34" width="7" height="8" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.7" />
+        <rect x="686" y="36.5" width="13" height="3" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.7" />
+
+        {/* Main Double Glass Entrance Doors */}
+        <rect x="678" y="62" width="14" height="25" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
+        <rect x="693" y="62" width="14" height="25" fill={ACCENT_YELLOW} opacity="0.9" stroke={P_LINE} strokeWidth="0.9" />
+
+        {/* Windows with Glazing Lines */}
+        <rect x="635" y="58" width="22" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
+        <line x1="646" y1="58" x2="646" y2="74" stroke={S_LINE} strokeWidth="0.6" />
+        <rect x="725" y="58" width="22" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
+        <line x1="736" y1="58" x2="736" y2="74" stroke={S_LINE} strokeWidth="0.6" />
+
+        {/* Emergency Ambulance Entrance Sign */}
+        <path d="M 760 92 Q 772 82 785 92" stroke={SAGE_GREEN} strokeWidth="1" fill={SAGE_GREEN} />
       </g>
 
+      {/* ══ 4. PANCHAYAT BHAVAN & CSC DIGITAL KENDRA (x: 830 - 1040) ══ */}
       <g>
-        <ellipse cx="765" cy="52" rx="15" ry="22" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1" />
-        <line x1="765" y1="30" x2="765" y2="92" stroke={P_LINE} strokeWidth="1" />
+        {/* Background Capsule Trees */}
+        <ellipse cx="845" cy="50" rx="14" ry="22" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1" />
+        <line x1="845" y1="28" x2="845" y2="92" stroke={P_LINE} strokeWidth="1" />
 
-        <rect x="750" y="87" width="150" height="5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.9" />
-        <rect x="760" y="52" width="130" height="35" fill="rgba(243,241,230,0.95)" stroke={P_LINE} strokeWidth="1.2" />
-        <rect x="754" y="46" width="142" height="6" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
+        {/* Steps */}
+        <rect x="850" y="87" width="150" height="5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.9" />
 
-        <rect x="808" y="64" width="16" height="23" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
-        <rect x="824" y="64" width="16" height="23" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
+        {/* Building Body */}
+        <rect x="860" y="52" width="130" height="35" fill="rgba(243,241,230,0.95)" stroke={P_LINE} strokeWidth="1.2" />
 
-        <rect x="775" y="62" width="18" height="14" fill={ACCENT_YELLOW} opacity="0.85" stroke={P_LINE} strokeWidth="0.8" />
-        <rect x="852" y="62" width="18" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
+        {/* Triangular Roof Gable */}
+        <path d="M 850 52 L 925 34 L 1000 52 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.2" />
 
-        <path d="M 890 92 Q 902 82 915 92 Q 925 84 935 92 Z" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.9" />
+        {/* Columns */}
+        <line x1="880" y1="52" x2="880" y2="87" stroke={P_LINE} strokeWidth="0.8" />
+        <line x1="905" y1="52" x2="905" y2="87" stroke={P_LINE} strokeWidth="0.8" />
+        <line x1="945" y1="52" x2="945" y2="87" stroke={P_LINE} strokeWidth="0.8" />
+        <line x1="970" y1="52" x2="970" y2="87" stroke={P_LINE} strokeWidth="0.8" />
+
+        {/* Yellow Accent Door */}
+        <rect x="918" y="64" width="15" height="23" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
+        <rect x="933" y="64" width="15" height="23" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
+
+        {/* Flag Pole & Accent Flag */}
+        <line x1="925" y1="34" x2="925" y2="18" stroke={P_LINE} strokeWidth="0.9" />
+        <path d="M 925 18 L 939 23 L 925 28 Z" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.6" />
       </g>
 
+      {/* ══ 5. UTILITY POLE & SAGGING OVERHEAD WIRES (x: 1070) ══ */}
       <g stroke={P_LINE}>
-        <line x1="960" y1="32" x2="960" y2="112" strokeWidth="1.2" />
-        <line x1="948" y1="38" x2="972" y2="38" strokeWidth="1" />
-        <line x1="950" y1="44" x2="970" y2="44" strokeWidth="0.8" />
+        <line x1="1070" y1="30" x2="1070" y2="112" strokeWidth="1.2" />
+        <line x1="1058" y1="36" x2="1082" y2="36" strokeWidth="1" />
+        <line x1="1060" y1="42" x2="1080" y2="42" strokeWidth="0.8" />
 
-        <path d="M 960 38 Q 870 55 754 48" fill="none" stroke={P_LINE} strokeWidth="0.6" />
-        <path d="M 960 44 Q 870 60 754 52" fill="none" stroke={S_LINE} strokeWidth="0.5" />
+        {/* Sagging wires from Hospital to Pole */}
+        <path d="M 1070 36 Q 920 54 771 44" fill="none" stroke={P_LINE} strokeWidth="0.6" />
+        <path d="M 1070 42 Q 920 60 771 50" fill="none" stroke={S_LINE} strokeWidth="0.5" />
 
-        <path d="M 960 38 Q 1060 52 1160 42" fill="none" stroke={P_LINE} strokeWidth="0.6" />
-        <path d="M 960 44 Q 1060 58 1160 48" fill="none" stroke={S_LINE} strokeWidth="0.5" />
+        {/* Sagging wires continuing right */}
+        <path d="M 1070 36 Q 1180 50 1290 40" fill="none" stroke={P_LINE} strokeWidth="0.6" />
+        <path d="M 1070 42 Q 1180 56 1290 46" fill="none" stroke={S_LINE} strokeWidth="0.5" />
       </g>
 
+      {/* ══ 6. VINTAGE BICYCLE (x: 1110) ══ */}
       <g stroke={P_LINE} strokeWidth="0.8" fill="none">
-        <circle cx="1000" cy="104" r="8" />
-        <circle cx="1024" cy="104" r="8" />
-        <line x1="1000" y1="104" x2="1012" y2="95" />
-        <line x1="1012" y1="95" x2="1024" y2="104" />
-        <line x1="1000" y1="104" x2="1010" y2="104" />
-        <line x1="1010" y1="104" x2="1012" y2="95" />
-        <line x1="1024" y1="104" x2="1021" y2="92" />
-        <line x1="1018" y1="92" x2="1023" y2="92" />
-        <line x1="1008" y1="93" x2="1015" y2="93" />
+        <circle cx="1100" cy="104" r="8" />
+        <circle cx="1124" cy="104" r="8" />
+        <line x1="1100" y1="104" x2="1112" y2="95" />
+        <line x1="1112" y1="95" x2="1124" y2="104" />
+        <line x1="1100" y1="104" x2="1110" y2="104" />
+        <line x1="1110" y1="104" x2="1112" y2="95" />
+        <line x1="1124" y1="104" x2="1121" y2="92" />
+        <line x1="1118" y1="92" x2="1123" y2="92" />
+        <line x1="1108" y1="93" x2="1115" y2="93" />
       </g>
 
-      <g stroke={P_LINE} strokeWidth="0.9">
-        <ellipse cx="1075" cy="58" rx="10" ry="16" fill="rgba(196,193,181,0.7)" />
-        <line x1="1075" y1="42" x2="1075" y2="92" />
+      {/* ══ 7. RURAL HOMESTEAD & WATER PUMP (x: 1160 - 1380) ══ */}
+      <g>
+        {/* Banyan / Neem tree silhouette */}
+        <path d="M 1170 112 L 1170 75 Q 1155 60 1140 55 M 1170 75 Q 1185 58 1200 52" fill="none" stroke={P_LINE} strokeWidth="1.1" />
+        <path d="M 1130 55 Q 1170 25 1210 52 Q 1220 75 1170 75 Z" fill="rgba(217,213,200,0.22)" stroke={S_LINE} strokeWidth="0.8" />
 
-        <ellipse cx="1100" cy="46" rx="16" ry="24" fill={SAGE_GREEN} />
-        <line x1="1100" y1="22" x2="1100" y2="92" />
+        {/* Sloped Roof Home */}
+        <rect x="1230" y="76" width="95" height="28" fill="rgba(243,241,230,0.8)" stroke={P_LINE} strokeWidth="1" />
+        <path d="M 1222 76 L 1277 60 L 1332 76 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
+
+        {/* Handpump outline */}
+        <line x1="1350" y1="112" x2="1350" y2="96" stroke={P_LINE} strokeWidth="1.2" />
+        <line x1="1346" y1="96" x2="1354" y2="96" stroke={P_LINE} strokeWidth="1.2" />
+        <line x1="1350" y1="99" x2="1362" y2="103" stroke={P_LINE} strokeWidth="0.9" />
       </g>
 
+      {/* ══ 8. SECONDARY FIELD PLOTS (x: 1420 - 1600) ══ */}
       <g stroke={S_LINE} strokeWidth="0.5" opacity="0.6">
-        <line x1="1320" y1="92" x2="1300" y2="112" />
-        <line x1="1440" y1="92" x2="1410" y2="112" />
-        <line x1="1560" y1="92" x2="1530" y2="112" />
+        <line x1="1420" y1="92" x2="1400" y2="112" />
+        <line x1="1510" y1="92" x2="1480" y2="112" />
+        <line x1="1590" y1="92" x2="1560" y2="112" />
       </g>
     </>
   );
 }
 
-// ── LAYER 3: Foreground Road, Curve Dip & Lollipop Trees ──
+// ── LAYER 3: Foreground Road, Driveway Dips & Lollipop Trees ──
 function ForegroundArtwork() {
   return (
     <>
+      {/* Main Ground Road Line with Driveway Dips in front of Hospital & Krishi Shop */}
       <path
-        d="M 0 112 L 730 112 Q 815 116 900 112 L 1600 112"
+        d="M 0 112 L 380 112 Q 450 116 520 112 L 610 112 Q 690 116 775 112 L 1600 112"
         fill="none"
         stroke={P_LINE}
         strokeWidth="1.5"
       />
 
+      {/* Foreground Lollipop Trees */}
       <g stroke={P_LINE} strokeWidth="0.8">
-        <circle cx="450" cy="102" r="7" fill={ACCENT_YELLOW} />
-        <line x1="450" y1="109" x2="450" y2="118" />
+        <circle cx="280" cy="102" r="7" fill={ACCENT_YELLOW} />
+        <line x1="280" y1="109" x2="280" y2="118" />
 
-        <circle cx="468" cy="99" r="8.5" fill={SAGE_GREEN} />
-        <line x1="468" y1="107.5" x2="468" y2="118" />
+        <circle cx="298" cy="99" r="8.5" fill={SAGE_GREEN} />
+        <line x1="298" y1="107.5" x2="298" y2="118" />
 
-        <circle cx="490" cy="94" r="11" fill={ACCENT_YELLOW} />
-        <line x1="490" y1="105" x2="490" y2="118" />
+        <circle cx="1030" cy="94" r="11" fill={ACCENT_YELLOW} />
+        <line x1="1030" y1="105" x2="1030" y2="118" />
 
-        <circle cx="514" cy="100" r="8" fill={SAGE_GREEN} />
-        <line x1="514" y1="108" x2="514" y2="118" />
+        <circle cx="1054" cy="100" r="8" fill={SAGE_GREEN} />
+        <line x1="1054" y1="108" x2="1054" y2="118" />
       </g>
 
-      <line x1="600" y1="115" x2="630" y2="115" stroke={S_LINE} strokeWidth="0.6" strokeDasharray="4 4" />
-      <line x1="1020" y1="115" x2="1060" y2="115" stroke={S_LINE} strokeWidth="0.6" strokeDasharray="4 4" />
+      <line x1="200" y1="115" x2="230" y2="115" stroke={S_LINE} strokeWidth="0.6" strokeDasharray="4 4" />
+      <line x1="1140" y1="115" x2="1180" y2="115" stroke={S_LINE} strokeWidth="0.6" strokeDasharray="4 4" />
     </>
-  );
-}
-
-// ── SVG Farmer Character Silhouette Layer (Grounded 60fps Walking Gait) ──
-function SVGInlineFarmer() {
-  const SKIN = '#5C5A4E';
-  const SHIRT = '#FFFFFF';
-  const PANTS_FRONT = '#C2BCAD';
-  const PANTS_BACK = '#9E988A';
-  const CAP = '#E4E0D5';
-  const ACCENT_BAG = '#F2B544';
-  const LINE = '#1A1916';
-
-  return (
-    <g id="farmer" className="walk-body" style={{ transformBox: 'fill-box' }}>
-      {/* ── 1. FAR ARM ── */}
-      <g id="farmer-right-arm" className="walk-arm-far">
-        <path d="M 163 76 L 175 87 C 176 88 177 88 178 86 C 178 84 177 83 175 82 L 165 74 Z" fill={SKIN} stroke={LINE} strokeWidth="0.75" />
-        <path d="M 161 73 L 168 80 L 165 82 L 159 75 Z" fill={SHIRT} stroke={LINE} strokeWidth="0.75" />
-      </g>
-
-      {/* ── 2. FAR LEG ── */}
-      <g id="farmer-right-leg" className="walk-leg-far">
-        <path d="M 158 88 Q 153 96 146 108 L 151 109 Q 157 98 163 88 Z" fill={PANTS_BACK} stroke={LINE} strokeWidth="0.75" />
-        <g className="walk-shin-far">
-          <path d="M 146 108 C 141 112 139 112 140 112 L 146 112 Z" fill={SKIN} stroke={LINE} strokeWidth="0.7" />
-        </g>
-      </g>
-
-      {/* ── 3. NEAR LEG ── */}
-      <g id="farmer-left-leg" className="walk-leg-near">
-        <path d="M 160 88 Q 165 96 169 108 L 175 108 Q 170 97 165 88 Z" fill={PANTS_FRONT} stroke={LINE} strokeWidth="0.75" />
-        <g className="walk-shin-near">
-          <path d="M 170 108 L 178 112 L 168 112 Z" fill={SKIN} stroke={LINE} strokeWidth="0.7" />
-        </g>
-      </g>
-
-      {/* ── 4. TORSO & KURTA ── */}
-      <g id="farmer-body">
-        <path d="M 158 72 Q 162 72 165 73 L 165 88 L 162 89 L 162 87 L 158 87 Z" fill={SHIRT} stroke={LINE} strokeWidth="0.8" />
-        <line x1="162" y1="85" x2="162" y2="89" stroke={LINE} strokeWidth="0.7" />
-      </g>
-
-      {/* ── 5. HEAD & TOPI ── */}
-      <g id="farmer-head">
-        <path d="M 160 72 L 160 69 L 163 70 L 163 73 Z" fill={SKIN} stroke={LINE} strokeWidth="0.65" />
-        <path d="M 160 69 C 160 66 161 63 164 63 C 166 63 168 64 168 66 C 168 67 167 68 166 69 Z" fill={SKIN} stroke={LINE} strokeWidth="0.75" />
-        <path d="M 158 63 C 158 58 168 58 168 63 Z" fill={CAP} stroke={LINE} strokeWidth="0.75" />
-        <path d="M 157 62 C 157 61 169 61 169 62 C 169 64 157 64 157 62 Z" fill={CAP} stroke={LINE} strokeWidth="0.75" />
-      </g>
-
-      {/* ── 6. NEAR ARM & BAG ── */}
-      <g id="farmer-left-arm" className="walk-arm-near">
-        <path d="M 158 72 L 164 73 L 163 80 L 157 79 Z" fill={SHIRT} stroke={LINE} strokeWidth="0.75" />
-        <path d="M 158 79 L 163 80 L 162 90 L 157 89 Z" fill={SKIN} stroke={LINE} strokeWidth="0.75" />
-        <ellipse cx="159.5" cy="91" rx="2.3" ry="1.9" fill={SKIN} stroke={LINE} strokeWidth="0.6" />
-
-        {/* Bag moves with near arm */}
-        <g id="farmer-bag">
-          <path d="M 158 90 Q 159 86 161 90" fill="none" stroke={LINE} strokeWidth="0.75" />
-          <path d="M 154 94 C 153 103 166 103 165 94 C 165 92 154 92 154 94 Z" fill={ACCENT_YELLOW} stroke={LINE} strokeWidth="0.85" />
-          <rect x="156.5" y="90" width="6" height="4" fill="#FFFFFF" stroke={LINE} strokeWidth="0.5" />
-        </g>
-      </g>
-    </g>
   );
 }
 
@@ -269,7 +277,7 @@ export default function Panorama() {
         background: 'var(--bg)',
       }}
     >
-      {/* ── LAYER 1: Background Horizon (40s cycle) ── */}
+      {/* ── LAYER 1: Background Horizon (55s cycle) ── */}
       <div
         className="parallax-layer-bg"
         style={{
@@ -289,7 +297,7 @@ export default function Panorama() {
         </svg>
       </div>
 
-      {/* ── LAYER 2: Midground Main Scene (22s cycle) ── */}
+      {/* ── LAYER 2: Midground Main Public Service Streetscape (30s cycle) ── */}
       <div
         className="parallax-layer-mid"
         style={{
@@ -309,7 +317,7 @@ export default function Panorama() {
         </svg>
       </div>
 
-      {/* ── LAYER 3: Foreground Road, Dip & Lollipop Trees (14s cycle) ── */}
+      {/* ── LAYER 3: Foreground Road, Driveway Dips & Lollipop Trees (18s cycle) ── */}
       <div
         className="parallax-layer-fore"
         style={{
@@ -327,44 +335,6 @@ export default function Panorama() {
         <svg viewBox="0 0 1600 120" preserveAspectRatio="xMidYMid meet" style={{ width: '50%', height: '100%' }}>
           <ForegroundArtwork />
         </svg>
-      </div>
-
-      {/* ── LAYER 4: Farmer Character Layer (Guaranteed 100% visible on SVG ground) ── */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          pointerEvents: 'none',
-          zIndex: 10,
-        }}
-      >
-        <svg viewBox="0 0 1600 120" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%' }}>
-          <SVGInlineFarmer />
-        </svg>
-      </div>
-
-      {/* Lottie Player component fallback */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '8px',
-          left: '10%',
-          width: '78px',
-          height: '78px',
-          pointerEvents: 'none',
-          zIndex: 20,
-          opacity: 0, /* hidden if not active, SVG layer above is 100% active */
-        }}
-      >
-        <DotLottiePlayer
-          src="/farmer-walk.json"
-          autoplay
-          loop
-          style={{ width: '100%', height: '100%' }}
-        />
       </div>
     </div>
   );

@@ -234,88 +234,9 @@
   }
 
   /* ─────────────────────────────────────────────────────────────────
-     B: Living Indian Landscape — Parallax & Walk Cycle Animations
+     B: Living Indian Public Service Streetscape — Parallax Scroll
   ───────────────────────────────────────────────────────────────── */
   
-  /* 1. Walk Cycle Keyframes (Natural Human Gait - Subtle & Grounded) */
-  @keyframes walk-bounce {
-    0%, 100% { transform: translateY(0px); }
-    25%      { transform: translateY(-1px); } /* Subtle natural stride lift */
-    50%      { transform: translateY(0px); }
-    75%      { transform: translateY(-1px); }
-  }
-
-  @keyframes walk-leg-near {
-    0%, 100% { transform: rotate(-10deg); }
-    50%      { transform: rotate(10deg); }
-  }
-
-  @keyframes walk-leg-far {
-    0%, 100% { transform: rotate(10deg); }
-    50%      { transform: rotate(-10deg); }
-  }
-
-  @keyframes walk-shin-near {
-    0%   { transform: rotate(0deg); }
-    25%  { transform: rotate(12deg); }
-    50%  { transform: rotate(0deg); }
-    75%  { transform: rotate(3deg); }
-    100% { transform: rotate(0deg); }
-  }
-
-  @keyframes walk-shin-far {
-    0%   { transform: rotate(0deg); }
-    50%  { transform: rotate(0deg); }
-    75%  { transform: rotate(12deg); }
-    100% { transform: rotate(0deg); }
-  }
-
-  @keyframes walk-arm-near {
-    0%, 100% { transform: rotate(8deg); }
-    50%      { transform: rotate(-8deg); }
-  }
-
-  @keyframes walk-arm-far {
-    0%, 100% { transform: rotate(-8deg); }
-    50%      { transform: rotate(8deg); }
-  }
-
-  /* Walk cycle classes */
-  .walk-body {
-    animation: walk-bounce 0.9s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-  }
-  .walk-leg-near {
-    transform-box: fill-box;
-    transform-origin: 50% 0%;
-    animation: walk-leg-near 0.9s ease-in-out infinite;
-  }
-  .walk-leg-far {
-    transform-box: fill-box;
-    transform-origin: 50% 0%;
-    animation: walk-leg-far 0.9s ease-in-out infinite;
-  }
-  .walk-shin-near {
-    transform-box: fill-box;
-    transform-origin: 50% 0%;
-    animation: walk-shin-near 0.9s ease-in-out infinite;
-  }
-  .walk-shin-far {
-    transform-box: fill-box;
-    transform-origin: 50% 0%;
-    animation: walk-shin-far 0.9s ease-in-out infinite;
-  }
-  .walk-arm-near {
-    transform-box: fill-box;
-    transform-origin: 50% 0%;
-    animation: walk-arm-near 0.9s ease-in-out infinite;
-  }
-  .walk-arm-far {
-    transform-box: fill-box;
-    transform-origin: 50% 0%;
-    animation: walk-arm-far 0.9s ease-in-out infinite;
-  }
-
-  /* 2. Parallax Layer Scroll Speeds (Increased Speed) */
   @keyframes parallax-bg {
     from { transform: translateX(0); }
     to   { transform: translateX(-50%); }
@@ -330,16 +251,33 @@
   }
 
   .parallax-layer-bg {
-    animation: parallax-bg 40s linear infinite;
+    animation: parallax-bg 55s linear infinite;
     will-change: transform;
   }
   .parallax-layer-mid {
-    animation: parallax-mid 22s linear infinite;
+    animation: parallax-mid 30s linear infinite;
     will-change: transform;
   }
   .parallax-layer-fore {
-    animation: parallax-fore 14s linear infinite;
+    animation: parallax-fore 18s linear infinite;
     will-change: transform;
+  }
+
+  /* Reduced Motion Overrides */
+  @media (prefers-reduced-motion: reduce) {
+    .parallax-layer-bg,
+    .parallax-layer-mid,
+    .parallax-layer-fore {
+      animation: none !important;
+      transform: none !important;
+    }
+    .animate-enter,
+    .animate-enter-delayed {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    @keyframes accent-pulse { 0%, 100% { box-shadow: none; } }
   }
 
   /* 3. Reduced Motion Overrides */
