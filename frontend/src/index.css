@@ -1,0 +1,89 @@
+/* Design System — GovAssist AI */
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface-elevated: #18181f;
+    --border: #26262e;
+    --border-subtle: #1e1e26;
+    --text-primary: #f0f0f5;
+    --text-secondary: #8888a0;
+    --text-muted: #55556a;
+    --accent: #5b8ef0;
+    --accent-hover: #4a7de8;
+    --accent-subtle: rgba(91, 142, 240, 0.08);
+    --success: #3ecf8e;
+    --warning: #f59e0b;
+    --error: #f87171;
+    --font: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  html {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  ::selection {
+    background: rgba(91, 142, 240, 0.25);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 999px;
+  }
+}
+
+@layer components {
+  /* Typing dots animation */
+  .typing-dot {
+    @apply w-1.5 h-1.5 rounded-full bg-slate-500;
+    animation: typing-bounce 1.2s ease-in-out infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typing-bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  /* Shimmer skeleton */
+  .skeleton {
+    @apply bg-slate-800 rounded;
+    background: linear-gradient(90deg, #1e1e26 25%, #26262e 50%, #1e1e26 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* Focus ring */
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0f];
+  }
+}
