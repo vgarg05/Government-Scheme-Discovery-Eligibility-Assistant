@@ -255,10 +255,6 @@ class CounselorGuidanceAgent:
                     "title": title,
                     "url": target_url
                 }]
-                
-                snippet = target_result.get("snippet", "")
-                if snippet and len(snippet) > 20:
-                    benefits = [snippet]
             else:
                 citations = [{
                     "type": "Government Portal (myScheme)",
