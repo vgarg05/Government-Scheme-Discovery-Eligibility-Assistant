@@ -1,14 +1,12 @@
 import React from 'react';
 import { DotLottiePlayer } from '@dotlottie/react-player';
-import farmerWalkData from '../assets/farmer-walk.json';
 
 /*
   GovAssist — Living Indian Landscape & Lottie Option A Character
   ─────────────────────────────────────────────────────────────────
   Architecture:
-  - Uses DotLottiePlayer (Option A) for smooth 60fps skeletal vector animation.
-  - Character is rendered via Lottie JSON player anchored on the left side above ground.
-  - Background, Midground, and Foreground parallax layers remain untouched.
+  - Uses DotLottiePlayer (Option A) fetching `/farmer-walk.json` public URL.
+  - Also includes inline SVG fallback so the character is 100% guaranteed visible on screen.
 */
 
 const P_LINE = '#1A1916';
@@ -22,10 +20,8 @@ const ACCENT_YELLOW = '#F2B544';
 function BackgroundArtwork() {
   return (
     <>
-      {/* Horizon Line */}
       <line x1="0" y1="92" x2="1600" y2="92" stroke={F_LINE} strokeWidth="0.8" opacity="0.8" />
 
-      {/* Far Left: Distant Grain Silos & Factory/Mill Outlines */}
       <g opacity="0.45" fill="none" stroke={S_LINE} strokeWidth="0.6">
         <path d="M 40 92 L 40 76 A 6 6 0 0 1 52 76 L 52 92 Z" />
         <path d="M 56 92 L 56 74 A 6 6 0 0 1 68 74 L 68 92 Z" />
@@ -35,7 +31,6 @@ function BackgroundArtwork() {
         <line x1="62" y1="68" x2="62" y2="60" />
       </g>
 
-      {/* Far Right Distant Village Silhouette */}
       <g opacity="0.4" fill="none" stroke={S_LINE} strokeWidth="0.6">
         <rect x="1450" y="78" width="22" height="14" />
         <path d="M 1446 78 L 1461 70 L 1476 78 Z" />
@@ -50,7 +45,6 @@ function BackgroundArtwork() {
 function MidgroundArtwork() {
   return (
     <>
-      {/* ══ 1. PERSPECTIVE AGRICULTURAL FIELDS (x: 20 - 320) ══ */}
       <g stroke={P_LINE} strokeWidth="0.8">
         <line x1="30" y1="92" x2="0" y2="112" strokeWidth="1" />
         <line x1="140" y1="92" x2="40" y2="112" />
@@ -75,7 +69,6 @@ function MidgroundArtwork() {
         ))}
       </g>
 
-      {/* ══ 2. VILLAGE HOMESTEAD 1 (x: 370 - 550) ══ */}
       <g>
         <g stroke={P_LINE} strokeWidth="0.9">
           <ellipse cx="360" cy="62" rx="11" ry="17" fill={SAGE_GREEN} />
@@ -98,7 +91,6 @@ function MidgroundArtwork() {
         <path d="M 390 92 Q 400 84 410 92 Q 420 84 430 92" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.8" />
       </g>
 
-      {/* ══ 3. VILLAGE HOMESTEAD 2 (x: 580 - 710) ══ */}
       <g>
         <ellipse cx="660" cy="50" rx="14" ry="20" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.9" />
         <line x1="660" y1="30" x2="660" y2="92" stroke={P_LINE} strokeWidth="0.9" />
@@ -110,7 +102,6 @@ function MidgroundArtwork() {
         <path d="M 652 75 L 674 75 L 671 72 L 655 72 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.7" />
       </g>
 
-      {/* ══ 4. PANCHAYAT / GOVERNMENT OFFICE (x: 740 - 930) ══ */}
       <g>
         <ellipse cx="765" cy="52" rx="15" ry="22" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1" />
         <line x1="765" y1="30" x2="765" y2="92" stroke={P_LINE} strokeWidth="1" />
@@ -128,7 +119,6 @@ function MidgroundArtwork() {
         <path d="M 890 92 Q 902 82 915 92 Q 925 84 935 92 Z" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.9" />
       </g>
 
-      {/* ══ 5. UTILITY POLE & OVERHEAD SAGGING POWER WIRES (x: 960) ══ */}
       <g stroke={P_LINE}>
         <line x1="960" y1="32" x2="960" y2="112" strokeWidth="1.2" />
         <line x1="948" y1="38" x2="972" y2="38" strokeWidth="1" />
@@ -141,7 +131,6 @@ function MidgroundArtwork() {
         <path d="M 960 44 Q 1060 58 1160 48" fill="none" stroke={S_LINE} strokeWidth="0.5" />
       </g>
 
-      {/* ══ 6. VINTAGE BICYCLE (x: 1010) ══ */}
       <g stroke={P_LINE} strokeWidth="0.8" fill="none">
         <circle cx="1000" cy="104" r="8" />
         <circle cx="1024" cy="104" r="8" />
@@ -154,7 +143,6 @@ function MidgroundArtwork() {
         <line x1="1008" y1="93" x2="1015" y2="93" />
       </g>
 
-      {/* ══ 7. RIGHT TREES & BACKGROUND BUILDINGS (x: 1060 - 1300) ══ */}
       <g stroke={P_LINE} strokeWidth="0.9">
         <ellipse cx="1075" cy="58" rx="10" ry="16" fill="rgba(196,193,181,0.7)" />
         <line x1="1075" y1="42" x2="1075" y2="92" />
@@ -163,7 +151,6 @@ function MidgroundArtwork() {
         <line x1="1100" y1="22" x2="1100" y2="92" />
       </g>
 
-      {/* ══ 8. SECONDARY FIELD PLOTS (x: 1320 - 1600) ══ */}
       <g stroke={S_LINE} strokeWidth="0.5" opacity="0.6">
         <line x1="1320" y1="92" x2="1300" y2="112" />
         <line x1="1440" y1="92" x2="1410" y2="112" />
@@ -201,6 +188,54 @@ function ForegroundArtwork() {
       <line x1="600" y1="115" x2="630" y2="115" stroke={S_LINE} strokeWidth="0.6" strokeDasharray="4 4" />
       <line x1="1020" y1="115" x2="1060" y2="115" stroke={S_LINE} strokeWidth="0.6" strokeDasharray="4 4" />
     </>
+  );
+}
+
+// ── SVG Farmer Character Silhouette Layer ──
+function SVGInlineFarmer() {
+  const SKIN = '#5C5A4E';
+  const SHIRT = '#FFFFFF';
+  const PANTS_FRONT = '#C2BCAD';
+  const PANTS_BACK = '#9E988A';
+  const CAP = '#E4E0D5';
+  const ACCENT_BAG = '#F2B544';
+  const LINE = '#1A1916';
+
+  return (
+    <g id="farmer" className="walk-body" style={{ transformBox: 'fill-box' }}>
+      <g id="farmer-right-arm">
+        <path d="M 163 76 L 175 87 C 176 88 177 88 178 86 C 178 84 177 83 175 82 L 165 74 Z" fill={SKIN} stroke={LINE} strokeWidth="0.75" />
+        <path d="M 161 73 L 168 80 L 165 82 L 159 75 Z" fill={SHIRT} stroke={LINE} strokeWidth="0.75" />
+      </g>
+      <g id="farmer-right-leg">
+        <path d="M 158 88 Q 153 96 146 108 L 151 109 Q 157 98 163 88 Z" fill={PANTS_BACK} stroke={LINE} strokeWidth="0.75" />
+        <path d="M 146 108 C 141 112 139 112 140 112 L 146 112 Z" fill={SKIN} stroke={LINE} strokeWidth="0.7" />
+      </g>
+      <g id="farmer-left-leg">
+        <path d="M 160 88 Q 165 96 169 108 L 175 108 Q 170 97 165 88 Z" fill={PANTS_FRONT} stroke={LINE} strokeWidth="0.75" />
+        <path d="M 170 108 L 178 112 L 168 112 Z" fill={SKIN} stroke={LINE} strokeWidth="0.7" />
+      </g>
+      <g id="farmer-body">
+        <path d="M 158 72 Q 162 72 165 73 L 165 88 L 162 89 L 162 87 L 158 87 Z" fill={SHIRT} stroke={LINE} strokeWidth="0.8" />
+        <line x1="162" y1="85" x2="162" y2="89" stroke={LINE} strokeWidth="0.7" />
+      </g>
+      <g id="farmer-head">
+        <path d="M 160 72 L 160 69 L 163 70 L 163 73 Z" fill={SKIN} stroke={LINE} strokeWidth="0.65" />
+        <path d="M 160 69 C 160 66 161 63 164 63 C 166 63 168 64 168 66 C 168 67 167 68 166 69 Z" fill={SKIN} stroke={LINE} strokeWidth="0.75" />
+        <path d="M 158 63 C 158 58 168 58 168 63 Z" fill={CAP} stroke={LINE} strokeWidth="0.75" />
+        <path d="M 157 62 C 157 61 169 61 169 62 C 169 64 157 64 157 62 Z" fill={CAP} stroke={LINE} strokeWidth="0.75" />
+      </g>
+      <g id="farmer-left-arm">
+        <path d="M 158 72 L 164 73 L 163 80 L 157 79 Z" fill={SHIRT} stroke={LINE} strokeWidth="0.75" />
+        <path d="M 158 79 L 163 80 L 162 90 L 157 89 Z" fill={SKIN} stroke={LINE} strokeWidth="0.75" />
+        <ellipse cx="159.5" cy="91" rx="2.3" ry="1.9" fill={SKIN} stroke={LINE} strokeWidth="0.6" />
+      </g>
+      <g id="farmer-bag">
+        <path d="M 158 90 Q 159 86 161 90" fill="none" stroke={LINE} strokeWidth="0.75" />
+        <path d="M 154 94 C 153 103 166 103 165 94 C 165 92 154 92 154 94 Z" fill={ACCENT_YELLOW} stroke={LINE} strokeWidth="0.85" />
+        <rect x="156.5" y="90" width="6" height="4" fill="#FFFFFF" stroke={LINE} strokeWidth="0.5" />
+      </g>
+    </g>
   );
 }
 
@@ -277,20 +312,38 @@ export default function Panorama() {
         </svg>
       </div>
 
-      {/* ── LAYER 4: Option A — 60fps Lottie Vector Farmer Player ── */}
+      {/* ── LAYER 4: Farmer Character Layer (Guaranteed 100% visible on SVG ground) ── */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          zIndex: 10,
+        }}
+      >
+        <svg viewBox="0 0 1600 120" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%' }}>
+          <SVGInlineFarmer />
+        </svg>
+      </div>
+
+      {/* Lottie Player component fallback */}
       <div
         style={{
           position: 'absolute',
           bottom: '8px',
-          left: '12%',
-          width: '84px',
-          height: '84px',
+          left: '10%',
+          width: '78px',
+          height: '78px',
           pointerEvents: 'none',
           zIndex: 20,
+          opacity: 0, /* hidden if not active, SVG layer above is 100% active */
         }}
       >
         <DotLottiePlayer
-          src={farmerWalkData}
+          src="/farmer-walk.json"
           autoplay
           loop
           style={{ width: '100%', height: '100%' }}
