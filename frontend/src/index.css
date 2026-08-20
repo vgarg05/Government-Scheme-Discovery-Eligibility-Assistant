@@ -251,15 +251,15 @@
   }
 
   .parallax-layer-bg {
-    animation: parallax-bg 55s linear infinite;
+    animation: parallax-bg 25s linear infinite;
     will-change: transform;
   }
   .parallax-layer-mid {
-    animation: parallax-mid 30s linear infinite;
+    animation: parallax-mid 14s linear infinite;
     will-change: transform;
   }
   .parallax-layer-fore {
-    animation: parallax-fore 18s linear infinite;
+    animation: parallax-fore 8s linear infinite;
     will-change: transform;
   }
 
