@@ -13,12 +13,12 @@ export default function Hero({ onPresetClick }) {
     <section
       style={{
         borderBottom: '1px solid var(--border)',
-        paddingTop: '28px',
-        paddingBottom: '28px',
+        paddingTop: '48px',
+        paddingBottom: '48px',
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 sm:px-12">
-        {/* 2-Column Asymmetric Grid (50-50 Split for Larger Right Section) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        {/* 2-Column Asymmetric Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           {/* Left Column: Headline */}
@@ -42,7 +42,7 @@ export default function Hero({ onPresetClick }) {
 
           {/* Right Column: Proportionally Enlarged Sub-copy + Query Buttons */}
           <div className="lg:col-span-6 flex flex-col justify-center">
-            {/* Proportionally Enlarged Editorial Sub-copy */}
+            {/* Editorial Sub-copy */}
             <p
               style={{
                 fontSize: '17px',
@@ -54,7 +54,7 @@ export default function Hero({ onPresetClick }) {
               Describe your situation in plain language. The AI engine checks indexed scheme documents and live government sources to evaluate your eligibility.
             </p>
 
-            {/* Proportionally Enlarged Sample Preset Queries Buttons Grid */}
+            {/* Sample Preset Queries Buttons Grid */}
             <div>
               <p
                 className="label-meta mb-3.5"
