@@ -10,18 +10,19 @@ function BotAvatar() {
   return (
     <div
       style={{
-        width: '26px',
-        height: '26px',
-        borderRadius: '5px',
+        width: '28px',
+        height: '28px',
+        borderRadius: '6px',
         background: 'var(--accent)',
         flexShrink: 0,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '11px',
-        fontWeight: 600,
-        color: 'var(--accent-text)',
+        fontSize: '12px',
+        fontWeight: 700,
+        color: '#171714',
         letterSpacing: '-0.01em',
+        boxShadow: '0 1px 2px rgba(0,0,0,0.06)',
       }}
     >
       G
@@ -33,18 +34,18 @@ function UserAvatar() {
   return (
     <div
       style={{
-        width: '26px',
-        height: '26px',
-        borderRadius: '5px',
+        width: '28px',
+        height: '28px',
+        borderRadius: '6px',
         background: 'var(--raised)',
         border: '1px solid var(--border)',
         flexShrink: 0,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '11px',
-        fontWeight: 600,
-        color: 'var(--text-secondary)',
+        fontSize: '12px',
+        fontWeight: 650,
+        color: 'var(--text-primary)',
         letterSpacing: '-0.01em',
       }}
     >
@@ -61,9 +62,10 @@ function TypingIndicator() {
       <div
         style={{
           padding: '10px 14px',
-          borderRadius: '6px',
-          background: 'var(--surface)',
-          border: '1px solid var(--border)',
+          borderRadius: '8px',
+          background: '#FFFFFF',
+          border: '1px solid rgba(26, 25, 22, 0.1)',
+          boxShadow: '0 1px 3px rgba(23,23,20,0.04)',
           display: 'flex',
           alignItems: 'center',
           gap: '5px',
@@ -104,26 +106,35 @@ function Message({ msg, selectedLang, onPlayAudio }) {
         {/* Text bubble */}
         <div
           style={{
-            padding: '10px 14px',
-            borderRadius: '6px',
+            padding: '12px 16px',
+            borderRadius: '8px',
             fontSize: '14px',
             lineHeight: 1.6,
             background: isUser
-              ? 'var(--raised)'
+              ? 'var(--accent)'
               : msg.isError
               ? 'rgba(184,92,82,0.06)'
-              : 'var(--surface)',
+              : '#FFFFFF',
             border: `1px solid ${
               isUser
-                ? 'var(--border)'
+                ? 'var(--accent)'
                 : msg.isError
                 ? 'rgba(184,92,82,0.2)'
-                : 'var(--border)'
+                : 'rgba(26, 25, 22, 0.1)'
             }`,
-            color: msg.isError ? 'var(--error)' : 'var(--text-primary)',
+            color: isUser
+              ? '#171714'
+              : msg.isError
+              ? 'var(--error)'
+              : '#16140E',
+            boxShadow: isUser
+              ? '0 1px 2px rgba(0,0,0,0.05)'
+              : '0 1px 3px rgba(23, 23, 20, 0.04)',
           }}
         >
-          <p style={{ whiteSpace: 'pre-wrap', margin: 0 }}>{msg.text}</p>
+          <p style={{ whiteSpace: 'pre-wrap', margin: 0, fontWeight: isUser ? 500 : 450 }}>
+            {msg.text}
+          </p>
 
           {/* TTS button */}
           {!isUser && !msg.isError && (
@@ -131,12 +142,12 @@ function Message({ msg, selectedLang, onPlayAudio }) {
               onClick={() => onPlayAudio(msg.translatedText || msg.text)}
               style={{
                 marginTop: '10px',
-                paddingTop: '10px',
+                paddingTop: '8px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
                 fontSize: '11px',
-                fontWeight: 500,
+                fontWeight: 600,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
                 color: 'var(--text-muted)',
@@ -147,7 +158,7 @@ function Message({ msg, selectedLang, onPlayAudio }) {
                 width: '100%',
                 transition: 'color 0.15s',
               }}
-              onMouseEnter={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+              onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
               onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
             >
               <Volume2 style={{ width: '12px', height: '12px' }} />
@@ -156,7 +167,7 @@ function Message({ msg, selectedLang, onPlayAudio }) {
           )}
         </div>
 
-        {/* Eligibility + Docs panels */}
+        {/* Eligibility + Docs panels (Kept Untouched) */}
         {msg.data && (
           <div style={{ width: '100%' }}>
             <EligibilityCard data={msg.data} />
@@ -355,7 +366,7 @@ export default function ChatBox({ initialQuery, selectedLang }) {
         >
           <form
             onSubmit={(e) => { e.preventDefault(); handleSend(); }}
-            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+            style={{ display: 'flex', items: 'center', gap: '8px' }}
           >
             <VoiceInput
               selectedLang={selectedLang}
@@ -372,7 +383,7 @@ export default function ChatBox({ initialQuery, selectedLang }) {
                 padding: '10px 14px',
                 fontSize: '14px',
                 fontFamily: 'inherit',
-                background: '#FDFBF4',
+                background: '#FFFFFF',
                 border: '1px solid var(--border)',
                 borderRadius: '6px',
                 color: 'var(--text-primary)',
@@ -381,7 +392,7 @@ export default function ChatBox({ initialQuery, selectedLang }) {
               }}
               onFocus={e => {
                 e.target.style.borderColor = 'var(--accent)';
-                e.target.style.boxShadow = '0 0 0 2px rgba(242,181,68,0.15)';
+                e.target.style.boxShadow = '0 0 0 2px rgba(242,181,68,0.2)';
               }}
               onBlur={e => {
                 e.target.style.borderColor = 'var(--border)';
@@ -402,21 +413,19 @@ export default function ChatBox({ initialQuery, selectedLang }) {
                 justifyContent: 'center',
                 background: (!isLoading && inputText.trim()) ? 'var(--accent)' : 'var(--surface)',
                 border: '1px solid ' + ((!isLoading && inputText.trim()) ? 'var(--accent)' : 'var(--border)'),
-                color: (!isLoading && inputText.trim()) ? 'var(--accent-text)' : 'var(--text-muted)',
+                color: (!isLoading && inputText.trim()) ? '#171714' : 'var(--text-muted)',
                 cursor: (!isLoading && inputText.trim()) ? 'pointer' : 'default',
                 opacity: (isLoading) ? 0.5 : 1,
                 transition: 'all 0.15s',
               }}
               onMouseEnter={e => {
                 if (!e.currentTarget.disabled) {
-                  e.currentTarget.style.background = 'var(--accent-hover)';
-                  e.currentTarget.style.borderColor = 'var(--accent-hover)';
+                  e.currentTarget.style.opacity = '0.92';
                 }
               }}
               onMouseLeave={e => {
                 if (!e.currentTarget.disabled && inputText.trim()) {
-                  e.currentTarget.style.background = 'var(--accent)';
-                  e.currentTarget.style.borderColor = 'var(--accent)';
+                  e.currentTarget.style.opacity = '1';
                 }
               }}
             >
