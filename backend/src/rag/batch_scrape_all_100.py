@@ -63,8 +63,8 @@ def run_batch_scrape_and_ingest():
             # Fallback to Serper search for myScheme portal URL
             search_query = f'"{scheme_title}" site:myscheme.gov.in/schemes'
             res = serper_tool.search_government_portals(search_query)
-            if res:
-                for r in res:
+            if isinstance(res, dict) and res.get("results"):
+                for r in res["results"]:
                     link = r.get("link", "")
                     if "myscheme.gov.in/schemes/" in link:
                         portal_url = link
