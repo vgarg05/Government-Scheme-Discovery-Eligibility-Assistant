@@ -29,28 +29,28 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
         color: 'var(--text-primary)',
         marginTop: '12px',
         marginBottom: '10px',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
       }}
     >
       {/* ── Card Body (Clickable) ── */}
       <div
         onClick={() => onSchemeSelect && onSchemeSelect(card)}
         style={{
-          padding: '20px 22px 16px',
+          padding: '22px 24px 18px',
           cursor: 'pointer',
           transition: 'background 0.15s',
         }}
-        onMouseEnter={e => { e.currentTarget.style.background = '#F8F5EA'; }}
+        onMouseEnter={e => { e.currentTarget.style.background = '#F8F4EA'; }}
         onMouseLeave={e => { e.currentTarget.style.background = '#FDFBF4'; }}
       >
         {/* Scheme Title */}
         <h3
           style={{
-            fontSize: '16px',
-            fontWeight: 600,
+            fontSize: '16.5px',
+            fontWeight: 650,
             letterSpacing: '-0.01em',
             lineHeight: 1.3,
-            color: 'var(--text-primary)',
+            color: '#171714',
             margin: '0 0 8px 0',
           }}
         >
@@ -63,35 +63,36 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
             fontSize: '13px',
             lineHeight: 1.55,
             color: 'var(--text-muted)',
-            margin: '0 0 14px 0',
+            margin: '0 0 16px 0',
           }}
         >
           {card.short_desc}
         </p>
 
-        {/* 3 Highlight Chips */}
+        {/* 3 Highlight Rectangle Boxes (Same as Sample Queries preset cards) */}
         {card.highlights && card.highlights.length > 0 && (
           <div
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '8px',
+              gap: '10px',
             }}
           >
             {card.highlights.map((hl, i) => (
               <div
                 key={i}
                 style={{
-                  padding: '10px 12px',
-                  borderRadius: '6px',
-                  border: '1px solid var(--border)',
-                  background: 'var(--raised)',
-                  fontSize: '12px',
-                  lineHeight: 1.45,
-                  color: 'var(--text-secondary)',
-                  fontWeight: 450,
+                  padding: '12px 14px',
+                  borderRadius: '5px',
+                  border: '1px solid #E2D9C5',
+                  background: '#F4EDE0',
+                  fontSize: '12.5px',
+                  lineHeight: 1.48,
+                  color: '#171714',
+                  fontWeight: 500,
                   display: 'flex',
                   alignItems: 'center',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
                 }}
               >
                 {hl}
@@ -103,19 +104,19 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
         {/* Action Prompt */}
         <div
           style={{
-            marginTop: '14px',
+            marginTop: '16px',
             display: 'inline-flex',
             alignItems: 'center',
             gap: '6px',
             fontSize: '11px',
-            fontWeight: 600,
+            fontWeight: 700,
             letterSpacing: '0.07em',
-            color: 'var(--amber)',
+            color: '#171714',
             textTransform: 'uppercase',
           }}
         >
-          <span>Click to check full details</span>
-          <ExternalLink style={{ width: '12px', height: '12px' }} />
+          <span>CLICK TO CHECK FULL DETAILS</span>
+          <ExternalLink style={{ width: '12px', height: '12px', color: '#171714' }} />
         </div>
       </div>
 
@@ -125,37 +126,36 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '10px 18px',
+          padding: '12px 20px',
           borderTop: '1px solid var(--border-subtle)',
-          background: 'var(--raised)',
+          background: '#FAF6EC',
         }}
       >
-        {/* Left Arrow Button */}
+        {/* Left Arrow Button (Matching Sample Query preset button background) */}
         <button
           type="button"
           onClick={goLeft}
           style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '6px',
-            border: '1px solid var(--border)',
-            background: 'var(--surface)',
+            width: '34px',
+            height: '34px',
+            borderRadius: '5px',
+            border: '1px solid #E2D9C5',
+            background: 'var(--accent)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
             transition: 'all 0.15s',
           }}
           onMouseEnter={e => {
-            e.currentTarget.style.borderColor = 'var(--text-muted)';
-            e.currentTarget.style.background = '#F0EDDF';
+            e.currentTarget.style.opacity = '0.9';
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.borderColor = 'var(--border)';
-            e.currentTarget.style.background = 'var(--surface)';
+            e.currentTarget.style.opacity = '1';
           }}
         >
-          <ChevronLeft style={{ width: '16px', height: '16px', color: 'var(--text-secondary)' }} />
+          <ChevronLeft style={{ width: '18px', height: '18px', color: '#171714' }} strokeWidth={2.5} />
         </button>
 
         {/* 6 Dots */}
@@ -169,10 +169,10 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
                 setActiveIndex(i);
               }}
               style={{
-                width: i === activeIndex ? '16px' : '6px',
+                width: i === activeIndex ? '18px' : '6px',
                 height: '6px',
                 borderRadius: i === activeIndex ? '3px' : '50%',
-                background: i === activeIndex ? 'var(--accent)' : 'var(--border)',
+                background: i === activeIndex ? '#171714' : '#D0C8B6',
                 border: 'none',
                 cursor: 'pointer',
                 padding: 0,
@@ -182,32 +182,31 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
           ))}
         </div>
 
-        {/* Right Arrow Button */}
+        {/* Right Arrow Button (Matching Sample Query preset button background) */}
         <button
           type="button"
           onClick={goRight}
           style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '6px',
-            border: '1px solid var(--border)',
-            background: 'var(--surface)',
+            width: '34px',
+            height: '34px',
+            borderRadius: '5px',
+            border: '1px solid #E2D9C5',
+            background: 'var(--accent)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: 'pointer',
+            boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
             transition: 'all 0.15s',
           }}
           onMouseEnter={e => {
-            e.currentTarget.style.borderColor = 'var(--text-muted)';
-            e.currentTarget.style.background = '#F0EDDF';
+            e.currentTarget.style.opacity = '0.9';
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.borderColor = 'var(--border)';
-            e.currentTarget.style.background = 'var(--surface)';
+            e.currentTarget.style.opacity = '1';
           }}
         >
-          <ChevronRight style={{ width: '16px', height: '16px', color: 'var(--text-secondary)' }} />
+          <ChevronRight style={{ width: '18px', height: '18px', color: '#171714' }} strokeWidth={2.5} />
         </button>
       </div>
     </div>
