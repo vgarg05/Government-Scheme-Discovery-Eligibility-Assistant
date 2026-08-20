@@ -13,19 +13,19 @@ export default function Hero({ onPresetClick }) {
     <section
       style={{
         borderBottom: '1px solid var(--border)',
-        paddingTop: '56px',
-        paddingBottom: '48px',
+        paddingTop: '36px',
+        paddingBottom: '40px',
       }}
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-12">
-        {/* 2-Column Asymmetric Grid (Pleurat.com Layout) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
+        {/* 2-Column Asymmetric Grid (Top-Aligned for Higher Headline Position) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           
           {/* Left Column: Eyebrow + Large Editorial Headline */}
           <div className="lg:col-span-7">
             {/* Eyebrow meta label */}
             <p
-              className="label-meta mb-6"
+              className="label-meta mb-4"
               style={{ color: 'var(--text-muted)' }}
             >
               01 GOVASSIST &middot; AI WELFARE ENGINE
@@ -50,14 +50,14 @@ export default function Hero({ onPresetClick }) {
           </div>
 
           {/* Right Column: Sub-copy Paragraph + Pleurat Reference Buttons */}
-          <div className="lg:col-span-5 flex flex-col justify-end">
+          <div className="lg:col-span-5 flex flex-col justify-start">
             {/* Editorial Sub-copy */}
             <p
               style={{
                 fontSize: '15px',
                 lineHeight: 1.6,
                 color: 'var(--text-secondary)',
-                marginBottom: '24px',
+                marginBottom: '20px',
               }}
             >
               Describe your situation in plain language. The AI engine checks indexed scheme documents and live government sources to evaluate your eligibility.
