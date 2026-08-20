@@ -29,7 +29,7 @@ export default function Hero({ onPresetClick }) {
                 fontWeight: 500,
                 letterSpacing: '-0.03em',
                 lineHeight: 1.06,
-                color: 'var(--text-primary)',
+                color: '#16140E',
               }}
             >
               Find welfare schemes
