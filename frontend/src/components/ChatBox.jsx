@@ -22,7 +22,9 @@ function renderMarkdown(text) {
       const mdMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
       if (mdMatch) {
         const [, label, url] = mdMatch;
-        const href = url.startsWith('http') ? url : `https://${url}`;
+        const cleanLabel = label.trim().replace(/^[\(\)]+|[\(\)]+$/g, '');
+        const cleanUrl = url.trim().replace(/^[\(\)\\\.,;]+|[\(\)\\\.,;]+$/g, '');
+        const href = cleanUrl.startsWith('http') ? cleanUrl : `https://${cleanUrl}`;
         return (
           <a
             key={partIdx}
@@ -32,14 +34,15 @@ function renderMarkdown(text) {
             style={{ color: '#2563eb', textDecoration: 'underline', fontWeight: 600 }}
             onClick={(e) => e.stopPropagation()}
           >
-            {label}
+            {cleanLabel}
           </a>
         );
       }
 
       // 2. Raw URL string (e.g. sspy-up.gov.in, myscheme.gov.in/schemes/upoaps, https://...)
       if (part.match(/^https?:\/\//i) || part.match(/^www\./i) || part.match(/^[a-zA-Z0-9-]+\.(?:gov\.in|nic\.in|org|com|in)\b/i)) {
-        const href = part.startsWith('http') ? part : `https://${part}`;
+        const sanitizedPart = part.trim().replace(/^[\(\)\\\.,;]+|[\(\)\\\.,;]+$/g, '');
+        const href = sanitizedPart.startsWith('http') ? sanitizedPart : `https://${sanitizedPart}`;
         return (
           <a
             key={partIdx}
@@ -49,7 +52,7 @@ function renderMarkdown(text) {
             style={{ color: '#2563eb', textDecoration: 'underline', fontWeight: 600 }}
             onClick={(e) => e.stopPropagation()}
           >
-            {part}
+            {sanitizedPart}
           </a>
         );
       }
