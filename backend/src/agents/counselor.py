@@ -306,7 +306,7 @@ class CounselorGuidanceAgent:
             "match_score": match_score,
             "is_eligible": is_eligible,
             "matched_criteria": matched_items,
-            "unmatched_criteria": verify_items if verify_items else ["No disqualifiers found"],
+            "unmatched_criteria": verify_items if verify_items else [],
             "benefits": benefits,
             "document_checklist": docs,
             "application_steps": steps,

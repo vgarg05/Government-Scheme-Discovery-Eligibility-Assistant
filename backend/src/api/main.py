@@ -132,6 +132,10 @@ def process_chat_query(request: ChatRequest):
                 to_translate.extend(output["document_checklist"])
                 mapping.append(("document_checklist", len(output["document_checklist"])))
 
+            if "benefits" in output and output["benefits"]:
+                to_translate.extend(output["benefits"])
+                mapping.append(("benefits", len(output["benefits"])))
+
             if "application_steps" in output and output["application_steps"]:
                 to_translate.extend(output["application_steps"])
                 mapping.append(("application_steps", len(output["application_steps"])))
