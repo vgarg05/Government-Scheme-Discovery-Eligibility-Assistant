@@ -179,10 +179,10 @@ function Message({ msg, selectedLang, onPlayAudio, onSchemeSelect }) {
           )}
         </div>
 
-        {/* Scheme Carousel + Eligibility + Docs panels */}
+        {/* Scheme Carousel vs Detailed Scheme Card */}
         {msg.data && (
           <div style={{ width: '100%' }}>
-            {msg.data.scheme_cards && msg.data.scheme_cards.length > 0 && (
+            {msg.data.scheme_cards && msg.data.scheme_cards.length > 0 ? (
               <SchemeCarousel
                 cards={msg.data.scheme_cards}
                 onSchemeSelect={(card) => {
@@ -191,15 +191,18 @@ function Message({ msg, selectedLang, onPlayAudio, onSchemeSelect }) {
                   }
                 }}
               />
+            ) : (
+              <>
+                <EligibilityCard data={msg.data} />
+                <DocumentChecklist
+                  benefits={msg.data.benefits}
+                  checklist={msg.data.document_checklist}
+                  applicationSteps={msg.data.application_steps}
+                  citations={msg.data.citations}
+                  language={msg.data.language || selectedLang}
+                />
+              </>
             )}
-            <EligibilityCard data={msg.data} />
-            <DocumentChecklist
-              benefits={msg.data.benefits}
-              checklist={msg.data.document_checklist}
-              applicationSteps={msg.data.application_steps}
-              citations={msg.data.citations}
-              language={msg.data.language || selectedLang}
-            />
           </div>
         )}
       </div>

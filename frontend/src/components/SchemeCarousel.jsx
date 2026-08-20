@@ -22,35 +22,35 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
     <div
       className="animate-enter"
       style={{
-        borderRadius: '12px',
+        borderRadius: '8px',
         overflow: 'hidden',
-        border: '1px solid #2A2A26',
-        background: '#1A1A17',
-        color: '#FFFFFF',
+        border: '1px solid var(--border)',
+        background: '#FDFBF4',
+        color: 'var(--text-primary)',
         marginTop: '12px',
         marginBottom: '10px',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25)',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
       }}
     >
       {/* ── Card Body (Clickable) ── */}
       <div
         onClick={() => onSchemeSelect && onSchemeSelect(card)}
         style={{
-          padding: '22px 24px 18px',
+          padding: '20px 22px 16px',
           cursor: 'pointer',
           transition: 'background 0.15s',
         }}
-        onMouseEnter={e => { e.currentTarget.style.background = '#22221E'; }}
-        onMouseLeave={e => { e.currentTarget.style.background = '#1A1A17'; }}
+        onMouseEnter={e => { e.currentTarget.style.background = '#F8F5EA'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = '#FDFBF4'; }}
       >
         {/* Scheme Title */}
         <h3
           style={{
-            fontSize: '17px',
+            fontSize: '16px',
             fontWeight: 600,
             letterSpacing: '-0.01em',
             lineHeight: 1.3,
-            color: '#FDFBF4',
+            color: 'var(--text-primary)',
             margin: '0 0 8px 0',
           }}
         >
@@ -62,8 +62,8 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
           style={{
             fontSize: '13px',
             lineHeight: 1.55,
-            color: '#B0B0A8',
-            margin: '0 0 16px 0',
+            color: 'var(--text-muted)',
+            margin: '0 0 14px 0',
           }}
         >
           {card.short_desc}
@@ -75,20 +75,20 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '10px',
+              gap: '8px',
             }}
           >
             {card.highlights.map((hl, i) => (
               <div
                 key={i}
                 style={{
-                  padding: '12px 14px',
-                  borderRadius: '8px',
-                  border: '1px solid #33332D',
-                  background: '#242420',
+                  padding: '10px 12px',
+                  borderRadius: '6px',
+                  border: '1px solid var(--border)',
+                  background: 'var(--raised)',
                   fontSize: '12px',
                   lineHeight: 1.45,
-                  color: '#E2E2DC',
+                  color: 'var(--text-secondary)',
                   fontWeight: 450,
                   display: 'flex',
                   alignItems: 'center',
@@ -103,14 +103,14 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
         {/* Action Prompt */}
         <div
           style={{
-            marginTop: '16px',
+            marginTop: '14px',
             display: 'inline-flex',
             alignItems: 'center',
             gap: '6px',
             fontSize: '11px',
             fontWeight: 600,
             letterSpacing: '0.07em',
-            color: '#F2B544',
+            color: 'var(--amber)',
             textTransform: 'uppercase',
           }}
         >
@@ -125,9 +125,9 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '12px 20px',
-          borderTop: '1px solid #2A2A26',
-          background: '#141412',
+          padding: '10px 18px',
+          borderTop: '1px solid var(--border-subtle)',
+          background: 'var(--raised)',
         }}
       >
         {/* Left Arrow Button */}
@@ -138,8 +138,8 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
             width: '32px',
             height: '32px',
             borderRadius: '6px',
-            border: '1px solid #33332D',
-            background: '#242420',
+            border: '1px solid var(--border)',
+            background: 'var(--surface)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -147,15 +147,15 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
             transition: 'all 0.15s',
           }}
           onMouseEnter={e => {
-            e.currentTarget.style.borderColor = '#F2B544';
-            e.currentTarget.style.background = '#2E2E28';
+            e.currentTarget.style.borderColor = 'var(--text-muted)';
+            e.currentTarget.style.background = '#F0EDDF';
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.borderColor = '#33332D';
-            e.currentTarget.style.background = '#242420';
+            e.currentTarget.style.borderColor = 'var(--border)';
+            e.currentTarget.style.background = 'var(--surface)';
           }}
         >
-          <ChevronLeft style={{ width: '16px', height: '16px', color: '#E2E2DC' }} />
+          <ChevronLeft style={{ width: '16px', height: '16px', color: 'var(--text-secondary)' }} />
         </button>
 
         {/* 6 Dots */}
@@ -172,7 +172,7 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
                 width: i === activeIndex ? '16px' : '6px',
                 height: '6px',
                 borderRadius: i === activeIndex ? '3px' : '50%',
-                background: i === activeIndex ? '#F2B544' : '#44443E',
+                background: i === activeIndex ? 'var(--accent)' : 'var(--border)',
                 border: 'none',
                 cursor: 'pointer',
                 padding: 0,
@@ -190,8 +190,8 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
             width: '32px',
             height: '32px',
             borderRadius: '6px',
-            border: '1px solid #33332D',
-            background: '#242420',
+            border: '1px solid var(--border)',
+            background: 'var(--surface)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -199,15 +199,15 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
             transition: 'all 0.15s',
           }}
           onMouseEnter={e => {
-            e.currentTarget.style.borderColor = '#F2B544';
-            e.currentTarget.style.background = '#2E2E28';
+            e.currentTarget.style.borderColor = 'var(--text-muted)';
+            e.currentTarget.style.background = '#F0EDDF';
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.borderColor = '#33332D';
-            e.currentTarget.style.background = '#242420';
+            e.currentTarget.style.borderColor = 'var(--border)';
+            e.currentTarget.style.background = 'var(--surface)';
           }}
         >
-          <ChevronRight style={{ width: '16px', height: '16px', color: '#E2E2DC' }} />
+          <ChevronRight style={{ width: '16px', height: '16px', color: 'var(--text-secondary)' }} />
         </button>
       </div>
     </div>

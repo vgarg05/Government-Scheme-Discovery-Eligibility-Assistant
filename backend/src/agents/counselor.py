@@ -395,8 +395,11 @@ class CounselorGuidanceAgent:
                 f"👇 If you'd like me to double-check any specific condition (like your exact landholding size or income certificate limit), please share your details below and I will verify it for you!"
             )
 
-        # ── Generate Scheme Carousel Cards ──
-        scheme_cards = generate_scheme_cards(profile, state.user_query)
+        # ── Generate Scheme Carousel Cards (Only during initial discovery, omit for specific scheme detail view) ──
+        query_low = (state.user_query or "").lower()
+        is_specific_scheme_request = "tell me full details about" in query_low or "full details" in query_low or "how to apply for" in query_low
+        
+        scheme_cards = [] if is_specific_scheme_request else generate_scheme_cards(profile, state.user_query)
 
         guidance = {
             "summary": summary,
