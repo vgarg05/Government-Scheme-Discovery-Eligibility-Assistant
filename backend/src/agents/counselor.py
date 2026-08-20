@@ -312,7 +312,8 @@ def generate_scheme_cards(state: AgentState):
             )
         else:
             # Parse snippet into short description and highlights dynamically
-            short_desc = snippet[:110] + "..." if len(snippet) > 110 else snippet
+            clean_snippet = snippet.strip().rstrip('.').rstrip(';') + "." if snippet else f"Government scheme for {profile.state or 'eligible citizens'}."
+            short_desc = clean_snippet
             highlights = [
                 f"Apply via official portal ({clean_url(link)})",
                 f"Targeted for {profile.state or 'India'} residents",
