@@ -159,8 +159,8 @@ class SerperSearchTool:
                         cleaned = part.strip().rstrip('.').strip()
                         # Filter out noise - keep only meaningful benefit statements
                         if len(cleaned) > 15 and len(cleaned) < 300:
-                            # Skip if it looks like eligibility criteria rather than benefits
-                            skip_signals = ["applicant should", "must be", "eligibility", "exclusion", "not eligible", "who can apply", "required document"]
+                            # Skip if it contains eligibility or exclusion criteria instead of benefits
+                            skip_signals = ["applicant should", "must be", "eligibility", "exclusion", "not eligible", "who can apply", "required document", "age limit", "income limit", "domicile", "resident of"]
                             if not any(sig in cleaned.lower() for sig in skip_signals):
                                 benefits.append(cleaned)
 
