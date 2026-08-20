@@ -197,8 +197,8 @@ def find_matched_kb_scheme(scheme_title: str):
 class CounselorGuidanceAgent:
     """
     Counselor & Guidance Agent.
-    Generates simple-language scheme benefits, required documents, clean grouped online & offline application steps,
-    and exact clean myscheme.gov.in citation links.
+    Generates dynamic summary messages breaking down held eligibility criteria vs criteria to verify,
+    followed by a call-to-action asking for missing details.
     """
 
     def _clean_scheme_name(self, name: str) -> str:
@@ -239,7 +239,6 @@ class CounselorGuidanceAgent:
             docs = GENERAL_DOCS
             steps = GENERAL_STEPS
             
-            # Extract exact matching citation URL from web search results
             citations = []
             if mode == "web_search" and state.web_search_results:
                 scheme_results = [r for r in state.web_search_results if "/schemes/" in r.get("link", "")]
@@ -257,7 +256,6 @@ class CounselorGuidanceAgent:
                     "url": target_url
                 }]
                 
-                # Extract snippet for simple benefits if available
                 snippet = target_result.get("snippet", "")
                 if snippet and len(snippet) > 20:
                     benefits = [snippet]
@@ -279,16 +277,26 @@ class CounselorGuidanceAgent:
                 "url": clean_url(default_kb["portal"])
             }]
 
-        if is_eligible:
+        # ── Formulate Criteria Breakdown & Call-to-Action ──
+        matched_items = evaluation.get("matched_criteria", ["Demographic profile alignment"])
+        verify_items = evaluation.get("unmatched_criteria", [])
+
+        matched_text = ", ".join(matched_items)
+        
+        if verify_items:
+            verify_text = ", ".join(verify_items)
             summary = (
-                f"Good news! Based on your profile, you are eligible for {scheme_title}. "
-                f"Below you will find the key scheme benefits, required documents, "
-                f"step-by-step application instructions (both Online & Offline), and the official myScheme portal link."
+                f"Good news! Based on the details provided, you match the primary requirements for **{scheme_title}**.\n\n"
+                f"✅ **Criteria You Currently Hold**: {matched_text}\n"
+                f"⚠️ **Criteria We Need to Check**: {verify_text}\n\n"
+                f"👇 **Please share your details for ({verify_text})**, and I will confirm whether you qualify or not!"
             )
         else:
             summary = (
-                f"Based on your profile, {scheme_title} is the closest matching scheme. "
-                f"Please review the scheme benefits, required documents, and application steps below."
+                f"Great news! Based on your profile, you hold full eligibility for **{scheme_title}**.\n\n"
+                f"✅ **Criteria You Currently Hold**: {matched_text}\n"
+                f"✓ **Disqualifiers Check**: No disqualifiers found.\n\n"
+                f"👇 If you'd like me to double-check any specific condition (like your exact landholding size or income certificate limit), please share your details below and I will verify it for you!"
             )
 
         guidance = {
@@ -296,8 +304,8 @@ class CounselorGuidanceAgent:
             "top_scheme": scheme_title,
             "match_score": match_score,
             "is_eligible": is_eligible,
-            "matched_criteria": evaluation.get("matched_criteria", ["Demographic alignment met"]),
-            "unmatched_criteria": evaluation.get("unmatched_criteria", []),
+            "matched_criteria": matched_items,
+            "unmatched_criteria": verify_items if verify_items else ["No disqualifiers found"],
             "benefits": benefits,
             "document_checklist": docs,
             "application_steps": steps,
