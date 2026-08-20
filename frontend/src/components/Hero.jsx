@@ -1,11 +1,11 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 const SAMPLE_QUERIES = [
-  { label: 'Farmer Support', query: 'I am a 45 year old farmer from Uttar Pradesh with annual income of Rs 80,000' },
-  { label: 'Senior Health Cover', query: 'Ayushman Bharat health insurance for senior citizens aged 70+' },
-  { label: 'Solar Scheme', query: 'PM Surya Ghar free electricity rooftop solar panel scheme' },
-  { label: 'Student Scholarship', query: 'Post-Matric Scholarship for SC/ST students in college' },
+  { label: 'Farmer Support ↗', title: 'Farmer Support', query: 'I am a 45 year old farmer from Uttar Pradesh with annual income of Rs 80,000' },
+  { label: 'Senior Health Cover ↗', title: 'Senior Health Cover', query: 'Ayushman Bharat health insurance for senior citizens aged 70+' },
+  { label: 'Solar Scheme ↗', title: 'Solar Scheme', query: 'PM Surya Ghar free electricity rooftop solar panel scheme' },
+  { label: 'Student Scholarship ↗', title: 'Student Scholarship', query: 'Post-Matric Scholarship for SC/ST students in college' },
 ];
 
 export default function Hero({ onPresetClick }) {
@@ -13,8 +13,8 @@ export default function Hero({ onPresetClick }) {
     <section
       style={{
         borderBottom: '1px solid var(--border)',
-        paddingTop: '60px',
-        paddingBottom: '52px',
+        paddingTop: '56px',
+        paddingBottom: '48px',
       }}
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-12">
@@ -49,7 +49,7 @@ export default function Hero({ onPresetClick }) {
             </h1>
           </div>
 
-          {/* Right Column: Sub-copy Paragraph + Preset Query Cards */}
+          {/* Right Column: Sub-copy Paragraph + Pleurat Reference Buttons */}
           <div className="lg:col-span-5 flex flex-col justify-end">
             {/* Editorial Sub-copy */}
             <p
@@ -57,13 +57,13 @@ export default function Hero({ onPresetClick }) {
                 fontSize: '15px',
                 lineHeight: 1.6,
                 color: 'var(--text-secondary)',
-                marginBottom: '28px',
+                marginBottom: '24px',
               }}
             >
               Describe your situation in plain language. The AI engine checks indexed scheme documents and live government sources to evaluate your eligibility.
             </p>
 
-            {/* Sample Preset Queries Grid */}
+            {/* Sample Preset Queries Buttons Grid (Matching Reference Image) */}
             <div>
               <p
                 className="label-meta mb-3"
@@ -71,57 +71,44 @@ export default function Hero({ onPresetClick }) {
               >
                 SAMPLE PRESET QUERIES
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {SAMPLE_QUERIES.map(({ label, query }) => (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {SAMPLE_QUERIES.map(({ title, query }) => (
                   <button
-                    key={label}
+                    key={title}
                     onClick={() => onPresetClick(query)}
-                    className="group flex items-start justify-between gap-2.5 text-left transition-all duration-150"
+                    className="group flex items-center justify-between gap-2 text-left transition-all duration-150 active:scale-[0.98]"
                     style={{
-                      background: 'var(--surface)',
-                      border: '1px solid var(--border)',
-                      borderRadius: '6px',
-                      padding: '10px 12px',
+                      background: 'var(--accent)',
+                      color: 'var(--accent-text)',
+                      borderRadius: '3px',
+                      padding: '12px 14px',
+                      border: 'none',
                       cursor: 'pointer',
+                      boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
                     }}
                     onMouseEnter={e => {
-                      e.currentTarget.style.borderColor = 'var(--text-muted)';
-                      e.currentTarget.style.background = 'var(--raised)';
+                      e.currentTarget.style.opacity = '0.92';
                     }}
                     onMouseLeave={e => {
-                      e.currentTarget.style.borderColor = 'var(--border)';
-                      e.currentTarget.style.background = 'var(--surface)';
+                      e.currentTarget.style.opacity = '1';
                     }}
                   >
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div
-                        style={{
-                          fontSize: '11.5px',
-                          fontWeight: 600,
-                          color: 'var(--text-primary)',
-                          marginBottom: '2px',
-                          letterSpacing: '0.01em',
-                        }}
-                      >
-                        {label}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: '11px',
-                          color: 'var(--text-muted)',
-                          lineHeight: 1.4,
-                          overflow: 'hidden',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                        }}
-                      >
-                        {query}
-                      </div>
-                    </div>
-                    <ArrowRight
-                      className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5"
-                      style={{ width: '12px', height: '12px', color: 'var(--accent)' }}
+                    <span
+                      style={{
+                        fontSize: '13px',
+                        fontWeight: 500,
+                        color: '#171714',
+                        letterSpacing: '-0.01em',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {title}
+                    </span>
+                    <ArrowUpRight
+                      className="flex-shrink-0 transition-transform duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      style={{ width: '16px', height: '16px', color: '#171714', strokeWidth: 2.2 }}
                     />
                   </button>
                 ))}
