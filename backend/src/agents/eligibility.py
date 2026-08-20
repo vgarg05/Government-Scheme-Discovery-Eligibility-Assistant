@@ -1,9 +1,11 @@
 from src.agents.state import AgentState
+from src.utils.llm_client import llm_client
 
 class EligibilityAdjudicatorAgent:
     """
-    Evaluates user demographic profile against scheme-specific eligibility criteria.
-    No generic fallbacks — rules are verified strictly against the specific scheme's requirements.
+    LLM-driven Eligibility Adjudicator Agent.
+    Dynamically checks scheme rules against user demographics using Gemini 2.5 Flash LLM.
+    Strictly identifies hard disqualifiers (age limits, income caps) without generic fallbacks.
     """
 
     def process(self, state: AgentState) -> AgentState:
@@ -11,63 +13,100 @@ class EligibilityAdjudicatorAgent:
         user_query_low = (state.user_query or "").lower()
         context_chunks = state.retrieved_chunks if state.retrieved_chunks else state.web_search_results
 
-        matched_rules = []
-        to_verify_rules = []
-        score = 90  # Base high match score
-
         # Top scheme name extraction
         top_scheme = ""
+        scheme_context = ""
         if context_chunks:
             top_scheme = context_chunks[0].get("scheme_id") or context_chunks[0].get("title", "")
-        
-        scheme_low = top_scheme.lower() + " " + user_query_low
+            scheme_context = "\n".join([
+                f"- Title: {c.get('title', '')}\n  Snippet: {c.get('content', '') or c.get('snippet', '')}"
+                for c in context_chunks[:3]
+            ])
 
-        # 1. Occupation Check
-        if profile.occupation:
-            matched_rules.append(f"Occupation match: {profile.occupation.capitalize()}")
+        if not top_scheme:
+            top_scheme = state.user_query or "Government Assistance Scheme"
 
-        # 2. State / Domicile Check
-        if profile.state:
-            matched_rules.append(f"State domicile match: {profile.state.upper()}")
+        # Construct prompt for LLM Adjudication
+        prompt = f"""
+You are an expert Government Scheme Eligibility Evaluator in India.
+Evaluate if this applicant is ELIGIBLE or DISQUALIFIED for the scheme "{top_scheme}".
 
-        # 3. Age Check
-        if profile.age:
-            if 18 <= profile.age <= 70:
-                matched_rules.append(f"Age criterion met: {profile.age} years old (18-70 age limit satisfied)")
+APPLICANT PROFILE:
+- Age: {profile.age if profile.age else "Not specified"}
+- Occupation: {profile.occupation if profile.occupation else "Not specified"}
+- State / Domicile: {profile.state if profile.state else "Not specified"}
+- Annual Family Income: {f"Rs. {profile.income:,} per annum" if profile.income else "Not specified"}
+- Category: {profile.category if profile.category else "Not specified"}
+- Gender: {profile.gender if profile.gender else "Not specified"}
+
+SCHEME CONTEXT & POLICY RULES:
+{scheme_context if scheme_context else f"Scheme Name: {top_scheme}"}
+
+RULES TO ENFORCE STRICTLY:
+1. AGE CHECK: If the scheme requires a specific age group (e.g. Senior Citizen Pension requires Age 60+), and user age is below 60, user is DISQUALIFIED.
+2. INCOME CEILING CHECK: If the scheme has an income cap (e.g. Rural <= Rs 46,080 / Urban <= Rs 56,460), and user annual income exceeds this cap, user is DISQUALIFIED.
+3. If disqualified, set "is_eligible": false and "match_score": 0. Put exact disqualification statement in "unmatched_criteria".
+4. If eligible, put satisfied criteria in "matched_criteria" and set "match_score" between 75 and 100.
+5. If no specific disqualifiers exist, "unmatched_criteria" should be an empty list [].
+
+Respond ONLY with valid JSON in this exact structure:
+{{
+  "is_eligible": true,
+  "match_score": 85,
+  "matched_criteria": ["Occupation match: Farmer", "State domicile match: Uttar Pradesh"],
+  "unmatched_criteria": []
+}}
+"""
+
+        # Call Gemini LLM for adjudication
+        llm_response = llm_client.generate_json(prompt)
+
+        if llm_response and "is_eligible" in llm_response:
+            matched_rules = llm_response.get("matched_criteria", [])
+            unmatched_rules = llm_response.get("unmatched_criteria", [])
+            is_eligible = llm_response.get("is_eligible", True)
+            score = llm_response.get("match_score", 85 if is_eligible else 0)
+        else:
+            # Code-level fallback if LLM is unreachable
+            matched_rules = []
+            unmatched_rules = []
+            score = 85
+            is_eligible = True
+
+            scheme_low = (top_scheme + " " + user_query_low).lower()
+
+            if profile.occupation:
+                matched_rules.append(f"Occupation match: {profile.occupation.capitalize()}")
+            if profile.state:
+                matched_rules.append(f"State domicile match: {profile.state.upper()}")
+
+            # Strict Age & Income rules
+            if "pension" in scheme_low or "old age" in scheme_low or "senior" in scheme_low:
+                if profile.age and profile.age < 60:
+                    is_eligible = False
+                    score = 0
+                    unmatched_rules.append(f"Disqualified / Ineligible: Requires age 60+ (User age is {profile.age} years old)")
+                elif profile.age:
+                    matched_rules.append(f"Age criterion met: {profile.age} years old (60+ requirement satisfied)")
+
+                if profile.income and profile.income > 46080:
+                    is_eligible = False
+                    score = 0
+                    unmatched_rules.append(f"Disqualified / Ineligible: User annual income (Rs. {profile.income:,}) exceeds scheme ceiling limit (Rs. 46,080)")
+                elif profile.income:
+                    matched_rules.append(f"Income criterion met: Rs. {profile.income:,} per annum")
             else:
-                to_verify_rules.append(f"Age constraint: User age is {profile.age}")
-
-        # 4. Income Check
-        if profile.income:
-            matched_rules.append(f"Income recorded: Rs. {profile.income:,} per annum")
-
-        # ── SCHEME-SPECIFIC RULES (No generic fallbacks) ──
-
-        # Rule A: PM-KISAN specifically requires landholding <= 2 hectares check
-        if ("pm kisan" in scheme_low or "pm-kisan" in scheme_low or "samman nidhi" in scheme_low) and not profile.landholding:
-            to_verify_rules.append("Landholding ownership proof (up to 2 hectares for PM-KISAN benefits)")
-
-        # Rule B: BPL / Pension schemes specifically require income certificate if income missing
-        if ("pension" in scheme_low or "bpl" in scheme_low or "secc" in scheme_low) and not profile.income:
-            to_verify_rules.append("Income ceiling certificate verification (Rural <= Rs. 46,080 / Urban <= Rs. 56,460)")
-
-        # Rule C: Accidental death/disability schemes require medical/police report proof
-        if "durghatna" in scheme_low or "accident" in scheme_low:
-            matched_rules.append("Accident compensation coverage: Eligible for up to Rs. 5,00,000 assistance")
-
-        # Rule D: Fasal Bima requires crop sowing details
-        if "fasal" in scheme_low or "bima" in scheme_low or "pmfby" in scheme_low:
-            matched_rules.append("Crop insurance eligibility: Subsidized premium rates (1.5% to 2%)")
-
-        # Determine overall eligibility
-        is_eligible = len(matched_rules) > 0 and len([r for r in to_verify_rules if "constraint" in r.lower()]) == 0
+                if profile.age:
+                    matched_rules.append(f"Age criterion met: {profile.age} years old")
+                if profile.income:
+                    matched_rules.append(f"Income recorded: Rs. {profile.income:,} per annum")
 
         state.eligibility_evaluation = {
             "is_eligible": is_eligible,
-            "match_score": max(60, min(100, score - (len(to_verify_rules) * 5))),
+            "match_score": score,
             "top_scheme": top_scheme,
             "matched_criteria": matched_rules if matched_rules else ["Demographic profile alignment"],
-            "unmatched_criteria": to_verify_rules,
+            "unmatched_criteria": unmatched_rules if unmatched_rules else [],
         }
 
         return state

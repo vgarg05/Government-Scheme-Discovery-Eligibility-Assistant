@@ -8,6 +8,14 @@ export default function App() {
   const [selectedLang, setSelectedLang] = useState('en');
   const [activeQuery, setActiveQuery] = useState('');
 
+  const handlePresetClick = (query) => {
+    setActiveQuery(query);
+    const chatEl = document.getElementById('chat-section');
+    if (chatEl) {
+      chatEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div
       style={{
@@ -20,9 +28,11 @@ export default function App() {
       <Navbar selectedLang={selectedLang} onLangChange={setSelectedLang} />
 
       <main style={{ flex: 1 }}>
-        <Hero onPresetClick={setActiveQuery} />
+        <Hero onPresetClick={handlePresetClick} />
         <Panorama />
-        <ChatBox initialQuery={activeQuery} selectedLang={selectedLang} />
+        <div id="chat-section">
+          <ChatBox initialQuery={activeQuery} selectedLang={selectedLang} />
+        </div>
       </main>
 
       <footer

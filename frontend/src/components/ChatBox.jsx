@@ -224,10 +224,17 @@ export default function ChatBox({ initialQuery, selectedLang }) {
   const scrollContainerRef = useRef(null);
 
   const scrollToBottom = () => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const el = scrollContainerRef.current;
+    if (el) {
+      el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+    }
   };
 
-  useEffect(() => { scrollToBottom(); }, [messages, isLoading]);
+  useEffect(() => {
+    if (messages.length > 1 || isLoading) {
+      scrollToBottom();
+    }
+  }, [messages, isLoading]);
 
   const handleScroll = () => {
     const el = scrollContainerRef.current;

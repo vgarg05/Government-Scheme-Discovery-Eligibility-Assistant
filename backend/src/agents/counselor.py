@@ -1,5 +1,5 @@
 from src.agents.state import AgentState
-from src.tools.serper_tool import serper_tool
+from src.utils.llm_client import llm_client
 
 def clean_url(url: str) -> str:
     """Ensure clean URL without trailing semicolons or punctuation."""
@@ -44,6 +44,39 @@ SCHEME_KNOWLEDGE_BASE = {
             "Collect the physical Krishak Durghatna Kalyan application form from the Revenue Officer.",
             "Attach self-attested photocopies of Aadhaar, Khasra land records, and hospital death/disability report.",
             "Submit the completed form to the Tehsildar within 45 days of the incident to receive your tracking receipt."
+        ]
+    },
+    "up_old_age_pension": {
+        "name": "Uttar Pradesh Old Age Pension Scheme",
+        "short_desc": "Monthly pension assistance of ₹1,000 per month for senior citizens (60+ years) from BPL / low-income families.",
+        "highlights": [
+            "Monthly pension of ₹1,000 per month (₹12,000/year)",
+            "Direct Benefit Transfer (DBT) to bank account",
+            "For UP senior citizens aged 60 to 150 years"
+        ],
+        "benefits": [
+            "Monthly pension assistance of Rs 1,000 per month (Rs 12,000 per year) credited directly to bank account via Direct Benefit Transfer (DBT).",
+            "Financial security and dignity for elderly senior citizens living below the poverty line (BPL) or low income limit.",
+            "Transparent online disbursement directly managed by Social Welfare Department of Uttar Pradesh."
+        ],
+        "eligibility": "Senior citizens aged 60 to 150 years in UP with annual income up to Rs 46,080 (Rural) or Rs 56,460 (Urban).",
+        "portal": "https://www.myscheme.gov.in/schemes/upoaps",
+        "docs": [
+            "Aadhaar Card of senior citizen",
+            "Proof of Age (Voter ID / Birth Certificate / Aadhaar)",
+            "Income Certificate issued by Tehsildar (Rural <= Rs 46,080 / Urban <= Rs 56,460)",
+            "UP Domicile / Residence Certificate",
+            "Bank Account Passbook with IFSC code for DBT credit"
+        ],
+        "steps": [
+            "🌐 ONLINE METHOD",
+            "Visit sspy-up.gov.in or myscheme.gov.in/schemes/upoaps portal.",
+            "Click 'Old Age Pension' -> 'Apply Online'.",
+            "Fill out personal, age, address, and bank details.",
+            "Upload Aadhaar, income certificate, and photo, then submit application.",
+            "🏢 OFFLINE METHOD",
+            "Visit local Block Development Office (BDO) or District Social Welfare Officer.",
+            "Submit physical form along with Aadhaar, income certificate, and bank passbook photocopy."
         ]
     },
     "pm_kisan": {
@@ -244,7 +277,9 @@ def find_matched_kb_scheme(scheme_title: str):
         return None
     title_low = scheme_title.lower()
     
-    if "durghatna" in title_low or "kdky" in title_low or "krishak" in title_low:
+    if "old age" in title_low or "pension" in title_low or "upoaps" in title_low:
+        return SCHEME_KNOWLEDGE_BASE["up_old_age_pension"]
+    elif "durghatna" in title_low or "kdky" in title_low or "krishak" in title_low:
         return SCHEME_KNOWLEDGE_BASE["krishak_durghatna"]
     elif "pm kisan" in title_low or "samman nidhi" in title_low or "pm-kisan" in title_low:
         return SCHEME_KNOWLEDGE_BASE["pm_kisan"]
@@ -333,12 +368,19 @@ def generate_scheme_cards(state: AgentState):
         user_occ = (profile.occupation or "").lower()
 
         for key, kb in SCHEME_KNOWLEDGE_BASE.items():
-            if kb["name"].lower() in seen_titles:
+            name_low = kb["name"].lower()
+            elig_low = kb["eligibility"].lower()
+
+            if name_low in seen_titles:
+                continue
+
+            # Hard Disqualification Filtering: Do not recommend Pension to users under 60 or exceeding income cap
+            if ("pension" in name_low or "old age" in name_low or "senior" in elig_low) and user_age < 60:
+                continue
+            if ("pension" in name_low or "old age" in name_low or "bpl" in elig_low) and user_income > 56460:
                 continue
 
             score = 50
-            name_low = kb["name"].lower()
-            elig_low = kb["eligibility"].lower()
 
             if "uttar pradesh" in elig_low and ("up" in user_state or "uttar pradesh" in user_state):
                 score += 25
@@ -481,7 +523,15 @@ class CounselorGuidanceAgent:
         else:
             # 2. SPECIFIC SCHEME INSPECTION MODE: Single scheme criteria breakdown & evaluation
             matched_points = "\n".join([f"  • {item}" for item in matched_items])
-            if verify_items:
+            if not is_eligible or match_score == 0:
+                disqual_points = "\n".join([f"  • {item}" for item in verify_items])
+                summary = (
+                    f"⚠️ **Ineligibility Notice**: Based on your profile details, you do not currently qualify for **{scheme_title}**.\n\n"
+                    f"❌ **Disqualification Reasons**:\n{disqual_points}\n\n"
+                    f"✅ **Criteria You Currently Hold**:\n{matched_points}\n\n"
+                    f"💡 Please check the recommended schemes in the carousel for options you fully qualify for!"
+                )
+            elif verify_items:
                 verify_points = "\n".join([f"  • {item}" for item in verify_items])
                 verify_short = ", ".join(verify_items)
                 summary = (

@@ -86,21 +86,24 @@ class ProfileExtractionAgent:
         q = text.lower()
 
         # Age
-        age_match = re.search(r'(\d{1,2})\s*(?:years|yr|years old|age|aged|varsh|वर्ष|साल)', q)
+        age_match = re.search(r'\b(\d{1,2})\s*(?:years?|yrs?|year\s+old|years\s+old|age|aged|varsh|वर्ष|साल)\b', q)
         if age_match:
             profile.age = int(age_match.group(1))
 
-        # Income — handles ₹, lakh, k, annual
-        income_match = re.search(r'[\₹rs.\s]*(\d[\d,]*)\s*(?:lakh|lac|l\b|k\b|thousand|rupees|rs|per year|annual|per annum|pratima|प्रति)', q)
-        if income_match:
+        # Income — handles ₹80,000, Rs 80000, 1.5 lakh, 80k, income of 80000
+        income_match = re.search(r'(?:income\s*(?:of|is)?\s*)?[\₹rs.\s]*(\d[\d,]{3,9})\b', q)
+        if income_match and len(income_match.group(1).replace(',', '')) >= 4:
             val_str = income_match.group(1).replace(',', '')
-            val = float(val_str)
-            if any(w in q for w in ['lakh', 'lac', ' l ']):
-                profile.income = int(val * 100000)
-            elif any(w in q for w in ['k', 'thousand']):
-                profile.income = int(val * 1000)
-            else:
-                profile.income = int(val)
+            profile.income = int(float(val_str))
+        else:
+            unit_match = re.search(r'(\d+(?:\.\d+)?)\s*(lakh|lac|k|thousand)\b', q)
+            if unit_match:
+                val = float(unit_match.group(1))
+                unit = unit_match.group(2)
+                if unit in ['lakh', 'lac']:
+                    profile.income = int(val * 100000)
+                elif unit in ['k', 'thousand']:
+                    profile.income = int(val * 1000)
 
         # Occupation
         occupations = [
