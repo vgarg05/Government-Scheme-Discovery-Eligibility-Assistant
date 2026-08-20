@@ -47,7 +47,7 @@ export default function Hero({ onPresetClick }) {
               style={{
                 fontSize: '15px',
                 lineHeight: 1.6,
-                color: 'var(--text-secondary)',
+                color: '#57534A',
                 marginBottom: '20px',
               }}
             >
