@@ -255,16 +255,17 @@ function MidgroundArtwork() {
         <rect x="1656" y="68" width="20" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
       </g>
 
-      {/* ══ SPACIOUS BUFFER 4: Vintage Bicycle (x: 1730 - 1880) ══ */}
-      <g stroke={P_LINE} strokeWidth="0.9" fill="none">
-        <circle cx="1790" cy="103" r="9" />
-        <circle cx="1818" cy="103" r="9" />
-        <line x1="1790" y1="103" x2="1804" y2="93" />
-        <line x1="1804" y1="93" x2="1818" y2="103" />
-        <line x1="1790" y1="103" x2="1802" y2="103" />
-        <line x1="1802" y1="103" x2="1804" y2="93" />
-        <line x1="1818" y1="103" x2="1814" y2="89" />
-        <line x1="1810" y1="89" x2="1817" y2="89" />
+      {/* ══ SPACIOUS BUFFER 4: Vintage Bicycle (Enlarged x1.65) ══ */}
+      <g transform="translate(1804, 98) scale(1.65)" stroke={P_LINE} strokeWidth="0.8" fill="none">
+        <circle cx="-14" cy="0" r="8" />
+        <circle cx="10" cy="0" r="8" />
+        <line x1="-14" y1="0" x2="-2" y2="-9" />
+        <line x1="-2" y1="-9" x2="10" y2="0" />
+        <line x1="-14" y1="0" x2="-4" y2="0" />
+        <line x1="-4" y1="0" x2="-2" y2="-9" />
+        <line x1="10" y1="0" x2="7" y2="-12" />
+        <line x1="4" y1="-12" x2="9" y2="-12" />
+        <line x1="-5" y1="-10" x2="2" y2="-10" />
       </g>
 
       {/* ══ 6. PANCHAYAT BHAVAN (x: 1910 - 2100) ══ */}
@@ -303,32 +304,34 @@ function MidgroundArtwork() {
         <path d="M 2007 10 L 2023 15 L 2007 20 Z" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.7" />
       </g>
 
-      {/* ══ 7. SOLAR IRRIGATION PUMP & WELL (x: 2130 - 2250) ══ */}
-      <g>
-        <rect x="2150" y="62" width="32" height="18" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.1" transform="rotate(-15 2150 62)" />
-        <line x1="2150" y1="71" x2="2182" y2="62" stroke={S_LINE} strokeWidth="0.7" transform="rotate(-15 2150 62)" />
-        <line x1="2166" y1="62" x2="2166" y2="80" stroke={S_LINE} strokeWidth="0.7" transform="rotate(-15 2150 62)" />
-        <line x1="2166" y1="80" x2="2166" y2="96" stroke={P_LINE} strokeWidth="1.3" />
+      {/* ══ 7. SOLAR IRRIGATION PUMP & WELL (Enlarged x1.55) ══ */}
+      <g transform="translate(2190, 72) scale(1.55)">
+        <rect x="-35" y="-22" width="34" height="19" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" transform="rotate(-15 -35 -22)" />
+        <line x1="-35" y1="-12" x2="-2" y2="-22" stroke={S_LINE} strokeWidth="0.5" transform="rotate(-15 -35 -22)" />
+        <line x1="-18" y1="-22" x2="-18" y2="-3" stroke={S_LINE} strokeWidth="0.5" transform="rotate(-15 -35 -22)" />
+        <line x1="-18" y1="-3" x2="-18" y2="12" stroke={P_LINE} strokeWidth="1" />
 
-        <rect x="2182" y="84" width="12" height="12" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.9" />
-        <path d="M 2188 84 L 2188 74 L 2202 74 L 2202 92" fill="none" stroke={P_LINE} strokeWidth="1.1" />
+        {/* Pump Box & Outlet Pipe */}
+        <rect x="2" y="0" width="14" height="13" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.8" />
+        <path d="M 9 0 L 9 -10 L 22 -10 L 22 8" fill="none" stroke={P_LINE} strokeWidth="0.9" />
 
-        <ellipse cx="2218" cy="91" rx="14" ry="5.5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
-        <line x1="2208" y1="91" x2="2208" y2="74" stroke={P_LINE} strokeWidth="1" />
-        <line x1="2228" y1="91" x2="2228" y2="74" stroke={P_LINE} strokeWidth="1" />
-        <line x1="2206" y1="74" x2="2230" y2="74" stroke={P_LINE} strokeWidth="1.1" />
+        {/* Village Well */}
+        <ellipse cx="38" cy="7" rx="15" ry="5.5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.9" />
+        <line x1="28" y1="7" x2="28" y2="-10" stroke={P_LINE} strokeWidth="0.8" />
+        <line x1="48" y1="7" x2="48" y2="-10" stroke={P_LINE} strokeWidth="0.8" />
+        <line x1="26" y1="-10" x2="50" y2="-10" stroke={P_LINE} strokeWidth="0.9" />
 
         {/* Text Signboard: SOLAR PUMP */}
-        <rect x="2148" y="38" width="88" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" rx="1" />
+        <rect x="-36" y="-44" width="88" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.7" rx="1" />
         <text
-          x="2192"
-          y="49"
+          x="8"
+          y="-33"
           fontFamily="Inter, system-ui, sans-serif"
-          fontSize="8.5"
+          fontSize="7.5"
           fontWeight="900"
           fill={P_LINE}
           textAnchor="middle"
-          letterSpacing="0.6px"
+          letterSpacing="0.5px"
         >
           SOLAR PUMP
         </text>
