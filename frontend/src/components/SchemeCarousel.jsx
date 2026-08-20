@@ -121,16 +121,17 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
       </div>
 
       {/* ── Navigation Bar (Arrow Buttons + Dot Indicators) ── */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '12px 20px',
-          borderTop: '1px solid var(--border-subtle)',
-          background: '#FAF6EC',
-        }}
-      >
+      {cards.length > 1 && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '12px 20px',
+            borderTop: '1px solid var(--border-subtle)',
+            background: '#FAF6EC',
+          }}
+        >
         {/* Left Arrow Button (Matching Sample Query preset button background) */}
         <button
           type="button"
@@ -209,6 +210,7 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
           <ChevronRight style={{ width: '18px', height: '18px', color: '#171714' }} strokeWidth={2.5} />
         </button>
       </div>
+      )}
     </div>
   );
 }

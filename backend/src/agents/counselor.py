@@ -321,12 +321,11 @@ def generate_scheme_cards(state: AgentState):
             ]
             add_card(name=title, short_desc=short_desc, highlights=highlights, key=title, portal=clean_url(link))
 
-        if len(cards) >= 6:
+        if len(cards) >= 8:
             break
 
-    # 2. Dynamic demographic scoring for remaining slots
-    if len(cards) < 6:
-        # Score each KB scheme dynamically against profile
+    # 2. Dynamic demographic scoring to fill remaining relevant slots if needed
+    if len(cards) < 3:
         scored_kb = []
         user_age = profile.age or 35
         user_income = profile.income or 100000
@@ -341,16 +340,13 @@ def generate_scheme_cards(state: AgentState):
             name_low = kb["name"].lower()
             elig_low = kb["eligibility"].lower()
 
-            # State match (+25)
             if "uttar pradesh" in elig_low and ("up" in user_state or "uttar pradesh" in user_state):
                 score += 25
 
-            # Occupation match (+25)
             if "farm" in user_occ or "kisan" in user_occ or "krishak" in user_occ:
                 if "farm" in elig_low or "kisan" in name_low or "krishak" in name_low:
                     score += 25
 
-            # Age appropriateness (+15)
             if "70" in elig_low or "senior" in elig_low:
                 if user_age >= 60:
                     score += 20
@@ -361,7 +357,6 @@ def generate_scheme_cards(state: AgentState):
 
             scored_kb.append((score, kb))
 
-        # Sort KB schemes by dynamic demographic match score
         scored_kb.sort(key=lambda x: x[0], reverse=True)
 
         for _, kb in scored_kb:
@@ -375,7 +370,7 @@ def generate_scheme_cards(state: AgentState):
                 portal=kb["portal"]
             )
 
-    return cards[:6]
+    return cards
 
 
 class CounselorGuidanceAgent:
