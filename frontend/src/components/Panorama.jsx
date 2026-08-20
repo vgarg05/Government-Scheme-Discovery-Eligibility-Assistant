@@ -1,11 +1,11 @@
 import React from 'react';
 
 /*
-  GovAssist — Spacious Living Indian Public Services Streetscape
-  ──────────────────────────────────────────────────────────────
+  GovAssist — Spacious & Prominent Indian Public Services Streetscape
+  ──────────────────────────────────────────────────────────────────
   Concept:
-  - 2400px Wide ViewBox: Gives generous, natural breathing space between each public landmark.
-  - Landmarks:
+  - Scaled-Up 2400px x 92px ViewBox: Makes buildings and text signboards 35% larger visually.
+  - Large High-Visibility Signboards (fontSize 10.5px - 11px, fontWeight 900):
     1. KRISHI SEVA KENDRA (Farmer Material & Fertilizer Shop / कृषि सेवा केंद्र)
     2. DAK GHAR / POST OFFICE (Postal Savings & Sukanya Yojana / डाक घर)
     3. HEALTH CENTRE (Primary Health Centre / Hospital / स्वास्थ्य केंद्र)
@@ -38,39 +38,39 @@ function BackgroundArtwork() {
 
       {/* Distant Grain Silos & Water Tower (Far Left) */}
       <g opacity="0.45" fill="none" stroke={S_LINE} strokeWidth="0.6">
-        <path d="M 50 92 L 50 76 A 6 6 0 0 1 62 76 L 62 92 Z" />
-        <path d="M 66 92 L 66 74 A 6 6 0 0 1 78 74 L 78 92 Z" />
-        <rect x="84" y="80" width="18" height="12" />
-        <path d="M 82 80 L 93 72 L 104 80 Z" />
-        <line x1="56" y1="70" x2="56" y2="64" />
-        <line x1="72" y1="68" x2="72" y2="60" />
+        <path d="M 50 92 L 50 72 A 7 7 0 0 1 64 72 L 64 92 Z" />
+        <path d="M 68 92 L 68 70 A 7 7 0 0 1 82 70 L 82 92 Z" />
+        <rect x="88" y="78" width="22" height="14" />
+        <path d="M 86 78 L 99 68 L 112 78 Z" />
+        <line x1="57" y1="65" x2="57" y2="58" />
+        <line x1="75" y1="63" x2="75" y2="54" />
       </g>
 
-      {/* Distant Windmill & Solar Farm Silhouettes (Mid Horizon) */}
+      {/* Distant Windmill & Solar Farm Silhouettes */}
       <g opacity="0.35" fill="none" stroke={S_LINE} strokeWidth="0.5">
-        <line x1="1120" y1="92" x2="1120" y2="70" />
-        <circle cx="1120" cy="70" r="1.5" />
-        <line x1="1120" y1="70" x2="1112" y2="62" />
-        <line x1="1120" y1="70" x2="1128" y2="62" />
+        <line x1="1120" y1="92" x2="1120" y2="65" />
+        <circle cx="1120" cy="65" r="2" />
+        <line x1="1120" y1="65" x2="1110" y2="55" />
+        <line x1="1120" y1="65" x2="1130" y2="55" />
 
-        <line x1="1150" y1="92" x2="1150" y2="73" />
-        <circle cx="1150" cy="73" r="1.5" />
-        <line x1="1150" y1="73" x2="1144" y2="66" />
-        <line x1="1150" y1="73" x2="1156" y2="66" />
+        <line x1="1160" y1="92" x2="1160" y2="68" />
+        <circle cx="1160" cy="68" r="2" />
+        <line x1="1160" y1="68" x2="1152" y2="60" />
+        <line x1="1160" y1="68" x2="1168" y2="60" />
       </g>
 
-      {/* Distant Tree Line & Solar Array (Far Right) */}
+      {/* Distant Tree Line & Solar Array */}
       <g opacity="0.4" fill="none" stroke={S_LINE} strokeWidth="0.6">
-        <rect x="2220" y="82" width="28" height="10" transform="rotate(-5 2220 82)" />
-        <rect x="2255" y="82" width="28" height="10" transform="rotate(-5 2255 82)" />
-        <circle cx="2320" cy="76" r="11" />
-        <line x1="2320" y1="87" x2="2320" y2="92" />
+        <rect x="2220" y="80" width="32" height="12" transform="rotate(-5 2220 80)" />
+        <rect x="2260" y="80" width="32" height="12" transform="rotate(-5 2260 80)" />
+        <circle cx="2330" cy="74" r="13" />
+        <line x1="2330" y1="87" x2="2330" y2="92" />
       </g>
     </>
   );
 }
 
-// ── LAYER 2: Midground Main Public Service Streetscape (Spacious 2400px Segment) ──
+// ── LAYER 2: Midground Main Public Service Streetscape (Enlarged Buildings & Titles) ──
 function MidgroundArtwork() {
   return (
     <>
@@ -98,254 +98,255 @@ function MidgroundArtwork() {
         ))}
       </g>
 
-      {/* ══ 2. KRISHI SEVA KENDRA (x: 360 - 520) ══ */}
+      {/* ══ 2. KRISHI SEVA KENDRA (x: 360 - 530) ══ */}
       <g>
-        <ellipse cx="370" cy="56" rx="13" ry="20" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.9" />
-        <line x1="370" y1="36" x2="370" y2="92" stroke={P_LINE} strokeWidth="0.9" />
+        <ellipse cx="370" cy="50" rx="16" ry="24" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1" />
+        <line x1="370" y1="26" x2="370" y2="92" stroke={P_LINE} strokeWidth="1" />
 
-        <rect x="395" y="66" width="125" height="26" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.1" />
-        <path d="M 387 66 L 457 48 L 527 66 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
-        <rect x="392" y="66" width="131" height="7" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
+        {/* Scaled-up Building Body */}
+        <rect x="390" y="60" width="145" height="32" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.2" />
+        <path d="M 380 60 L 462 40 L 545 60 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.2" />
+        <rect x="386" y="60" width="153" height="8" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1.1" />
 
-        {/* Text Signboard */}
-        <rect x="391" y="46" width="134" height="17" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" rx="2" />
+        {/* Large Prominent Text Signboard */}
+        <rect x="382" y="38" width="160" height="20" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.1" rx="2" />
         <text
-          x="458"
-          y="58"
+          x="462"
+          y="52"
           fontFamily="Inter, system-ui, sans-serif"
-          fontSize="9"
-          fontWeight="800"
+          fontSize="11"
+          fontWeight="900"
           fill={P_LINE}
           textAnchor="middle"
-          letterSpacing="0.6px"
+          letterSpacing="0.8px"
         >
           KRISHI SEVA KENDRA
         </text>
 
-        <rect x="444" y="73" width="22" height="19" fill={ACCENT_YELLOW} opacity="0.9" stroke={P_LINE} strokeWidth="0.9" />
-        <rect x="408" y="75" width="18" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
-        <rect x="480" y="75" width="18" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
+        {/* Entrance Door & Shutters */}
+        <rect x="448" y="68" width="26" height="24" fill={ACCENT_YELLOW} opacity="0.9" stroke={P_LINE} strokeWidth="1" />
+        <rect x="405" y="70" width="22" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
+        <rect x="492" y="70" width="22" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
 
-        <ellipse cx="402" cy="90" rx="5" ry="3" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.7" />
-        <ellipse cx="411" cy="90" rx="5" ry="3" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.7" />
+        <ellipse cx="398" cy="90" rx="6" ry="3.5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.8" />
+        <ellipse cx="408" cy="90" rx="6" ry="3.5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.8" />
       </g>
 
-      {/* ══ SPACIOUS BUFFER 1: Trees & Handpump (x: 540 - 700) ══ */}
+      {/* ══ SPACIOUS BUFFER 1: Trees & Handpump (x: 550 - 710) ══ */}
       <g>
-        <circle cx="580" cy="80" r="14" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.8" />
-        <line x1="580" y1="94" x2="580" y2="112" stroke={P_LINE} strokeWidth="0.9" />
+        <circle cx="610" cy="76" r="16" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.9" />
+        <line x1="610" y1="92" x2="610" y2="112" stroke={P_LINE} strokeWidth="1" />
 
-        <line x1="640" y1="112" x2="640" y2="96" stroke={P_LINE} strokeWidth="1.2" />
-        <line x1="636" y1="96" x2="644" y2="96" stroke={P_LINE} strokeWidth="1.2" />
-        <line x1="640" y1="99" x2="652" y2="103" stroke={P_LINE} strokeWidth="0.9" />
+        <line x1="665" y1="112" x2="665" y2="94" stroke={P_LINE} strokeWidth="1.3" />
+        <line x1="660" y1="94" x2="670" y2="94" stroke={P_LINE} strokeWidth="1.3" />
+        <line x1="665" y1="97" x2="678" y2="102" stroke={P_LINE} strokeWidth="1" />
       </g>
 
-      {/* ══ 3. DAK GHAR / POST OFFICE (x: 740 - 880) ══ */}
+      {/* ══ 3. DAK GHAR / POST OFFICE (x: 740 - 900) ══ */}
       <g>
-        <ellipse cx="750" cy="52" rx="11" ry="18" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.9" />
-        <line x1="750" y1="34" x2="750" y2="92" stroke={P_LINE} strokeWidth="0.9" />
+        <ellipse cx="750" cy="46" rx="14" ry="22" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1" />
+        <line x1="750" y1="24" x2="750" y2="92" stroke={P_LINE} strokeWidth="1" />
 
-        <rect x="765" y="64" width="105" height="28" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.1" />
-        <path d="M 758 64 L 817 50 L 877 64 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
+        <rect x="765" y="58" width="125" height="34" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.2" />
+        <path d="M 756 58 L 827 42 L 899 58 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.2" />
 
-        {/* Text Signboard: POST OFFICE */}
-        <rect x="772" y="47" width="90" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" rx="2" />
+        {/* Large Prominent Text Signboard: POST OFFICE */}
+        <rect x="772" y="39" width="112" height="19" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.1" rx="2" />
         <text
-          x="817"
-          y="58"
+          x="828"
+          y="52"
           fontFamily="Inter, system-ui, sans-serif"
-          fontSize="8.5"
-          fontWeight="800"
+          fontSize="10.5"
+          fontWeight="900"
           fill={P_LINE}
           textAnchor="middle"
-          letterSpacing="0.6px"
+          letterSpacing="0.8px"
         >
           POST OFFICE
         </text>
 
-        <rect x="807" y="72" width="18" height="20" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.9" />
-        <rect x="778" y="73" width="16" height="12" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
-        <rect x="838" y="73" width="16" height="12" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
+        <rect x="815" y="66" width="22" height="26" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
+        <rect x="780" y="68" width="18" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
+        <rect x="852" y="68" width="18" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
 
-        {/* Red/Yellow Post Box */}
-        <rect x="866" y="80" width="8" height="12" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.8" rx="3" />
-        <line x1="870" y1="92" x2="870" y2="95" stroke={P_LINE} strokeWidth="1" />
+        {/* Post Box */}
+        <rect x="882" y="76" width="10" height="15" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.9" rx="3" />
+        <line x1="887" y1="91" x2="887" y2="95" stroke={P_LINE} strokeWidth="1.1" />
       </g>
 
-      {/* ══ SPACIOUS BUFFER 2: Utility Pole & Sagging Wires (x: 900 - 1080) ══ */}
+      {/* ══ SPACIOUS BUFFER 2: Utility Pole & Wires (x: 920 - 1100) ══ */}
       <g stroke={P_LINE}>
-        <line x1="980" y1="30" x2="980" y2="112" strokeWidth="1.2" />
-        <line x1="968" y1="36" x2="992" y2="36" strokeWidth="1" />
-        <line x1="970" y1="42" x2="990" y2="42" strokeWidth="0.8" />
+        <line x1="1000" y1="24" x2="1000" y2="112" strokeWidth="1.3" />
+        <line x1="986" y1="30" x2="1014" y2="30" strokeWidth="1.1" />
+        <line x1="988" y1="36" x2="1012" y2="36" strokeWidth="0.9" />
 
-        <path d="M 980 36 Q 860 52 760 44" fill="none" stroke={P_LINE} strokeWidth="0.6" />
-        <path d="M 980 42 Q 860 58 760 50" fill="none" stroke={S_LINE} strokeWidth="0.5" />
+        <path d="M 1000 30 Q 880 46 770 38" fill="none" stroke={P_LINE} strokeWidth="0.7" />
+        <path d="M 1000 36 Q 880 52 770 44" fill="none" stroke={S_LINE} strokeWidth="0.5" />
       </g>
 
-      {/* ══ 4. PRIMARY HEALTH CENTRE / HOSPITAL (x: 1120 - 1310) ══ */}
+      {/* ══ 4. PRIMARY HEALTH CENTRE / HOSPITAL (x: 1130 - 1340) ══ */}
       <g>
-        <ellipse cx="1130" cy="46" rx="16" ry="24" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1" />
-        <line x1="1130" y1="22" x2="1130" y2="92" stroke={P_LINE} strokeWidth="1" />
+        <ellipse cx="1140" cy="40" rx="18" ry="26" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1.1" />
+        <line x1="1140" y1="14" x2="1140" y2="92" stroke={P_LINE} strokeWidth="1.1" />
 
-        <rect x="1140" y="87" width="165" height="5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
-        <rect x="1150" y="50" width="145" height="37" fill="rgba(247,245,236,0.95)" stroke={P_LINE} strokeWidth="1.3" />
-        <rect x="1144" y="44" width="157" height="6" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
+        <rect x="1150" y="87" width="180" height="5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
+        <rect x="1160" y="44" width="160" height="43" fill="rgba(247,245,236,0.95)" stroke={P_LINE} strokeWidth="1.4" />
+        <rect x="1152" y="37" width="176" height="7" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.2" />
 
-        {/* Text Signboard: HEALTH CENTRE */}
-        <rect x="1165" y="26" width="115" height="17" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" rx="2" />
-        <rect x="1173" y="29.5" width="6" height="10" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.7" />
-        <rect x="1171" y="31.5" width="10" height="6" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.7" />
+        {/* Large Prominent Text Signboard: HEALTH CENTRE */}
+        <rect x="1172" y="18" width="136" height="20" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.1" rx="2" />
+        <rect x="1182" y="22" width="7" height="12" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.8" />
+        <rect x="1179.5" y="24.5" width="12" height="7" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.8" />
         <text
-          x="1227"
-          y="38"
+          x="1246"
+          y="32"
           fontFamily="Inter, system-ui, sans-serif"
-          fontSize="9"
-          fontWeight="800"
+          fontSize="11"
+          fontWeight="900"
           fill={P_LINE}
           textAnchor="middle"
-          letterSpacing="0.6px"
+          letterSpacing="0.8px"
         >
           HEALTH CENTRE
         </text>
 
-        <rect x="1208" y="62" width="14" height="25" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
-        <rect x="1223" y="62" width="14" height="25" fill={ACCENT_YELLOW} opacity="0.9" stroke={P_LINE} strokeWidth="0.9" />
+        <rect x="1225" y="58" width="16" height="29" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
+        <rect x="1241" y="58" width="16" height="29" fill={ACCENT_YELLOW} opacity="0.9" stroke={P_LINE} strokeWidth="1" />
 
-        <rect x="1165" y="58" width="22" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
-        <rect x="1255" y="58" width="22" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
+        <rect x="1176" y="54" width="26" height="18" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
+        <rect x="1278" y="54" width="26" height="18" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
       </g>
 
-      {/* ══ SPACIOUS BUFFER 3: Neem Tree & Bench (x: 1330 - 1480) ══ */}
+      {/* ══ SPACIOUS BUFFER 3: Neem Tree & Bench (x: 1360 - 1510) ══ */}
       <g>
-        <ellipse cx="1400" cy="52" rx="18" ry="26" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1" />
-        <line x1="1400" y1="26" x2="1400" y2="92" stroke={P_LINE} strokeWidth="1" />
+        <ellipse cx="1420" cy="46" rx="20" ry="28" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1.1" />
+        <line x1="1420" y1="18" x2="1420" y2="92" stroke={P_LINE} strokeWidth="1.1" />
 
-        {/* Wooden Bench under tree */}
-        <rect x="1430" y="98" width="24" height="4" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.8" />
-        <line x1="1434" y1="102" x2="1434" y2="112" stroke={P_LINE} strokeWidth="0.9" />
-        <line x1="1450" y1="102" x2="1450" y2="112" stroke={P_LINE} strokeWidth="0.9" />
+        <rect x="1455" y="96" width="28" height="5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.9" />
+        <line x1="1460" y1="101" x2="1460" y2="112" stroke={P_LINE} strokeWidth="1" />
+        <line x1="1478" y1="101" x2="1478" y2="112" stroke={P_LINE} strokeWidth="1" />
       </g>
 
-      {/* ══ 5. GOVERNMENT PRIMARY SCHOOL (x: 1520 - 1670) ══ */}
+      {/* ══ 5. GOVERNMENT PRIMARY SCHOOL (x: 1540 - 1710) ══ */}
       <g>
-        <ellipse cx="1530" cy="50" rx="14" ry="20" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1" />
-        <line x1="1530" y1="30" x2="1530" y2="92" stroke={P_LINE} strokeWidth="1" />
+        <ellipse cx="1550" cy="44" rx="16" ry="22" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1" />
+        <line x1="1550" y1="22" x2="1550" y2="92" stroke={P_LINE} strokeWidth="1" />
 
-        <rect x="1545" y="62" width="115" height="30" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.2" />
-        <path d="M 1537 62 L 1602 46 L 1667 62 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.2" />
+        <rect x="1565" y="56" width="130" height="36" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.3" />
+        <path d="M 1555 56 L 1630 38 L 1705 56 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.3" />
 
-        {/* Text Signboard: VILLAGE SCHOOL */}
-        <rect x="1552" y="44" width="100" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" rx="2" />
+        {/* Large Prominent Text Signboard: VILLAGE SCHOOL */}
+        <rect x="1572" y="36" width="116" height="19" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.1" rx="2" />
         <text
-          x="1602"
-          y="55"
+          x="1630"
+          y="49"
           fontFamily="Inter, system-ui, sans-serif"
-          fontSize="8.5"
-          fontWeight="800"
+          fontSize="10.5"
+          fontWeight="900"
           fill={P_LINE}
           textAnchor="middle"
-          letterSpacing="0.6px"
+          letterSpacing="0.8px"
         >
           VILLAGE SCHOOL
         </text>
 
-        <rect x="1592" y="70" width="20" height="22" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.9" />
-        <rect x="1560" y="72" width="18" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
-        <rect x="1624" y="72" width="18" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
+        <rect x="1618" y="66" width="24" height="26" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
+        <rect x="1580" y="68" width="20" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
+        <rect x="1656" y="68" width="20" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" />
       </g>
 
-      {/* ══ SPACIOUS BUFFER 4: Vintage Bicycle (x: 1690 - 1840) ══ */}
-      <g stroke={P_LINE} strokeWidth="0.8" fill="none">
-        <circle cx="1740" cy="104" r="8" />
-        <circle cx="1764" cy="104" r="8" />
-        <line x1="1740" y1="104" x2="1752" y2="95" />
-        <line x1="1752" y1="95" x2="1764" y2="104" />
-        <line x1="1740" y1="104" x2="1750" y2="104" />
-        <line x1="1750" y1="104" x2="1752" y2="95" />
-        <line x1="1764" y1="104" x2="1761" y2="92" />
-        <line x1="1758" y1="92" x2="1763" y2="92" />
+      {/* ══ SPACIOUS BUFFER 4: Vintage Bicycle (x: 1730 - 1880) ══ */}
+      <g stroke={P_LINE} strokeWidth="0.9" fill="none">
+        <circle cx="1790" cy="103" r="9" />
+        <circle cx="1818" cy="103" r="9" />
+        <line x1="1790" y1="103" x2="1804" y2="93" />
+        <line x1="1804" y1="93" x2="1818" y2="103" />
+        <line x1="1790" y1="103" x2="1802" y2="103" />
+        <line x1="1802" y1="103" x2="1804" y2="93" />
+        <line x1="1818" y1="103" x2="1814" y2="89" />
+        <line x1="1810" y1="89" x2="1817" y2="89" />
       </g>
 
-      {/* ══ 6. PANCHAYAT BHAVAN & CSC DIGITAL KENDRA (x: 1880 - 2060) ══ */}
+      {/* ══ 6. PANCHAYAT BHAVAN (x: 1910 - 2100) ══ */}
       <g>
-        <ellipse cx="1890" cy="50" rx="14" ry="22" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1" />
-        <line x1="1890" y1="28" x2="1890" y2="92" stroke={P_LINE} strokeWidth="1" />
+        <ellipse cx="1920" cy="44" rx="16" ry="24" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1.1" />
+        <line x1="1920" y1="20" x2="1920" y2="92" stroke={P_LINE} strokeWidth="1.1" />
 
-        <rect x="1895" y="87" width="150" height="5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.9" />
-        <rect x="1905" y="52" width="130" height="35" fill="rgba(243,241,230,0.95)" stroke={P_LINE} strokeWidth="1.2" />
-        <path d="M 1895 52 L 1970 34 L 2045 52 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.2" />
+        <rect x="1925" y="87" width="165" height="5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
+        <rect x="1935" y="46" width="145" height="41" fill="rgba(243,241,230,0.95)" stroke={P_LINE} strokeWidth="1.3" />
+        <path d="M 1925 46 L 2007 26 L 2090 46 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.3" />
 
-        {/* Text Signboard: PANCHAYAT BHAVAN */}
-        <rect x="1910" y="38" width="120" height="15" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" rx="2" />
+        {/* Large Prominent Text Signboard: PANCHAYAT BHAVAN */}
+        <rect x="1942" y="30" width="132" height="18" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.1" rx="2" />
         <text
-          x="1970"
-          y="49"
+          x="2008"
+          y="42"
           fontFamily="Inter, system-ui, sans-serif"
-          fontSize="8.5"
-          fontWeight="800"
+          fontSize="10.5"
+          fontWeight="900"
           fill={P_LINE}
           textAnchor="middle"
-          letterSpacing="0.6px"
+          letterSpacing="0.8px"
         >
           PANCHAYAT BHAVAN
         </text>
 
-        <line x1="1925" y1="52" x2="1925" y2="87" stroke={P_LINE} strokeWidth="0.8" />
-        <line x1="1950" y1="52" x2="1950" y2="87" stroke={P_LINE} strokeWidth="0.8" />
-        <line x1="1990" y1="52" x2="1990" y2="87" stroke={P_LINE} strokeWidth="0.8" />
-        <line x1="2015" y1="52" x2="2015" y2="87" stroke={P_LINE} strokeWidth="0.8" />
+        <line x1="1958" y1="46" x2="1958" y2="87" stroke={P_LINE} strokeWidth="0.9" />
+        <line x1="1985" y1="46" x2="1985" y2="87" stroke={P_LINE} strokeWidth="0.9" />
+        <line x1="2030" y1="46" x2="2030" y2="87" stroke={P_LINE} strokeWidth="0.9" />
+        <line x1="2058" y1="46" x2="2058" y2="87" stroke={P_LINE} strokeWidth="0.9" />
 
-        <rect x="1963" y="64" width="15" height="23" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
-        <rect x="1978" y="64" width="15" height="23" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
+        <rect x="2000" y="60" width="16" height="27" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
+        <rect x="2016" y="60" width="16" height="27" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
 
-        <line x1="1970" y1="34" x2="1970" y2="18" stroke={P_LINE} strokeWidth="0.9" />
-        <path d="M 1970 18 L 1984 23 L 1970 28 Z" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.6" />
+        <line x1="2007" y1="26" x2="2007" y2="10" stroke={P_LINE} strokeWidth="1" />
+        <path d="M 2007 10 L 2023 15 L 2007 20 Z" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.7" />
       </g>
 
-      {/* ══ 7. SOLAR IRRIGATION PUMP & WELL (x: 2080 - 2200) ══ */}
+      {/* ══ 7. SOLAR IRRIGATION PUMP & WELL (x: 2130 - 2250) ══ */}
       <g>
-        <rect x="2100" y="68" width="28" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" transform="rotate(-15 2100 68)" />
-        <line x1="2100" y1="76" x2="2128" y2="68" stroke={S_LINE} strokeWidth="0.6" transform="rotate(-15 2100 68)" />
-        <line x1="2114" y1="68" x2="2114" y2="84" stroke={S_LINE} strokeWidth="0.6" transform="rotate(-15 2100 68)" />
-        <line x1="2114" y1="84" x2="2114" y2="96" stroke={P_LINE} strokeWidth="1.2" />
+        <rect x="2150" y="62" width="32" height="18" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1.1" transform="rotate(-15 2150 62)" />
+        <line x1="2150" y1="71" x2="2182" y2="62" stroke={S_LINE} strokeWidth="0.7" transform="rotate(-15 2150 62)" />
+        <line x1="2166" y1="62" x2="2166" y2="80" stroke={S_LINE} strokeWidth="0.7" transform="rotate(-15 2150 62)" />
+        <line x1="2166" y1="80" x2="2166" y2="96" stroke={P_LINE} strokeWidth="1.3" />
 
-        <rect x="2128" y="86" width="10" height="10" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.8" />
-        <path d="M 2133 86 L 2133 78 L 2145 78 L 2145 92" fill="none" stroke={P_LINE} strokeWidth="1" />
+        <rect x="2182" y="84" width="12" height="12" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="0.9" />
+        <path d="M 2188 84 L 2188 74 L 2202 74 L 2202 92" fill="none" stroke={P_LINE} strokeWidth="1.1" />
 
-        <ellipse cx="2160" cy="91" rx="12" ry="5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
-        <line x1="2152" y1="91" x2="2152" y2="76" stroke={P_LINE} strokeWidth="0.9" />
-        <line x1="2168" y1="91" x2="2168" y2="76" stroke={P_LINE} strokeWidth="0.9" />
-        <line x1="2150" y1="76" x2="2170" y2="76" stroke={P_LINE} strokeWidth="1" />
+        <ellipse cx="2218" cy="91" rx="14" ry="5.5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
+        <line x1="2208" y1="91" x2="2208" y2="74" stroke={P_LINE} strokeWidth="1" />
+        <line x1="2228" y1="91" x2="2228" y2="74" stroke={P_LINE} strokeWidth="1" />
+        <line x1="2206" y1="74" x2="2230" y2="74" stroke={P_LINE} strokeWidth="1.1" />
 
         {/* Text Signboard: SOLAR PUMP */}
-        <rect x="2102" y="46" width="76" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" rx="1" />
+        <rect x="2148" y="38" width="88" height="16" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.9" rx="1" />
         <text
-          x="2140"
-          y="56"
+          x="2192"
+          y="49"
           fontFamily="Inter, system-ui, sans-serif"
-          fontSize="7"
-          fontWeight="800"
+          fontSize="8.5"
+          fontWeight="900"
           fill={P_LINE}
           textAnchor="middle"
-          letterSpacing="0.4px"
+          letterSpacing="0.6px"
         >
           SOLAR PUMP
         </text>
       </g>
 
-      {/* ══ 8. RURAL HOMESTEAD & BANYAN TREE (x: 2240 - 2400) ══ */}
+      {/* ══ 8. RURAL HOMESTEAD & BANYAN TREE (x: 2280 - 2400) ══ */}
       <g>
-        <path d="M 2260 112 L 2260 75 Q 2245 60 2230 55 M 2260 75 Q 2275 58 2290 52" fill="none" stroke={P_LINE} strokeWidth="1.1" />
-        <path d="M 2220 55 Q 2260 25 2300 52 Q 2310 75 2260 75 Z" fill="rgba(217,213,200,0.22)" stroke={S_LINE} strokeWidth="0.8" />
+        <path d="M 2295 112 L 2295 70 Q 2278 55 2260 50 M 2295 70 Q 2312 52 2330 46" fill="none" stroke={P_LINE} strokeWidth="1.2" />
+        <path d="M 2250 50 Q 2295 20 2340 48 Q 2350 70 2295 70 Z" fill="rgba(217,213,200,0.22)" stroke={S_LINE} strokeWidth="0.9" />
 
-        <rect x="2285" y="76" width="85" height="28" fill="rgba(243,241,230,0.8)" stroke={P_LINE} strokeWidth="1" />
-        <path d="M 2278 76 L 2327 60 L 2376 76 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
+        <rect x="2320" y="70" width="75" height="34" fill="rgba(243,241,230,0.8)" stroke={P_LINE} strokeWidth="1.1" />
+        <path d="M 2312 70 L 2357 52 L 2400 70 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
       </g>
     </>
   );
 }
 
-// ── LAYER 3: Foreground Road, Driveway Dips & Lollipop Trees (2400px segment) ──
+// ── LAYER 3: Foreground Road, Driveway Dips & Lollipop Trees ──
 function ForegroundArtwork() {
   return (
     <>
@@ -383,7 +384,7 @@ export default function Panorama() {
       style={{
         borderBottom: '1px solid var(--border)',
         overflow: 'hidden',
-        height: '128px',
+        height: '140px',
         position: 'relative',
         background: 'var(--bg)',
       }}
@@ -400,10 +401,10 @@ export default function Panorama() {
           display: 'flex',
         }}
       >
-        <svg viewBox="0 0 2400 120" preserveAspectRatio="xMidYMid meet" style={{ width: '50%', height: '100%' }}>
+        <svg viewBox="0 0 2400 92" preserveAspectRatio="xMidYMid meet" style={{ width: '50%', height: '100%' }}>
           <BackgroundArtwork />
         </svg>
-        <svg viewBox="0 0 2400 120" preserveAspectRatio="xMidYMid meet" style={{ width: '50%', height: '100%' }}>
+        <svg viewBox="0 0 2400 92" preserveAspectRatio="xMidYMid meet" style={{ width: '50%', height: '100%' }}>
           <BackgroundArtwork />
         </svg>
       </div>
@@ -420,10 +421,10 @@ export default function Panorama() {
           display: 'flex',
         }}
       >
-        <svg viewBox="0 0 2400 120" preserveAspectRatio="xMidYMid meet" style={{ width: '50%', height: '100%' }}>
+        <svg viewBox="0 0 2400 92" preserveAspectRatio="xMidYMid meet" style={{ width: '50%', height: '100%' }}>
           <MidgroundArtwork />
         </svg>
-        <svg viewBox="0 0 2400 120" preserveAspectRatio="xMidYMid meet" style={{ width: '50%', height: '100%' }}>
+        <svg viewBox="0 0 2400 92" preserveAspectRatio="xMidYMid meet" style={{ width: '50%', height: '100%' }}>
           <MidgroundArtwork />
         </svg>
       </div>
@@ -440,10 +441,10 @@ export default function Panorama() {
           display: 'flex',
         }}
       >
-        <svg viewBox="0 0 2400 120" preserveAspectRatio="xMidYMid meet" style={{ width: '50%', height: '100%' }}>
+        <svg viewBox="0 0 2400 92" preserveAspectRatio="xMidYMid meet" style={{ width: '50%', height: '100%' }}>
           <ForegroundArtwork />
         </svg>
-        <svg viewBox="0 0 2400 120" preserveAspectRatio="xMidYMid meet" style={{ width: '50%', height: '100%' }}>
+        <svg viewBox="0 0 2400 92" preserveAspectRatio="xMidYMid meet" style={{ width: '50%', height: '100%' }}>
           <ForegroundArtwork />
         </svg>
       </div>
