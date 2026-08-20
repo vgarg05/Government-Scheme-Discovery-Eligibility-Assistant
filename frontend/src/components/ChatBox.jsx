@@ -59,15 +59,14 @@ function UserAvatar() {
         width: '26px',
         height: '26px',
         borderRadius: '5px',
-        background: 'var(--raised)',
-        border: '1px solid var(--border)',
+        background: 'var(--accent)',
         flexShrink: 0,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         fontSize: '11px',
         fontWeight: 600,
-        color: 'var(--text-secondary)',
+        color: 'var(--accent-text)',
         letterSpacing: '-0.01em',
       }}
     >
