@@ -460,34 +460,47 @@ class CounselorGuidanceAgent:
                 "url": clean_url(default_kb["portal"])
             }]
 
-        # ── Formulate Criteria Breakdown & Call-to-Action ──
-        matched_items = evaluation.get("matched_criteria", ["Demographic profile alignment"])
-        verify_items = evaluation.get("unmatched_criteria", [])
-
-        matched_points = "\n".join([f"  • {item}" for item in matched_items])
-        
-        if verify_items:
-            verify_points = "\n".join([f"  • {item}" for item in verify_items])
-            verify_short = ", ".join(verify_items)
-            summary = (
-                f"Good news! Based on the details provided, you match the primary requirements for **{scheme_title}**.\n\n"
-                f"✅ **Criteria You Currently Hold**:\n{matched_points}\n\n"
-                f"⚠️ **Criteria We Need to Check**:\n{verify_points}\n\n"
-                f"👇 **Please share your details for ({verify_short})**, and I will confirm whether you qualify or not!"
-            )
-        else:
-            summary = (
-                f"Great news! Based on your profile, you hold full eligibility for **{scheme_title}**.\n\n"
-                f"✅ **Criteria You Currently Hold**:\n{matched_points}\n\n"
-                f"✓ **Disqualifiers Check**: No disqualifiers found.\n\n"
-                f"👇 If you'd like me to double-check any specific condition (like your exact landholding size or income certificate limit), please share your details below and I will verify it for you!"
-            )
-
-        # ── Generate Scheme Carousel Cards (Only during initial discovery, omit for specific scheme detail view) ──
+        # ── Check if query is for a specific scheme inspection vs initial discovery ──
         query_low = (state.user_query or "").lower()
         is_specific_scheme_request = "tell me full details about" in query_low or "full details" in query_low or "how to apply for" in query_low
         
         scheme_cards = [] if is_specific_scheme_request else generate_scheme_cards(state)
+
+        # ── Formulate Summary Message ──
+        matched_items = evaluation.get("matched_criteria", ["Demographic profile alignment"])
+        verify_items = evaluation.get("unmatched_criteria", [])
+
+        if scheme_cards:
+            # 1. INITIAL DISCOVERY MODE (6 Carousel Cards): General introduction, NO single scheme evaluation
+            profile_desc_parts = []
+            if profile.age: profile_desc_parts.append(f"{profile.age}-year-old")
+            if profile.occupation: profile_desc_parts.append(profile.occupation.capitalize())
+            if profile.state: profile_desc_parts.append(f"in {profile.state.title()}")
+            profile_str = " ".join(profile_desc_parts) if profile_desc_parts else "your demographic profile"
+
+            summary = (
+                f"Welcome! Based on **{profile_str}**, I have matched **{len(scheme_cards)} top government schemes** you may qualify for.\n\n"
+                f"👇 **Click on any scheme card below** to check its full eligibility criteria, benefits, documents required, and application steps!"
+            )
+        else:
+            # 2. SPECIFIC SCHEME INSPECTION MODE: Single scheme criteria breakdown & evaluation
+            matched_points = "\n".join([f"  • {item}" for item in matched_items])
+            if verify_items:
+                verify_points = "\n".join([f"  • {item}" for item in verify_items])
+                verify_short = ", ".join(verify_items)
+                summary = (
+                    f"Good news! Based on the details provided, you match the primary requirements for **{scheme_title}**.\n\n"
+                    f"✅ **Criteria You Currently Hold**:\n{matched_points}\n\n"
+                    f"⚠️ **Criteria We Need to Check**:\n{verify_points}\n\n"
+                    f"👇 **Please share your details for ({verify_short})**, and I will confirm whether you qualify or not!"
+                )
+            else:
+                summary = (
+                    f"Great news! Based on your profile, you hold full eligibility for **{scheme_title}**.\n\n"
+                    f"✅ **Criteria You Currently Hold**:\n{matched_points}\n\n"
+                    f"✓ **Disqualifiers Check**: No disqualifiers found.\n\n"
+                    f"👇 If you'd like me to double-check any specific condition (like your exact landholding size or income certificate limit), please share your details below and I will verify it for you!"
+                )
 
         guidance = {
             "summary": summary,
