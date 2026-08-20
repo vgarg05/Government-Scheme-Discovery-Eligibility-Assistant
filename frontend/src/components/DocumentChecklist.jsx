@@ -96,6 +96,7 @@ export default function DocumentChecklist({ checklist, applicationSteps, citatio
 
   return (
     <div
+      className="animate-enter-delayed"
       style={{
         borderRadius: '8px',
         overflow: 'hidden',

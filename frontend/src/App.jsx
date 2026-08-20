@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import Panorama from './components/Panorama';
 import ChatBox from './components/ChatBox';
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
 
       <main style={{ flex: 1 }}>
         <Hero onPresetClick={setActiveQuery} />
+        <Panorama />
         <ChatBox initialQuery={activeQuery} selectedLang={selectedLang} />
       </main>
 

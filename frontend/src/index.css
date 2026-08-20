@@ -209,10 +209,55 @@
   }
 
   /* ── Focus ring for accessibility ── */
-  .focus-ring {
-    outline: none;
-  }
+  .focus-ring { outline: none; }
   .focus-ring:focus-visible {
     box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     A: Card entrance — triggers once when component mounts.
+     150–180ms keeps it functional, not decorative.
+  ───────────────────────────────────────────────────────────────── */
+  @keyframes enter-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* EligibilityCard */
+  .animate-enter {
+    animation: enter-up 180ms ease both;
+  }
+
+  /* DocumentChecklist — 90ms delay so it follows the card */
+  .animate-enter-delayed {
+    animation: enter-up 180ms ease 90ms both;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     B: Panorama horizontal scroll — 50 s per cycle, pure CSS.
+  ───────────────────────────────────────────────────────────────── */
+  @keyframes panorama-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .panorama-strip {
+    animation: panorama-scroll 50s linear infinite;
+    will-change: transform;
+  }
+
+  /* ─────────────────────────────────────────────────────────────────
+     prefers-reduced-motion — disable all non-essential motion.
+     Typing dots are exempt (they are UI feedback, not decoration).
+  ───────────────────────────────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .panorama-strip { animation: none; }
+    .animate-enter,
+    .animate-enter-delayed {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    @keyframes accent-pulse { 0%, 100% { box-shadow: none; } }
   }
 }

@@ -126,6 +126,7 @@ export default function EligibilityCard({ data }) {
 
   return (
     <div
+      className="animate-enter"
       style={{
         borderRadius: '8px',
         overflow: 'hidden',
