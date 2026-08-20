@@ -269,11 +269,6 @@ export default function ChatBox({ initialQuery, selectedLang }) {
         paddingBottom: '48px',
       }}
     >
-      {/* Section label */}
-      <p className="label-meta" style={{ marginBottom: '20px', color: 'var(--text-muted)' }}>
-        Scheme Advisor
-      </p>
-
       {/* Chat panel */}
       <div
         style={{
@@ -286,6 +281,33 @@ export default function ChatBox({ initialQuery, selectedLang }) {
           background: 'var(--surface)',
         }}
       >
+        {/* Top Orange Header Strip (Matching Reference Image) */}
+        <div
+          style={{
+            background: 'var(--accent)',
+            color: '#171714',
+            padding: '10px 16px',
+            borderBottom: '1px solid var(--border)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            fontSize: '11px',
+            fontWeight: 700,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            userSelect: 'none',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '8px', opacity: 0.8, letterSpacing: '2px' }}>■■■</span>
+            <span>SCHEME ADVISOR / ELIGIBILITY ENGINE</span>
+          </div>
+
+          <div className="hidden sm:flex items-center gap-1.5" style={{ fontSize: '10.5px', fontWeight: 650 }}>
+            <span style={{ fontSize: '8px', color: '#171714' }}>■</span>
+            <span>READY &middot; LIVE AI</span>
+          </div>
+        </div>
 
         {/* Message list */}
         <div
