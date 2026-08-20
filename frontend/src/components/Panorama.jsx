@@ -296,8 +296,6 @@ export default function Panorama() {
     <div
       aria-hidden="true"
       style={{
-        borderTop: '1px solid var(--border)',
-        borderBottom: '1px solid var(--border)',
         overflow: 'hidden',
         height: '96px',
         position: 'relative',
