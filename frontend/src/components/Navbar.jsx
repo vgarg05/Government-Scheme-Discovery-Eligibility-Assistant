@@ -26,8 +26,8 @@ export default function Navbar({ selectedLang, onLangChange }) {
       }}
     >
       <div
-        className="max-w-5xl mx-auto px-4 sm:px-6 flex items-center justify-between"
-        style={{ height: '52px' }}
+        className="max-w-7xl mx-auto px-6 sm:px-12 flex items-center justify-between"
+        style={{ height: '56px' }}
       >
 
         {/* Brand */}
