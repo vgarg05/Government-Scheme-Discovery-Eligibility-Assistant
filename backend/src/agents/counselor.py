@@ -549,6 +549,12 @@ class CounselorGuidanceAgent:
                     f"👇 If you'd like me to double-check any specific condition (like your exact landholding size or income certificate limit), please share your details below and I will verify it for you!"
                 )
 
+        print(f"\n================ [SCHEME BENEFITS EXTRACTED] ================")
+        print(f"Scheme: {scheme_title}")
+        for b in benefits:
+            print(f"  • {b}")
+        print(f"===========================================================\n")
+
         guidance = {
             "summary": summary,
             "top_scheme": scheme_title,

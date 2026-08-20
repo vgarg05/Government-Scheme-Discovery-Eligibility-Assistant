@@ -101,6 +101,17 @@ Respond ONLY with valid JSON in this exact structure:
                 if profile.income:
                     matched_rules.append(f"Income recorded: Rs. {profile.income:,} per annum")
 
+        print(f"\n============== [SCHEME ELIGIBILITY EVALUATED] ==============")
+        print(f"Scheme: {top_scheme}")
+        print(f"Is Eligible: {is_eligible} | Match Score: {score}%")
+        print("Matched Criteria:")
+        for m in matched_rules:
+            print(f"  ✅ {m}")
+        print("Disqualification / Unmatched Criteria:")
+        for u in unmatched_rules:
+            print(f"  ⚠️ {u}")
+        print(f"===========================================================\n")
+
         state.eligibility_evaluation = {
             "is_eligible": is_eligible,
             "match_score": score,
