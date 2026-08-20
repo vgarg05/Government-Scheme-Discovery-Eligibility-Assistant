@@ -120,25 +120,47 @@ def process_chat_query(request: ChatRequest):
             output["translated_summary"] = translated_summary
             output["language"] = target_lang
 
-            # Translate supporting visual card fields to display in target language (e.g., Hindi)
+            # Create a flat list of strings to translate in one single request
+            to_translate = []
+            mapping = []  # keeps track of key and element length
+
             if "top_scheme" in output and output["top_scheme"]:
-                output["top_scheme"] = translator.translate_text(output["top_scheme"], target_lang=target_lang)
+                to_translate.append(output["top_scheme"])
+                mapping.append(("top_scheme", 1))
+
             if "document_checklist" in output and output["document_checklist"]:
-                output["document_checklist"] = [
-                    translator.translate_text(doc, target_lang=target_lang) for doc in output["document_checklist"]
-                ]
+                to_translate.extend(output["document_checklist"])
+                mapping.append(("document_checklist", len(output["document_checklist"])))
+
             if "application_steps" in output and output["application_steps"]:
-                output["application_steps"] = [
-                    translator.translate_text(step, target_lang=target_lang) for step in output["application_steps"]
-                ]
+                to_translate.extend(output["application_steps"])
+                mapping.append(("application_steps", len(output["application_steps"])))
+
             if "matched_criteria" in output and output["matched_criteria"]:
-                output["matched_criteria"] = [
-                    translator.translate_text(crit, target_lang=target_lang) for crit in output["matched_criteria"]
-                ]
+                to_translate.extend(output["matched_criteria"])
+                mapping.append(("matched_criteria", len(output["matched_criteria"])))
+
             if "unmatched_criteria" in output and output["unmatched_criteria"]:
-                output["unmatched_criteria"] = [
-                    translator.translate_text(crit, target_lang=target_lang) for crit in output["unmatched_criteria"]
-                ]
+                to_translate.extend(output["unmatched_criteria"])
+                mapping.append(("unmatched_criteria", len(output["unmatched_criteria"])))
+
+            # Translate all card elements in batch (1 request instead of 15)
+            if to_translate:
+                print(f"[MAIN] Batch translating {len(to_translate)} card elements to '{target_lang}'...")
+                translated_results = translator.translate_batch(to_translate, target_lang=target_lang)
+                
+                # Re-map results back into output structure
+                idx = 0
+                for key, length in mapping:
+                    if length == 1:
+                        # Fallback check if batch translation returned fewer items or errored
+                        if idx < len(translated_results):
+                            output[key] = translated_results[idx]
+                            idx += 1
+                    else:
+                        if idx + length <= len(translated_results):
+                            output[key] = translated_results[idx : idx + length]
+                            idx += length
         else:
             # Always set translated_summary to summary for English so frontend has consistent field
             output["translated_summary"] = summary
