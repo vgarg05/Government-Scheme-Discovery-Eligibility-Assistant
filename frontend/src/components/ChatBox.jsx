@@ -5,6 +5,28 @@ import EligibilityCard from './EligibilityCard';
 import DocumentChecklist from './DocumentChecklist';
 import { sendChatQuery, getTTSAudioUrl } from '../services/api';
 
+/* ── Lightweight markdown renderer for chat messages ── */
+function renderMarkdown(text) {
+  if (!text) return null;
+  // Split into lines, then process each line for **bold**
+  return text.split('\n').map((line, lineIdx) => {
+    // Split line on **...** pattern
+    const parts = line.split(/(\*\*[^*]+\*\*)/g);
+    const rendered = parts.map((part, partIdx) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={partIdx}>{part.slice(2, -2)}</strong>;
+      }
+      return part;
+    });
+    return (
+      <React.Fragment key={lineIdx}>
+        {lineIdx > 0 && <br />}
+        {rendered}
+      </React.Fragment>
+    );
+  });
+}
+
 /* ── Avatar components ─────────────────────────────── */
 function BotAvatar() {
   return (
@@ -123,7 +145,7 @@ function Message({ msg, selectedLang, onPlayAudio }) {
             color: msg.isError ? 'var(--error)' : 'var(--text-primary)',
           }}
         >
-          <p style={{ whiteSpace: 'pre-wrap', margin: 0 }}>{msg.text}</p>
+          <p style={{ whiteSpace: 'pre-wrap', margin: 0 }}>{renderMarkdown(msg.text)}</p>
 
           {/* TTS button */}
           {!isUser && !msg.isError && (
