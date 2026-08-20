@@ -13,8 +13,8 @@ export default function Hero({ onPresetClick }) {
     <section
       style={{
         borderBottom: '1px solid var(--border)',
-        paddingTop: '52px',
-        paddingBottom: '52px',
+        paddingTop: '28px',
+        paddingBottom: '28px',
       }}
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-12">
