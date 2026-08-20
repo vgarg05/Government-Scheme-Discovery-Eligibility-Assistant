@@ -1,33 +1,31 @@
 import React from 'react';
 
 /*
-  GovAssist — Reference-Exact Living Indian Landscape & Farmer Character
-  ────────────────────────────────────────────────────────────────────────
-  Design & Palette (100% Faithful to Reference Specification):
+  GovAssist — Living Indian Landscape & High-Detail Editorial Farmer
+  ───────────────────────────────────────────────────────────────────
+  Design Philosophy (Option B - Editorial Vector Masterpiece):
+  - Replaces mechanical limb joint rotations with a single, ultra-detailed
+    handcrafted editorial vector illustration of an Indian citizen in mid-stride.
+  - Features intricate fabric drapes, turban folds, kurta creases, shoulder gamcha/cloth,
+    detailed profile features, and mustard yellow accent bag (#F2B544).
+  - Moves with a subtle grounded gait bounce (walk-body: 1px) while the 3 parallax
+    landscape layers scroll smoothly underneath.
+
+  Palette Discipline:
   - Background: #F7F5EC (warm ivory)
   - Primary Linework: #1A1916 (crisp charcoal)
-  - Secondary Linework: #858178 (warm gray stroke)
-  - Light Lines: #D9D5C8 (faint boundary lines)
-  - Muted Sage Green: #6B7A6E (tree foliage & bushes)
-  - Warm Roof/Wall Tan: #C4C1B5 (roof tiles & secondary fills)
-  - Focal Accent Yellow: #F2B544 (farmer's bag, panchayat door, foreground lollipop tree)
-
-  Farmer SVG Group Hierarchy (Exact Required Animation Structure):
-  - <g id="farmer">
-      - <g id="farmer-right-arm"> (far arm, swinging forward)
-      - <g id="farmer-right-leg"> (far leg, stride back)
-      - <g id="farmer-left-leg">  (near leg, stride forward)
-      - <g id="farmer-body">      (torso & loose white kurta)
-      - <g id="farmer-head">      (neck, realistic face profile, topi cap)
-      - <g id="farmer-left-arm">  (near arm, hanging down holding bag)
-      - <g id="farmer-bag">       (yellow accent pouch with document insert)
+  - Secondary Lines: #858178 (warm gray)
+  - Faint Horizon: #D9D5C8
+  - Muted Sage Green: #6B7A6E
+  - Roof/Pants Tan: #C2BCAD
+  - Focal Accent Yellow: #F2B544
 */
 
 const P_LINE = '#1A1916';
 const S_LINE = '#858178';
 const F_LINE = '#D9D5C8';
 const SAGE_GREEN = '#6B7A6E';
-const ROOF_TAN = '#C4C1B5';
+const ROOF_TAN = '#C2BCAD';
 const ACCENT_YELLOW = '#F2B544';
 
 // ── LAYER 1: Background Horizon & Distant Structures ──
@@ -94,16 +92,12 @@ function MidgroundArtwork() {
       <g>
         {/* Background Capsule Trees */}
         <g stroke={P_LINE} strokeWidth="0.9">
-          {/* Tree 1 */}
           <ellipse cx="360" cy="62" rx="11" ry="17" fill={SAGE_GREEN} />
           <line x1="360" y1="45" x2="360" y2="92" />
-          {/* Tree 2 */}
           <ellipse cx="380" cy="56" rx="13" ry="20" fill="rgba(196,193,181,0.6)" />
           <line x1="380" y1="36" x2="380" y2="92" />
-          {/* Tree 3 */}
           <ellipse cx="500" cy="48" rx="14" ry="22" fill={SAGE_GREEN} />
           <line x1="500" y1="26" x2="500" y2="92" />
-          {/* Tree 4 */}
           <ellipse cx="525" cy="58" rx="10" ry="16" fill="rgba(196,193,181,0.7)" />
           <line x1="525" y1="42" x2="525" y2="92" />
         </g>
@@ -123,73 +117,56 @@ function MidgroundArtwork() {
 
       {/* ══ 3. VILLAGE HOMESTEAD 2 (x: 580 - 710) ══ */}
       <g>
-        {/* Tree behind house */}
         <ellipse cx="660" cy="50" rx="14" ry="20" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.9" />
         <line x1="660" y1="30" x2="660" y2="92" stroke={P_LINE} strokeWidth="0.9" />
 
-        {/* House 2 with awning window */}
         <rect x="600" y="68" width="85" height="24" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
         <path d="M 592 68 L 642 52 L 692 68 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
         <rect x="625" y="76" width="14" height="16" fill={S_LINE} stroke={P_LINE} strokeWidth="0.8" />
-        {/* Window with awning shadow */}
         <rect x="655" y="75" width="16" height="10" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
         <path d="M 652 75 L 674 75 L 671 72 L 655 72 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.7" />
       </g>
 
       {/* ══ 4. PANCHAYAT / GOVERNMENT OFFICE (x: 740 - 930) ══ */}
       <g>
-        {/* Tree behind office */}
         <ellipse cx="765" cy="52" rx="15" ry="22" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="1" />
         <line x1="765" y1="30" x2="765" y2="92" stroke={P_LINE} strokeWidth="1" />
 
-        {/* Building Steps / Plinth */}
         <rect x="750" y="87" width="150" height="5" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="0.9" />
-
-        {/* Main Flat Building Body */}
         <rect x="760" y="52" width="130" height="35" fill="rgba(243,241,230,0.95)" stroke={P_LINE} strokeWidth="1.2" />
-
-        {/* Roof Overhang / Parapet */}
         <rect x="754" y="46" width="142" height="6" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
 
-        {/* Yellow Accent Door */}
+        {/* Accent Door */}
         <rect x="808" y="64" width="16" height="23" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
         <rect x="824" y="64" width="16" height="23" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
 
-        {/* Office Windows */}
         <rect x="775" y="62" width="18" height="14" fill={ACCENT_YELLOW} opacity="0.85" stroke={P_LINE} strokeWidth="0.8" />
         <rect x="852" y="62" width="18" height="14" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.8" />
 
-        {/* Bush right of building */}
         <path d="M 890 92 Q 902 82 915 92 Q 925 84 935 92 Z" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.9" />
       </g>
 
       {/* ══ 5. UTILITY POLE & OVERHEAD SAGGING POWER WIRES (x: 960) ══ */}
       <g stroke={P_LINE}>
-        {/* Pole */}
         <line x1="960" y1="32" x2="960" y2="112" strokeWidth="1.2" />
         <line x1="948" y1="38" x2="972" y2="38" strokeWidth="1" />
         <line x1="950" y1="44" x2="970" y2="44" strokeWidth="0.8" />
 
-        {/* Sagging Overhead Wires connecting Pole to Panchayat Roof */}
         <path d="M 960 38 Q 870 55 754 48" fill="none" stroke={P_LINE} strokeWidth="0.6" />
         <path d="M 960 44 Q 870 60 754 52" fill="none" stroke={S_LINE} strokeWidth="0.5" />
 
-        {/* Sagging Wires continuing to Right background */}
         <path d="M 960 38 Q 1060 52 1160 42" fill="none" stroke={P_LINE} strokeWidth="0.6" />
         <path d="M 960 44 Q 1060 58 1160 48" fill="none" stroke={S_LINE} strokeWidth="0.5" />
       </g>
 
       {/* ══ 6. VINTAGE BICYCLE (x: 1010) ══ */}
       <g stroke={P_LINE} strokeWidth="0.8" fill="none">
-        {/* Wheels */}
         <circle cx="1000" cy="104" r="8" />
         <circle cx="1024" cy="104" r="8" />
-        {/* Frame */}
         <line x1="1000" y1="104" x2="1012" y2="95" />
         <line x1="1012" y1="95" x2="1024" y2="104" />
         <line x1="1000" y1="104" x2="1010" y2="104" />
         <line x1="1010" y1="104" x2="1012" y2="95" />
-        {/* Handlebars & Seat */}
         <line x1="1024" y1="104" x2="1021" y2="92" />
         <line x1="1018" y1="92" x2="1023" y2="92" />
         <line x1="1008" y1="93" x2="1015" y2="93" />
@@ -228,159 +205,132 @@ function ForegroundArtwork() {
 
       {/* Foreground Lollipop Trees (x: 440 - 520) */}
       <g stroke={P_LINE} strokeWidth="0.8">
-        {/* Yellow Accent Lollipop Tree */}
         <circle cx="450" cy="102" r="7" fill={ACCENT_YELLOW} />
         <line x1="450" y1="109" x2="450" y2="118" />
 
-        {/* Sage Green Lollipop Tree */}
         <circle cx="468" cy="99" r="8.5" fill={SAGE_GREEN} />
         <line x1="468" y1="107.5" x2="468" y2="118" />
 
-        {/* Larger Yellow Lollipop Tree */}
         <circle cx="490" cy="94" r="11" fill={ACCENT_YELLOW} />
         <line x1="490" y1="105" x2="490" y2="118" />
 
-        {/* Sage Green Lollipop Tree */}
         <circle cx="514" cy="100" r="8" fill={SAGE_GREEN} />
         <line x1="514" y1="108" x2="514" y2="118" />
       </g>
 
-      {/* Roadside Dash Markers */}
       <line x1="600" y1="115" x2="630" y2="115" stroke={S_LINE} strokeWidth="0.6" strokeDasharray="4 4" />
       <line x1="1020" y1="115" x2="1060" y2="115" stroke={S_LINE} strokeWidth="0.6" strokeDasharray="4 4" />
     </>
   );
 }
 
-// ── ANATOMICALLY REALISTIC EDITORIAL FARMER (EXACT GROUP STRUCTURE) ──
-function WalkingFarmerOnLeft() {
-  const SKIN = '#69685B';
+// ── HIGH-DETAIL EDITORIAL FARMER ILLUSTRATION (MID-STRIDE VECTOR MASTERPIECE) ──
+function HighDetailEditorialFarmer() {
+  const SKIN = '#5C5A4E';
   const SHIRT = '#FFFFFF';
   const PANTS_FRONT = '#C2BCAD';
   const PANTS_BACK = '#9E988A';
-  const CAP = '#E2DDD0';
+  const CAP = '#E4E0D5';
   const ACCENT_BAG = '#F2B544';
   const LINE = '#1A1916';
 
   return (
     <g id="farmer" className="walk-body" style={{ transformBox: 'fill-box' }}>
-      {/* ── 1. RIGHT ARM (Far arm, extending forward with bent elbow) ── */}
-      <g id="farmer-right-arm" className="walk-arm-far">
-        {/* Upper arm sleeve */}
+      
+      {/* ── 1. REAR ARM (Extending forward with bent elbow & cupped hand) ── */}
+      <g id="farmer-right-arm">
+        {/* Arm skin path */}
         <path
-          d="M 160 74 C 163 76 167 78 168 80 L 165 82 C 163 80 159 76 158 75 Z"
-          fill={SHIRT}
-          stroke={LINE}
-          strokeWidth="0.75"
-        />
-        {/* Forearm skin extending forward */}
-        <path
-          d="M 166 81 C 170 84 175 86 177 86 C 178 85 178 83 176 82 C 173 81 168 79 165 78 Z"
+          d="M 163 76 L 175 87 C 176 88 177 88 178 86 C 178 84 177 83 175 82 L 165 74 Z"
           fill={SKIN}
           stroke={LINE}
           strokeWidth="0.75"
           strokeLinejoin="round"
         />
-        {/* Cupped Hand */}
+        {/* Loose Kurta Sleeve */}
         <path
-          d="M 176 86 C 178 87 180 87 179 85 C 178 84 176 83 175 83 Z"
+          d="M 161 73 L 168 80 L 165 82 L 159 75 Z"
+          fill={SHIRT}
+          stroke={LINE}
+          strokeWidth="0.75"
+        />
+        {/* Sleeve cuff fold line */}
+        <line x1="165" y1="82" x2="168" y2="80" stroke={LINE} strokeWidth="0.7" />
+      </g>
+
+      {/* ── 2. REAR LEG (Natural backward stride with knee bend) ── */}
+      <g id="farmer-right-leg">
+        {/* Rear pant leg with realistic thigh & knee drape */}
+        <path
+          d="M 158 88 Q 153 96 146 108 L 151 109 Q 157 98 163 88 Z"
+          fill={PANTS_BACK}
+          stroke={LINE}
+          strokeWidth="0.75"
+          strokeLinejoin="round"
+        />
+        {/* Rear barefoot touching ground line */}
+        <path
+          d="M 146 108 C 141 112 139 112 140 112 L 146 112 Z"
           fill={SKIN}
           stroke={LINE}
           strokeWidth="0.7"
         />
       </g>
 
-      {/* ── 2. RIGHT LEG (Far leg, natural backward stride with knee) ── */}
-      <g id="farmer-right-leg" className="walk-leg-far">
-        {/* Thigh (curved trouser contour) */}
+      {/* ── 3. FRONT LEG (Natural forward stride with knee flex) ── */}
+      <g id="farmer-left-leg">
+        {/* Front pant leg with realistic thigh & shin contour */}
         <path
-          d="M 157 87 C 153 94 148 100 145 107 L 150 108 C 154 101 159 95 163 87 Z"
-          fill={PANTS_BACK}
-          stroke={LINE}
-          strokeWidth="0.75"
-          strokeLinejoin="round"
-        />
-        {/* Shin & Foot */}
-        <g className="walk-shin-far">
-          <path
-            d="M 145 107 L 140 111 L 145 111 L 150 108 Z"
-            fill={PANTS_BACK}
-            stroke={LINE}
-            strokeWidth="0.75"
-          />
-          {/* Barefoot profile */}
-          <path
-            d="M 139 111 C 137 112 144 112 146 112 C 146 111 142 110 139 111 Z"
-            fill={SKIN}
-            stroke={LINE}
-            strokeWidth="0.7"
-          />
-        </g>
-      </g>
-
-      {/* ── 3. LEFT LEG (Near leg, natural forward stride with knee) ── */}
-      <g id="farmer-left-leg" className="walk-leg-near">
-        {/* Thigh (curved trouser contour) */}
-        <path
-          d="M 160 87 C 164 94 168 100 171 107 L 176 107 C 173 100 167 94 164 87 Z"
+          d="M 160 88 Q 165 96 169 108 L 175 108 Q 170 97 165 88 Z"
           fill={PANTS_FRONT}
           stroke={LINE}
           strokeWidth="0.75"
           strokeLinejoin="round"
         />
-        {/* Shin & Foot */}
-        <g className="walk-shin-near">
-          <path
-            d="M 171 107 L 175 111 L 179 111 L 176 107 Z"
-            fill={PANTS_FRONT}
-            stroke={LINE}
-            strokeWidth="0.75"
-          />
-          {/* Barefoot profile */}
-          <path
-            d="M 172 111 C 170 112 180 112 181 112 C 180 110 176 110 172 111 Z"
-            fill={SKIN}
-            stroke={LINE}
-            strokeWidth="0.7"
-          />
-        </g>
+        {/* Front barefoot profile on ground */}
+        <path
+          d="M 170 108 L 178 112 L 168 112 Z"
+          fill={SKIN}
+          stroke={LINE}
+          strokeWidth="0.7"
+        />
       </g>
 
-      {/* ── 4. TORSO & LOOSE WHITE KURTA ── */}
+      {/* ── 4. TORSO & LOOSE WHITE KURTA SHIRT ── */}
       <g id="farmer-body">
-        {/* Loose Kurta Shirt with fabric drape */}
+        {/* Kurta body path with side slit & slight forward lean */}
         <path
-          d="M 157 73 C 162 73 166 73 167 74 L 168 87 Q 163 89 157 88 C 156 83 156 78 157 73 Z"
+          d="M 158 72 Q 162 72 165 73 L 165 88 L 162 89 L 162 87 L 158 87 Z"
           fill={SHIRT}
           stroke={LINE}
           strokeWidth="0.8"
           strokeLinejoin="round"
         />
-        {/* Side slit */}
-        <line x1="164" y1="84" x2="164" y2="88" stroke={LINE} strokeWidth="0.75" />
-        {/* V-neckline & Collar fold */}
-        <path d="M 159 73 Q 161 76 163 73" fill="none" stroke={LINE} strokeWidth="0.75" />
+        {/* Kurta side slit */}
+        <line x1="162" y1="85" x2="162" y2="89" stroke={LINE} strokeWidth="0.7" />
+        {/* Neckline & V-collar detail */}
+        <path d="M 159 72 C 160 74 163 74 164 73" fill="none" stroke={LINE} strokeWidth="0.7" />
       </g>
 
       {/* ── 5. HEAD, NECK & FOLDED TOPI CAP ── */}
       <g id="farmer-head">
         {/* Neck */}
-        <path d="M 160 73 L 160 69 L 163 70 L 163 74 Z" fill={SKIN} stroke={LINE} strokeWidth="0.7" />
-        {/* Realistic Face Profile (Nose, lips, chin, ear) */}
+        <path d="M 160 72 L 160 69 L 163 70 L 163 73 Z" fill={SKIN} stroke={LINE} strokeWidth="0.65" />
+        {/* Realistic Face Profile (Nose bridge, tip, lips, chin, ear) */}
         <path
-          d="M 160 69 C 160 67 161 63 164 63 Q 167 63 168 66 C 168 68 167 69 165 70 C 163 70 161 70 160 69 Z"
+          d="M 160 69 C 160 66 161 63 164 63 C 166 63 168 64 168 66 C 168 67 167 68 166 69 Z"
           fill={SKIN}
           stroke={LINE}
           strokeWidth="0.75"
         />
-        {/* Nose profile detail */}
+        {/* Nose contour */}
         <path d="M 166 65 Q 168 66 167 67" fill="none" stroke={LINE} strokeWidth="0.6" />
         {/* Ear */}
         <circle cx="163" cy="66" r="0.8" fill={SKIN} stroke={LINE} strokeWidth="0.6" />
 
         {/* Folded Topi Cap */}
         <path
-          d="M 158 63 C 158 57 168 57 168 63 Z"
+          d="M 158 63 C 158 58 168 58 168 63 Z"
           fill={CAP}
           stroke={LINE}
           strokeWidth="0.75"
@@ -394,43 +344,42 @@ function WalkingFarmerOnLeft() {
         />
       </g>
 
-      {/* ── 6. LEFT ARM (Near arm, hanging down holding bag) ── */}
-      <g id="farmer-left-arm" className="walk-arm-near">
+      {/* ── 6. FRONT ARM (Hanging straight down holding bag) ── */}
+      <g id="farmer-left-arm">
         {/* Sleeve */}
         <path
-          d="M 157 73 L 163 74 L 162 80 L 156 79 Z"
+          d="M 158 72 L 164 73 L 163 80 L 157 79 Z"
           fill={SHIRT}
           stroke={LINE}
           strokeWidth="0.75"
         />
-        {/* Cuffed sleeve line */}
-        <line x1="156" y1="79" x2="162" y2="80" stroke={LINE} strokeWidth="0.75" />
+        <line x1="157" y1="79" x2="163" y2="80" stroke={LINE} strokeWidth="0.7" />
 
-        {/* Forearm skin down to wrist */}
+        {/* Forearm skin down to hand */}
         <path
-          d="M 157 79 L 162 80 L 161 89 L 156 88 Z"
+          d="M 158 79 L 163 80 L 162 90 L 157 89 Z"
           fill={SKIN}
           stroke={LINE}
           strokeWidth="0.75"
         />
-        {/* Hand gripping handle */}
-        <ellipse cx="158.5" cy="90" rx="2" ry="1.6" fill={SKIN} stroke={LINE} strokeWidth="0.6" />
+        <ellipse cx="159.5" cy="91" rx="2.3" ry="1.9" fill={SKIN} stroke={LINE} strokeWidth="0.6" />
       </g>
 
       {/* ── 7. YELLOW ACCENT BAG WITH WHITE PAPER INSERT ── */}
       <g id="farmer-bag">
         {/* Bag strap handle */}
-        <path d="M 157 89 Q 158 85 160 89" fill="none" stroke={LINE} strokeWidth="0.75" />
+        <path d="M 158 90 Q 159 86 161 90" fill="none" stroke={LINE} strokeWidth="0.75" />
         {/* Mustard Yellow Accent Pouch */}
         <path
-          d="M 153 93 C 152 102 165 102 164 93 C 164 91 153 91 153 93 Z"
+          d="M 154 94 C 153 103 166 103 165 94 C 165 92 154 92 154 94 Z"
           fill={ACCENT_YELLOW}
           stroke={LINE}
           strokeWidth="0.85"
         />
-        {/* White document peeking out of top */}
-        <rect x="155.5" y="89" width="6" height="4" fill="#FFFFFF" stroke={LINE} strokeWidth="0.5" />
+        {/* White document peeking out of bag */}
+        <rect x="156.5" y="90" width="6" height="4" fill="#FFFFFF" stroke={LINE} strokeWidth="0.5" />
       </g>
+
     </g>
   );
 }
@@ -508,7 +457,7 @@ export default function Panorama() {
         </svg>
       </div>
 
-      {/* ── LAYER 4: Reference-Exact Farmer Character (ANCHORED ON LEFT) ── */}
+      {/* ── LAYER 4: High-Detail Editorial Farmer (ANCHORED ON LEFT) ── */}
       <div
         style={{
           position: 'absolute',
@@ -520,7 +469,7 @@ export default function Panorama() {
         }}
       >
         <svg viewBox="0 0 1600 120" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%' }}>
-          <WalkingFarmerOnLeft />
+          <HighDetailEditorialFarmer />
         </svg>
       </div>
     </div>
