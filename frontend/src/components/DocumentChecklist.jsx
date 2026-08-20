@@ -52,6 +52,65 @@ const TRANSLATIONS = {
   }
 };
 
+/* ── Helper to render clickable links and markdown bold text ── */
+function renderFormattedText(text) {
+  if (!text) return null;
+
+  // Split on markdown links [label](url) or URLs
+  const linkRegex = /(\[[^\]]+\]\([^)]+\)|https?:\/\/[^\s]+|www\.[^\s]+|[a-zA-Z0-9-]+\.(?:gov\.in|nic\.in|org|com|in)\/[^\s]*|[a-zA-Z0-9-]+\.(?:gov\.in|nic\.in)\b)/gi;
+
+  const parts = text.split(linkRegex);
+
+  return parts.map((part, idx) => {
+    if (!part) return null;
+
+    // 1. Markdown link [label](url)
+    const mdMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (mdMatch) {
+      const [, label, url] = mdMatch;
+      const href = url.startsWith('http') ? url : `https://${url}`;
+      return (
+        <a
+          key={idx}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: '#2563eb', textDecoration: 'underline', fontWeight: 600 }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {label}
+        </a>
+      );
+    }
+
+    // 2. Raw URL string (e.g. sspy-up.gov.in, myscheme.gov.in/schemes/upoaps, https://...)
+    if (part.match(/^https?:\/\//i) || part.match(/^www\./i) || part.match(/^[a-zA-Z0-9-]+\.(?:gov\.in|nic\.in|org|com|in)\b/i)) {
+      const href = part.startsWith('http') ? part : `https://${part}`;
+      return (
+        <a
+          key={idx}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: '#2563eb', textDecoration: 'underline', fontWeight: 600 }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {part}
+        </a>
+      );
+    }
+
+    // 3. Regular text with **bold** formatting
+    const boldParts = part.split(/(\*\*[^*]+\*\*)/g);
+    return boldParts.map((bPart, bIdx) => {
+      if (bPart.startsWith('**') && bPart.endsWith('**')) {
+        return <strong key={bIdx}>{bPart.slice(2, -2)}</strong>;
+      }
+      return bPart;
+    });
+  });
+}
+
 /* ── Section header with accent left-bar ── */
 function SectionHeader({ label }) {
   return (
@@ -301,7 +360,7 @@ export default function DocumentChecklist({ benefits, checklist, applicationStep
                         paddingTop: '1px',
                       }}
                     >
-                      {step}
+                      {renderFormattedText(step)}
                     </span>
                   </div>
                 );
