@@ -150,13 +150,24 @@ class CounselorGuidanceAgent:
 
     def _clean_scheme_name(self, name: str) -> str:
         """Strip article titles, generic web page names, ellipsis."""
-        # If name looks like an article title (> 60 chars or contains "in 2026", "important", "list of")
-        junk_signals = ["in 2026", "in 2025", "important government", "list of scheme",
-                        "welfare scheme", "schemes of india", "top government"]
+        if not name:
+            return None
         low = name.lower()
-        if any(sig in low for sig in junk_signals) or len(name) > 70:
-            return None  # signal to use curated data
-        return name.rstrip(" .…").strip()
+        
+        # Expanded list of junk signals commonly found in news articles, page numbers, search queries
+        junk_signals = [
+            "page ", "june", "july", "august", "september", "october", "november", "december",
+            "january", "february", "march", "april", "may", "2026", "2025", "2024", "important",
+            "welfare scheme", "schemes of", "successful years", "success story", "pdf", "download",
+            "list of", "government of india", "pib", "press release", "ministry of", "news", "update"
+        ]
+        
+        if any(sig in low for sig in junk_signals) or len(name) > 60:
+            return None  # trigger curated database fallback
+            
+        # Clean any trailing garbage
+        cleaned = name.rstrip(" .…").strip()
+        return cleaned if len(cleaned) > 2 else None
 
     def process(self, state: AgentState) -> AgentState:
         evaluation = state.eligibility_evaluation

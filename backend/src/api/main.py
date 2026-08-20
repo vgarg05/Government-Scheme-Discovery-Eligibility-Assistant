@@ -119,6 +119,26 @@ def process_chat_query(request: ChatRequest):
                 translated_summary = summary
             output["translated_summary"] = translated_summary
             output["language"] = target_lang
+
+            # Translate supporting visual card fields to display in target language (e.g., Hindi)
+            if "top_scheme" in output and output["top_scheme"]:
+                output["top_scheme"] = translator.translate_text(output["top_scheme"], target_lang=target_lang)
+            if "document_checklist" in output and output["document_checklist"]:
+                output["document_checklist"] = [
+                    translator.translate_text(doc, target_lang=target_lang) for doc in output["document_checklist"]
+                ]
+            if "application_steps" in output and output["application_steps"]:
+                output["application_steps"] = [
+                    translator.translate_text(step, target_lang=target_lang) for step in output["application_steps"]
+                ]
+            if "matched_criteria" in output and output["matched_criteria"]:
+                output["matched_criteria"] = [
+                    translator.translate_text(crit, target_lang=target_lang) for crit in output["matched_criteria"]
+                ]
+            if "unmatched_criteria" in output and output["unmatched_criteria"]:
+                output["unmatched_criteria"] = [
+                    translator.translate_text(crit, target_lang=target_lang) for crit in output["unmatched_criteria"]
+                ]
         else:
             # Always set translated_summary to summary for English so frontend has consistent field
             output["translated_summary"] = summary
