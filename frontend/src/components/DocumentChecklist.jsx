@@ -56,10 +56,15 @@ const TRANSLATIONS = {
 function renderFormattedText(text) {
   if (!text) return null;
 
+  // Clean unclosed/extraneous parentheses wrapping markdown links: ([label](url)) -> [label](url)
+  const cleanedText = text
+    .replace(/\(\s*(\[[^\]]+\]\([^)]+\))\s*\)/g, '$1')
+    .replace(/\(\s*(\[[^\]]+\]\([^)]+\))/g, '$1');
+
   // Split on markdown links [label](url) or URLs
   const linkRegex = /(\[[^\]]+\]\([^)]+\)|https?:\/\/[^\s]+|www\.[^\s]+|[a-zA-Z0-9-]+\.(?:gov\.in|nic\.in|org|com|in)\/[^\s]*|[a-zA-Z0-9-]+\.(?:gov\.in|nic\.in)\b)/gi;
 
-  const parts = text.split(linkRegex);
+  const parts = cleanedText.split(linkRegex);
 
   return parts.map((part, idx) => {
     if (!part) return null;
@@ -332,6 +337,7 @@ export default function DocumentChecklist({ benefits, checklist, applicationStep
                 }
 
                 currentStepNum += 1;
+                const cleanStep = typeof step === 'string' ? step.replace(/^\d+[\.\s\-\:]*\s*/, '') : step;
                 return (
                   <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', paddingLeft: '4px' }}>
                     {/* Step number */}
@@ -363,7 +369,7 @@ export default function DocumentChecklist({ benefits, checklist, applicationStep
                         paddingTop: '1px',
                       }}
                     >
-                      {renderFormattedText(step)}
+                      {renderFormattedText(cleanStep)}
                     </span>
                   </div>
                 );
