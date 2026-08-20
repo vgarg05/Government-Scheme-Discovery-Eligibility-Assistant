@@ -230,13 +230,15 @@ export default function DocumentChecklist({ checklist, applicationSteps, citatio
         <div style={{ padding: '14px 18px' }}>
           <SectionHeader label={labels.sources} />
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-            {citations.map((cite, i) => (
-              <a
-                key={i}
-                href={cite.url || '#'}
-                target="_blank"
-                rel="noreferrer"
-                style={{
+            {citations.map((cite, i) => {
+              const cleanHref = (cite.url || '#').replace(/;+$/, '').trim();
+              return (
+                <a
+                  key={i}
+                  href={cleanHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '5px',
@@ -267,11 +269,12 @@ export default function DocumentChecklist({ checklist, applicationSteps, citatio
                 }}>
                   {cite.title || cite.filename}
                 </span>
-                <ExternalLink
-                  style={{ width: '11px', height: '11px', opacity: 0.5, flexShrink: 0 }}
-                />
-              </a>
-            ))}
+                  <ExternalLink
+                    style={{ width: '11px', height: '11px', opacity: 0.5, flexShrink: 0 }}
+                  />
+                </a>
+              );
+            })}
           </div>
         </div>
       )}

@@ -1,12 +1,18 @@
 from src.agents.state import AgentState
 
-# Curated database of major schemes for high-quality structured guidance
+def clean_url(url: str) -> str:
+    """Ensure clean URL without trailing semicolons or punctuation."""
+    if not url:
+        return "https://www.myscheme.gov.in"
+    return url.strip().rstrip(";").rstrip(".").rstrip(",")
+
+# Curated database of major schemes with exact verified myScheme portal URLs
 SCHEME_KNOWLEDGE_BASE = {
     "krishak_durghatna": {
         "name": "Mukhyamantri Krishak Durghatna Kalyan Yojana",
         "benefit": "Financial assistance of up to Rs 5 Lakh in case of accidental death or permanent disability while working on agricultural land.",
         "eligibility": "Farmers and leaseholder agricultural laborers aged 18 to 70 years in Uttar Pradesh.",
-        "portal": "https://www.myscheme.gov.in/schemes/mkdky",
+        "portal": "https://www.myscheme.gov.in/schemes/kdky",
         "docs": [
             "Aadhaar Card of the farmer (linked with active mobile number)",
             "Land Ownership Records (Khasra / Khatauni / Gata Number)",
@@ -16,7 +22,7 @@ SCHEME_KNOWLEDGE_BASE = {
             "Bank Account Passbook with IFSC code for Direct Benefit Transfer (DBT)"
         ],
         "steps": [
-            "🌐 ONLINE APPLICATION: Visit the official myScheme portal (myscheme.gov.in/schemes/mkdky) or UP e-District portal. Click 'Apply Online', log in with mobile OTP, fill the application form, upload scanned copies of land and medical documents, and submit.",
+            "🌐 ONLINE APPLICATION: Visit the official myScheme portal (www.myscheme.gov.in/schemes/kdky) or UP e-District portal. Click 'Apply Online', log in with mobile OTP, fill the application form, upload scanned copies of land and medical documents, and submit.",
             "🏢 OFFLINE APPLICATION: Visit your local Tehsil office, District Magistrate (DM) office, or nearest Common Service Centre (CSC). Collect the Krishak Durghatna Kalyan form, attach verified photocopies of Aadhaar, Khasra land records, and hospital death/disability certificate, and submit to the Tehsildar within 45 days of the incident."
         ]
     },
@@ -104,7 +110,7 @@ def find_matched_kb_scheme(scheme_title: str):
         return None
     title_low = scheme_title.lower()
     
-    if "durghatna" in title_low or "kalyan yojana" in title_low or "krishak" in title_low:
+    if "durghatna" in title_low or "kdky" in title_low or "krishak" in title_low:
         return SCHEME_KNOWLEDGE_BASE["krishak_durghatna"]
     elif "pm kisan" in title_low or "samman nidhi" in title_low:
         return SCHEME_KNOWLEDGE_BASE["pm_kisan"]
@@ -121,14 +127,14 @@ class CounselorGuidanceAgent:
     """
     Counselor & Guidance Agent.
     Generates simple-language scheme benefits, required documents, dual online/offline application steps,
-    and exact myscheme.gov.in citation links.
+    and exact clean myscheme.gov.in citation links.
     """
 
     def _clean_scheme_name(self, name: str) -> str:
         if not name:
             return None
         low = name.lower()
-        junk_signals = ["page ", "june", "july", "august", "2026", "2025", "pdf", "download", "news", "update"]
+        junk_signals = ["page ", "june", "july", "august", "2026", "2025", "pdf", "download", "news", "update", "enter scheme name"]
         if any(sig in low for sig in junk_signals) or len(name) > 70:
             return None
         cleaned = name.rstrip(" .…").strip()
@@ -138,7 +144,6 @@ class CounselorGuidanceAgent:
         evaluation = state.eligibility_evaluation
         profile = state.user_profile
         mode = state.retrieval_mode
-        intent = state.intent
 
         raw_scheme = evaluation.get("top_scheme", "")
         clean_scheme = self._clean_scheme_name(raw_scheme) if raw_scheme else None
@@ -154,7 +159,7 @@ class CounselorGuidanceAgent:
             citations = [{
                 "type": "Government Portal (myScheme)",
                 "title": f"{kb_match['name']} - myScheme",
-                "url": kb_match["portal"]
+                "url": clean_url(kb_match["portal"])
             }]
         elif clean_scheme:
             scheme_title = clean_scheme
@@ -164,20 +169,20 @@ class CounselorGuidanceAgent:
             # Extract exact matching citation URL from web search results
             citations = []
             if mode == "web_search" and state.web_search_results:
-                top_result = state.web_search_results[0]
-                url = top_result.get("link", "https://www.myscheme.gov.in")
-                title = top_result.get("title", f"{clean_scheme} - myScheme")
+                # Find the result pointing to myscheme.gov.in/schemes/
+                scheme_results = [r for r in state.web_search_results if "/schemes/" in r.get("link", "")]
+                target_result = scheme_results[0] if scheme_results else state.web_search_results[0]
+                
+                raw_url = target_result.get("link", "https://www.myscheme.gov.in")
+                target_url = clean_url(raw_url)
+                title = target_result.get("title", f"{clean_scheme} - myScheme")
+                if "Enter scheme name" in title:
+                    title = f"{clean_scheme} - myScheme"
+
                 citations = [{
                     "type": "Government Portal (myScheme)",
                     "title": title,
-                    "url": url if "myscheme.gov.in" in url else "https://www.myscheme.gov.in"
-                }]
-            elif mode == "rag" and state.retrieved_chunks:
-                top_chunk = state.retrieved_chunks[0]
-                citations = [{
-                    "type": "Official Policy Document",
-                    "title": top_chunk.get("scheme_id", "").replace("_", " ").title(),
-                    "url": "https://www.myscheme.gov.in"
+                    "url": target_url
                 }]
             else:
                 citations = [{
@@ -194,7 +199,7 @@ class CounselorGuidanceAgent:
             citations = [{
                 "type": "Government Portal (myScheme)",
                 "title": f"{default_kb['name']} - myScheme",
-                "url": default_kb["portal"]
+                "url": clean_url(default_kb["portal"])
             }]
 
         # Summary in simple language

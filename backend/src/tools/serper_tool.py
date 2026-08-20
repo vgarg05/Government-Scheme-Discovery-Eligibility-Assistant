@@ -1,6 +1,15 @@
 import requests
 import json
+import re
 from src.utils.config import settings
+
+def clean_serper_url(url: str) -> str:
+    """Sanitizes raw URLs returned by Serper search by stripping trailing semicolons or punctuation."""
+    if not url:
+        return ""
+    # Strip trailing semicolons, dots, quotes, commas
+    cleaned = url.strip().rstrip(";").rstrip(".").rstrip(",")
+    return cleaned
 
 class SerperSearchTool:
     def __init__(self, api_key: str = None):
@@ -11,7 +20,7 @@ class SerperSearchTool:
         """
         Executes a targeted Google Search via Serper API, strictly constraining results to the official myscheme.gov.in portal.
         """
-        # Strictly restrict search exclusively to the official myscheme.gov.in portal
+        # Strictly restrict search exclusively to official myscheme.gov.in portal
         domain_restricted_query = f"{query} site:myscheme.gov.in"
 
         if not self.api_key or self.api_key == "your_serper_api_key_here":
@@ -37,9 +46,23 @@ class SerperSearchTool:
 
                 formatted_results = []
                 for item in organic_results:
+                    raw_link = item.get("link", "")
+                    clean_link = clean_serper_url(raw_link)
+                    raw_title = item.get("title", "")
+
+                    # Filter out internal rules subdomains if main scheme URL exists
+                    if "rules.myscheme.gov.in" in clean_link:
+                        continue
+
+                    # Filter out generic site title noise
+                    if "Enter scheme name to search" in raw_title:
+                        # Extract scheme slug from link
+                        slug = clean_link.split("/")[-1].replace("-", " ").title()
+                        raw_title = f"{slug} - myScheme"
+
                     formatted_results.append({
-                        "title": item.get("title", ""),
-                        "link": item.get("link", ""),
+                        "title": raw_title,
+                        "link": clean_link,
                         "snippet": item.get("snippet", ""),
                         "domain": "myscheme.gov.in"
                     })
