@@ -161,6 +161,7 @@ function Message({ msg, selectedLang, onPlayAudio }) {
           <div style={{ width: '100%' }}>
             <EligibilityCard data={msg.data} />
             <DocumentChecklist
+              benefits={msg.data.benefits}
               checklist={msg.data.document_checklist}
               applicationSteps={msg.data.application_steps}
               citations={msg.data.citations}

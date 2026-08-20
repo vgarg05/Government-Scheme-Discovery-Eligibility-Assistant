@@ -1,43 +1,51 @@
 import React, { useState } from 'react';
-import { Check, ExternalLink } from 'lucide-react';
+import { Check, ExternalLink, Sparkles } from 'lucide-react';
 
 const TRANSLATIONS = {
   en: {
+    benefits: "Scheme benefits",
     docsRequired: "Documents required",
     howToApply: "How to apply",
     sources: "Official sources"
   },
   hi: {
+    benefits: "योजना के लाभ",
     docsRequired: "आवश्यक दस्तावेज़",
     howToApply: "आवेदन कैसे करें",
     sources: "स्रोत संदर्भ"
   },
   bn: {
+    benefits: "সুবিধা সমূহ",
     docsRequired: "প্রয়োজনীয় নথি",
     howToApply: "কীভাবে আবেদন করবেন",
     sources: "উৎস"
   },
   mr: {
+    benefits: "योजनेचे फायदे",
     docsRequired: "आवश्यक कागदपत्रे",
     howToApply: "कसे अर्ज करावे",
     sources: "स्रोत"
   },
   pa: {
+    benefits: "ਲਾਭ",
     docsRequired: "ਲੋੜੀਂਦੇ ਦਸਤਾਵੇਜ਼",
     howToApply: "ਕਿਵੇਂ ਅਪਲਾਈ ਕਰਨਾ ਹੈ",
     sources: "ਸਰੋਤ"
   },
   ta: {
+    benefits: "நன்மைகள்",
     docsRequired: "தேவையான ஆவணங்கள்",
     howToApply: "எப்படி விண்ணப்பிப்பது",
     sources: "ஆதாரங்கள்"
   },
   te: {
+    benefits: "ప్రయోజనాలు",
     docsRequired: "అవసరమైన పత్రాలు",
     howToApply: "ఎలా దరఖాస్తు చేయాలి",
     sources: "మూలాధారాలు"
   },
   gu: {
+    benefits: "લાભો",
     docsRequired: "જરૂરી દસ્તાવેજો",
     howToApply: "કેવી રીતે અરજી કરવી",
     sources: "સ્ત્રોતો"
@@ -81,13 +89,21 @@ function SectionHeader({ label }) {
   );
 }
 
-export default function DocumentChecklist({ checklist, applicationSteps, citations, language = 'en' }) {
+export default function DocumentChecklist({ benefits, checklist, applicationSteps, citations, language = 'en' }) {
   const [checked, setChecked] = useState({});
   const labels = TRANSLATIONS[language] || TRANSLATIONS.en;
 
   const toggle = (i) => setChecked(prev => ({ ...prev, [i]: !prev[i] }));
 
+  // Convert string or array benefits into structured list
+  const benefitsList = Array.isArray(benefits)
+    ? benefits
+    : (typeof benefits === 'string' && benefits.trim())
+    ? [benefits]
+    : [];
+
   const hasContent =
+    (benefitsList && benefitsList.length > 0) ||
     (checklist && checklist.length > 0) ||
     (applicationSteps && applicationSteps.length > 0) ||
     (citations && citations.length > 0);
@@ -106,7 +122,47 @@ export default function DocumentChecklist({ checklist, applicationSteps, citatio
       }}
     >
 
-      {/* Documents Required */}
+      {/* ══ 1. SCHEME BENEFITS (Directly Above Documents Required) ══ */}
+      {benefitsList && benefitsList.length > 0 && (
+        <div
+          style={{
+            padding: '16px 18px',
+            borderBottom: (checklist?.length > 0 || applicationSteps?.length > 0 || citations?.length > 0)
+              ? '1px solid var(--border-subtle)'
+              : 'none',
+          }}
+        >
+          <SectionHeader label={labels.benefits} />
+          <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {benefitsList.map((item, i) => (
+              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+                <span
+                  style={{
+                    width: '5px',
+                    height: '5px',
+                    borderRadius: '50%',
+                    background: 'var(--accent)',
+                    marginTop: '7px',
+                    flexShrink: 0,
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: '13px',
+                    lineHeight: 1.55,
+                    color: 'var(--text-primary)',
+                    fontWeight: 450,
+                  }}
+                >
+                  {item}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* ══ 2. DOCUMENTS REQUIRED ══ */}
       {checklist && checklist.length > 0 && (
         <div
           style={{
@@ -176,7 +232,7 @@ export default function DocumentChecklist({ checklist, applicationSteps, citatio
         </div>
       )}
 
-      {/* How to Apply */}
+      {/* ══ 3. HOW TO APPLY ══ */}
       {applicationSteps && applicationSteps.length > 0 && (() => {
         let currentStepNum = 0;
         return (
@@ -255,7 +311,7 @@ export default function DocumentChecklist({ checklist, applicationSteps, citatio
         );
       })()}
 
-      {/* Official Sources */}
+      {/* ══ 4. OFFICIAL SOURCES ══ */}
       {citations && citations.length > 0 && (
         <div style={{ padding: '14px 18px' }}>
           <SectionHeader label={labels.sources} />
@@ -269,36 +325,36 @@ export default function DocumentChecklist({ checklist, applicationSteps, citatio
                   target="_blank"
                   rel="noreferrer"
                   style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '5px',
-                  fontSize: '12px',
-                  fontWeight: 500,
-                  padding: '5px 10px',
-                  borderRadius: '4px',
-                  background: 'var(--raised)',
-                  border: '1px solid var(--border)',
-                  color: 'var(--text-secondary)',
-                  textDecoration: 'none',
-                  transition: 'all 0.15s',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = 'var(--text-muted)';
-                  e.currentTarget.style.color = 'var(--text-primary)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = 'var(--border)';
-                  e.currentTarget.style.color = 'var(--text-secondary)';
-                }}
-              >
-                <span style={{
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  maxWidth: '220px',
-                }}>
-                  {cite.title || cite.filename}
-                </span>
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    fontSize: '12px',
+                    fontWeight: 500,
+                    padding: '5px 10px',
+                    borderRadius: '4px',
+                    background: 'var(--raised)',
+                    border: '1px solid var(--border)',
+                    color: 'var(--text-secondary)',
+                    textDecoration: 'none',
+                    transition: 'all 0.15s',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.borderColor = 'var(--text-muted)';
+                    e.currentTarget.style.color = 'var(--text-primary)';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.borderColor = 'var(--border)';
+                    e.currentTarget.style.color = 'var(--text-secondary)';
+                  }}
+                >
+                  <span style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    maxWidth: '220px',
+                  }}>
+                    {cite.title || cite.filename}
+                  </span>
                   <ExternalLink
                     style={{ width: '11px', height: '11px', opacity: 0.5, flexShrink: 0 }}
                   />
