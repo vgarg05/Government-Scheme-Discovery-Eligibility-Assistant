@@ -179,5 +179,41 @@ class SerperSearchTool:
             print(f"[SERPER TOOL] Benefits search failed: {e}")
             return []
 
+    def search_scheme_eligibility(self, scheme_name: str) -> str:
+        """
+        Searches specifically for scheme eligibility criteria on myscheme.gov.in.
+        Returns the exact live eligibility text snippet.
+        """
+        if not self.api_key or self.api_key == "your_serper_api_key_here":
+            return ""
+
+        eligibility_query = f'"{scheme_name}" eligibility site:myscheme.gov.in'
+        headers = {
+            "X-API-KEY": self.api_key,
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "q": eligibility_query,
+            "num": 3,
+            "gl": "in"
+        }
+
+        try:
+            response = requests.post(self.endpoint, headers=headers, json=payload, timeout=10)
+            if response.status_code == 200:
+                data = response.json()
+                results = data.get("organic", [])
+                snippets = []
+                for item in results:
+                    snippet = item.get("snippet", "")
+                    if snippet and len(snippet) > 20:
+                        snippets.append(snippet)
+                if snippets:
+                    return " ".join(snippets[:2])
+            return ""
+        except Exception as e:
+            print(f"[SERPER TOOL] Eligibility search failed: {e}")
+            return ""
+
 # Instantiated helper instance
 serper_tool = SerperSearchTool()

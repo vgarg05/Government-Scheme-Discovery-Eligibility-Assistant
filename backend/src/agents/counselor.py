@@ -442,14 +442,21 @@ class CounselorGuidanceAgent:
         match_score = evaluation.get("match_score", 75)
         is_eligible = evaluation.get("is_eligible", True)
 
-        kb_match = find_matched_kb_scheme(raw_scheme or (state.user_query if state.user_query else ""))
+        # Fetch live benefits and eligibility text directly from myScheme web search
+        target_scheme_query = clean_scheme or raw_scheme or (state.user_query if state.user_query else "")
+        print(f"[COUNSELOR] Fetching live benefits and eligibility from myScheme for: {target_scheme_query}")
+        
+        live_benefits = serper_tool.search_scheme_benefits(target_scheme_query)
+        live_eligibility = serper_tool.search_scheme_eligibility(target_scheme_query)
+
+        kb_match = find_matched_kb_scheme(target_scheme_query)
 
         if kb_match:
             scheme_title = kb_match["name"]
-            benefits = kb_match["benefits"]
+            benefits = live_benefits if live_benefits else kb_match["benefits"]
             docs = kb_match["docs"]
             steps = kb_match["steps"]
-            exact_eligibility_text = kb_match.get("eligibility", "Verified myScheme eligibility criteria.")
+            exact_eligibility_text = live_eligibility if live_eligibility else kb_match.get("eligibility", "Verified myScheme eligibility criteria.")
             citations = [{
                 "type": "Government Portal (myScheme)",
                 "title": f"{kb_match['name']} - myScheme",
@@ -457,12 +464,8 @@ class CounselorGuidanceAgent:
             }]
         elif clean_scheme:
             scheme_title = clean_scheme
-            exact_eligibility_text = "Retrieved directly from official myScheme portal policy text."
-            
-            # Fetch real benefits from myScheme website via Serper search
-            print(f"[COUNSELOR] Fetching benefits from myScheme for: {clean_scheme}")
-            web_benefits = serper_tool.search_scheme_benefits(clean_scheme)
-            benefits = web_benefits if web_benefits else GENERAL_BENEFITS
+            benefits = live_benefits if live_benefits else GENERAL_BENEFITS
+            exact_eligibility_text = live_eligibility if live_eligibility else "Retrieved directly from official myScheme portal policy text."
             
             docs = GENERAL_DOCS
             steps = GENERAL_STEPS
@@ -492,10 +495,10 @@ class CounselorGuidanceAgent:
         else:
             default_kb = SCHEME_KNOWLEDGE_BASE["krishak_durghatna"] if (profile.occupation and "farm" in profile.occupation.lower()) else SCHEME_KNOWLEDGE_BASE["pm_kisan"]
             scheme_title = default_kb["name"]
-            benefits = default_kb["benefits"]
+            benefits = live_benefits if live_benefits else default_kb["benefits"]
             docs = default_kb["docs"]
             steps = default_kb["steps"]
-            exact_eligibility_text = default_kb.get("eligibility", "Verified myScheme eligibility criteria.")
+            exact_eligibility_text = live_eligibility if live_eligibility else default_kb.get("eligibility", "Verified myScheme eligibility criteria.")
             citations = [{
                 "type": "Government Portal (myScheme)",
                 "title": f"{default_kb['name']} - myScheme",
