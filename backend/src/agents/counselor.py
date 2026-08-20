@@ -1,5 +1,6 @@
 from src.agents.state import AgentState
 from src.utils.llm_client import llm_client
+from src.tools.serper_tool import serper_tool
 
 def clean_url(url: str) -> str:
     """Ensure clean URL without trailing semicolons or punctuation."""
