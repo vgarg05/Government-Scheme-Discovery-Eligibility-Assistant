@@ -34,6 +34,7 @@ response_cache: Dict[str, Dict[str, Any]] = {}
 class ChatRequest(BaseModel):
     query: str = Field(..., example="I am a 45 year old farmer from UP with income 80,000 per year")
     target_language: Optional[str] = Field("en", example="hi")
+    conversation_history: Optional[List[Dict[str, Any]]] = Field(default_factory=list)
 
 class TTSRequest(BaseModel):
     text: str = Field(..., example="Good news! You are eligible for PM Kisan Samman Nidhi.")
@@ -72,22 +73,25 @@ def process_chat_query(request: ChatRequest):
     """
     Day 16: Primary API Endpoint.
     Executes Multi-Agent pipeline (Profile -> RAG -> Router -> Serper Search -> Adjudicator -> Counselor).
+    Now supports conversation history.
     """
     query = request.query.strip()
     target_lang = request.target_language or "en"
-    cache_key = f"{query.lower()}_{target_lang}"
-
-    # Day 18: Check Cache
-    if cache_key in response_cache:
-        print(f"[FASTAPI CACHE] Returning cached response for query: '{query}'")
-        return response_cache[cache_key]
+    history = request.conversation_history or []
+    
+    # Check cache only if there is no conversation history
+    if not history:
+        cache_key = f"{query.lower()}_{target_lang}"
+        if cache_key in response_cache:
+            print(f"[FASTAPI CACHE] Returning cached response for query: '{query}'")
+            return response_cache[cache_key]
 
     if not query:
         raise HTTPException(status_code=400, detail="Query string cannot be empty.")
 
     try:
-        # Run Multi-Agent Orchestrator Pipeline
-        agent_state = orchestrator.run(query)
+        # Run Multi-Agent Orchestrator Pipeline with conversation history
+        agent_state = orchestrator.run(query, conversation_history=history)
         output = agent_state.final_output
 
         # Handle Clarification Prompt
@@ -98,7 +102,8 @@ def process_chat_query(request: ChatRequest):
                 "clarification": {
                     "prompt": output.get("prompt"),
                     "missing_fields": output.get("missing_fields", [])
-                }
+                },
+                "user_profile": agent_state.user_profile.dict()
             }
             return response_payload
 
@@ -122,11 +127,15 @@ def process_chat_query(request: ChatRequest):
         response_payload = {
             "status": "success",
             "query": query,
-            "response": output
+            "response": output,
+            "user_profile": agent_state.user_profile.dict()
         }
 
-        # Cache response
-        response_cache[cache_key] = response_payload
+        # Cache response only for single-turn queries
+        if not history:
+            cache_key = f"{query.lower()}_{target_lang}"
+            response_cache[cache_key] = response_payload
+
         return response_payload
 
     except Exception as e:

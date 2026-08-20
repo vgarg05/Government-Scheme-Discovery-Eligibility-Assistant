@@ -9,11 +9,12 @@ const apiClient = axios.create({
   },
 });
 
-export const sendChatQuery = async (query, targetLanguage = 'en') => {
+export const sendChatQuery = async (query, targetLanguage = 'en', history = []) => {
   try {
     const response = await apiClient.post('/api/chat', {
       query: query,
       target_language: targetLanguage,
+      conversation_history: history,
     });
     return response.data;
   } catch (error) {

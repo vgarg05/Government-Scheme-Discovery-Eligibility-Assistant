@@ -1,84 +1,197 @@
 import re
-from typing import Tuple
+from typing import List, Dict, Any, Optional
 from src.agents.state import AgentState, UserProfile
+
+# Known government scheme names — used to detect actual scheme references in follow-ups
+KNOWN_SCHEMES = [
+    "PM Kisan Samman Nidhi", "Pradhan Mantri Kisan Samman Nidhi",
+    "Pradhan Mantri Fasal Bima Yojana", "PMFBY",
+    "Kisan Credit Card", "KCC",
+    "PM Kisan MaanDhan Yojana", "PMKMY",
+    "Soil Health Card Scheme",
+    "Pradhan Mantri Krishi Sinchayee Yojana", "PMKSY",
+    "National Food Security Mission",
+    "Rashtriya Krishi Vikas Yojana", "RKVY",
+    "eNAM", "National Agriculture Market",
+    "Paramparagat Krishi Vikas Yojana", "PKVY",
+    "Ayushman Bharat", "PMJAY",
+    "PM Jan Dhan Yojana", "PMJDY",
+    "PM Awas Yojana", "PMAY",
+    "PM SVANidhi", "Street Vendor Loan",
+    "NSAP", "National Social Assistance Programme",
+    "Post Matric Scholarship",
+    "PM Scholarship Scheme",
+    "Sukanya Samriddhi Yojana",
+    "Atal Pension Yojana",
+    "PM Jeevan Jyoti Bima Yojana",
+    "PM Suraksha Bima Yojana",
+]
+
+# Intent detection patterns
+LIST_PATTERNS = [
+    r'\blist\b', r'\ball\b.*\bscheme', r'\bscheme.*\ball\b',
+    r'\bone.by.one\b', r'\bek.ek\b', r'\bsaari\b', r'\bsari\b',
+    r'\bkaun\s+si\b', r'\bkya\s+kya\b', r'\bgi\s+naa\b',
+    r'\benumerate\b', r'\bname\s+all\b', r'\btell.*all\b',
+    r'\bbatao\b.*\bsab\b', r'\bsab\b.*\bscheme\b', r'\bsaari\s+yojana\b',
+    r'\byojana.+list\b', r'\blist.+yojana\b',
+]
+APPLY_PATTERNS = [
+    r'\bapply\b', r'\bapplication\b', r'\bapply\s+kaise\b',
+    r'\bkaise\s+apply\b', r'\bkaise\s+karen\b', r'\bstep\b',
+    r'\bprocedure\b', r'\bprocess\b', r'\bregistration\b',
+    r'\bhow\s+to\b', r'\bkaise\b.*\bkaren\b',
+]
+FOLLOWUP_PATTERNS = [
+    r'\byou\s+told\b', r'\bprevious\b', r'\bwhat\s+was\b',
+    r'\bwhat\s+scheme\b', r'\bkonsi\s+scheme\b', r'\bwoh\s+scheme\b',
+    r'\baapne\s+batai\b', r'\baapne\s+kaha\b',
+    r'\btell\s+me\s+more\b', r'\bmore\s+detail\b', r'\bour\s+batao\b',
+]
+
+
+def detect_intent(query: str) -> str:
+    q = query.lower()
+    for p in LIST_PATTERNS:
+        if re.search(p, q):
+            return "list_schemes"
+    for p in APPLY_PATTERNS:
+        if re.search(p, q):
+            return "apply_info"
+    for p in FOLLOWUP_PATTERNS:
+        if re.search(p, q):
+            return "followup"
+    return "scheme_query"
+
+
+def extract_profile_from_history(history) -> Dict[str, Any]:
+    """Walk through conversation history to accumulate known profile fields."""
+    merged = {}
+    for turn in history:
+        snap = turn.profile_snapshot or {}
+        for field in ("age", "income", "occupation", "state", "category", "gender"):
+            if snap.get(field) is not None:
+                merged[field] = snap[field]
+    return merged
+
 
 class ProfileExtractionAgent:
     """
     Day 7 & 8: Profile Extraction & Clarification Agent.
-    Extracts demographic attributes from natural language queries and detects missing critical fields.
+    Extracts demographic attributes from the current query AND conversation history.
+    Detects query intent: scheme_query | list_schemes | apply_info | followup.
     """
 
-    def process(self, state: AgentState) -> AgentState:
-        query = state.user_query.lower()
-        profile = state.user_profile or UserProfile()
+    def _extract_from_text(self, text: str, profile: UserProfile) -> UserProfile:
+        q = text.lower()
 
-        # 1. Extract Age
-        age_match = re.search(r'(\d{1,2})\s*(?:years|yr|years old|age|aged)', query)
+        # Age
+        age_match = re.search(r'(\d{1,2})\s*(?:years|yr|years old|age|aged|varsh|वर्ष|साल)', q)
         if age_match:
             profile.age = int(age_match.group(1))
 
-        # 2. Extract Income
-        income_match = re.search(r'(\d+[\d,]*)\s*(?:lakh|lac|k|thousand|rupees|rs|per year|annual|per annum)', query)
+        # Income — handles ₹, lakh, k, annual
+        income_match = re.search(r'[\₹rs.\s]*(\d[\d,]*)\s*(?:lakh|lac|l\b|k\b|thousand|rupees|rs|per year|annual|per annum|pratima|प्रति)', q)
         if income_match:
             val_str = income_match.group(1).replace(',', '')
             val = float(val_str)
-            if 'lakh' in query or 'lac' in query:
+            if any(w in q for w in ['lakh', 'lac', ' l ']):
                 profile.income = int(val * 100000)
-            elif 'k' in query or 'thousand' in query:
+            elif any(w in q for w in ['k', 'thousand']):
                 profile.income = int(val * 1000)
             else:
                 profile.income = int(val)
 
-        # 3. Extract Occupation
-        occupations = ["farmer", "student", "street vendor", "artisan", "unorganized worker", "trader", "senior citizen", "widow", "disabled", "craftsman"]
+        # Occupation
+        occupations = [
+            "farmer", "kisan", "किसान", "student", "street vendor",
+            "artisan", "unorganized worker", "trader", "senior citizen",
+            "widow", "disabled", "craftsman", "labour", "laborer",
+        ]
+        occ_map = {"kisan": "Farmer", "किसान": "Farmer", "farmer": "Farmer"}
         for occ in occupations:
-            if occ in query:
-                profile.occupation = occ.title()
+            if occ in q:
+                profile.occupation = occ_map.get(occ, occ.title())
                 break
 
-        # 4. Extract Category (SC, ST, OBC, EWS, General)
-        categories = ["sc", "st", "obc", "ews", "general"]
-        for cat in categories:
-            if re.search(rf'\b{cat}\b', query):
+        # Category
+        for cat in ["sc", "st", "obc", "ews", "general"]:
+            if re.search(rf'\b{cat}\b', q):
                 profile.category = cat.upper()
                 break
 
-        # 5. Extract Gender
-        if "woman" in query or "female" in query or "girl" in query or "mother" in query or "widow" in query:
+        # Gender
+        if any(w in q for w in ["woman", "female", "girl", "mother", "widow", "mahila", "महिला"]):
             profile.gender = "Female"
-        elif "man" in query or "male" in query or "boy" in query:
+        elif any(w in q for w in ["man", "male", "boy"]):
             profile.gender = "Male"
 
-        # 6. Extract State
-        states = ["odisha", "uttar pradesh", "up", "madhya pradesh", "mp", "maharashtra", "west bengal", "wb", "telangana", "rajasthan", "delhi", "bihar", "punjab", "tamil nadu", "karnataka"]
-        for st in states:
-            if re.search(rf'\b{st}\b', query):
-                if st in ["up", "uttar pradesh"]:
-                    profile.state = "Uttar Pradesh"
-                elif st in ["mp", "madhya pradesh"]:
-                    profile.state = "Madhya Pradesh"
-                elif st in ["wb", "west bengal"]:
-                    profile.state = "West Bengal"
-                else:
-                    profile.state = st.title()
+        # State
+        state_map = {
+            "uttar pradesh": "Uttar Pradesh", "up": "Uttar Pradesh",
+            "madhya pradesh": "Madhya Pradesh", "mp": "Madhya Pradesh",
+            "west bengal": "West Bengal", "wb": "West Bengal",
+            "odisha": "Odisha", "maharashtra": "Maharashtra",
+            "telangana": "Telangana", "rajasthan": "Rajasthan",
+            "delhi": "Delhi", "bihar": "Bihar", "punjab": "Punjab",
+            "tamil nadu": "Tamil Nadu", "karnataka": "Karnataka",
+            "haryana": "Haryana", "gujarat": "Gujarat",
+            "andhra pradesh": "Andhra Pradesh",
+        }
+        for state_key, state_val in state_map.items():
+            if re.search(rf'\b{re.escape(state_key)}\b', q):
+                profile.state = state_val
                 break
 
-        # Day 8: Check for missing fields
-        missing = []
-        if not profile.state and any(w in query for w in ["state scheme", "local scheme", "pension"]):
-            missing.append("state")
+        return profile
 
+    def process(self, state: AgentState) -> AgentState:
+        query = state.user_query
+        profile = UserProfile()
+
+        # 1. Seed profile from conversation history first
+        if state.conversation_history:
+            merged = extract_profile_from_history(state.conversation_history)
+            for field, val in merged.items():
+                setattr(profile, field, val)
+
+        # 2. Overlay with what we can extract from the current query
+        profile = self._extract_from_text(query, profile)
+
+        # 3. Detect intent
+        state.intent = detect_intent(query)
+        print(f"[PROFILE AGENT] Intent detected: {state.intent}")
+        print(f"[PROFILE AGENT] Profile: age={profile.age}, occupation={profile.occupation}, income={profile.income}, state={profile.state}")
+
+        # 4. For follow-ups and list/apply intents, do NOT ask for clarification
+        #    (we already have context from history)
+        if state.intent in ("list_schemes", "apply_info", "followup"):
+            profile.is_complete = True
+            profile.missing_fields = []
+            state.clarification_needed = False
+            state.user_profile = profile
+            return state
+
+        # 5. Clarification only for pure scheme_query with no profile at all
+        missing = []
+        if not profile.occupation and not profile.age and not profile.income:
+            missing.append("profile")
         profile.missing_fields = missing
         profile.is_complete = len(missing) == 0
 
         state.user_profile = profile
 
-        if not profile.is_complete and "state" in missing:
+        if not profile.is_complete:
             state.clarification_needed = True
-            state.clarification_prompt = "To recommend state-specific schemes accurately, could you please specify which Indian state you reside in?"
+            state.clarification_prompt = (
+                "To find the most relevant government schemes for you, could you share: "
+                "your age, occupation (e.g. farmer, student, worker), "
+                "approximate annual income, and the state you live in?"
+            )
         else:
             state.clarification_needed = False
 
         return state
+
 
 profile_agent = ProfileExtractionAgent()

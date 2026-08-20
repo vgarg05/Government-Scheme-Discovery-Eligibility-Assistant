@@ -157,18 +157,28 @@ export default function ChatBox({ initialQuery, selectedLang }) {
     const text = (queryText || inputText).trim();
     if (!text || isLoading) return;
 
+    // Build conversation history including profile snapshots
+    const history = messages
+      .filter(msg => !msg.isError)
+      .map(msg => ({
+        role: msg.sender === 'user' ? 'user' : 'assistant',
+        content: msg.text,
+        profile_snapshot: msg.profile || null
+      }));
+
     setMessages(prev => [...prev, { sender: 'user', text }]);
     setInputText('');
     setIsLoading(true);
 
     try {
-      const responseData = await sendChatQuery(text, selectedLang);
+      const responseData = await sendChatQuery(text, selectedLang, history);
 
       if (responseData.status === 'clarification_required') {
         setMessages(prev => [...prev, {
           sender: 'bot',
           text: responseData.clarification?.prompt || 'Could you share a few more details — your age, income, and state?',
           isClarification: true,
+          profile: responseData.user_profile,
         }]);
       } else if (responseData.status === 'success') {
         const resp = responseData.response || {};
@@ -180,6 +190,7 @@ export default function ChatBox({ initialQuery, selectedLang }) {
           text: displayText,
           translatedText: displayText, // already in target language from backend
           data: resp,
+          profile: responseData.user_profile,
         }]);
       }
     } catch {

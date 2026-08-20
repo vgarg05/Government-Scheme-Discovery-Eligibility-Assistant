@@ -11,8 +11,15 @@ class UserProfile(BaseModel):
     is_complete: bool = False
     missing_fields: List[str] = []
 
+class ConversationTurn(BaseModel):
+    """Single turn in the conversation history."""
+    role: str           # "user" or "assistant"
+    content: str
+    profile_snapshot: Optional[Dict[str, Any]] = None  # profile at time of this turn
+
 class AgentState(BaseModel):
     user_query: str
+    conversation_history: List[ConversationTurn] = Field(default_factory=list)
     user_profile: UserProfile = Field(default_factory=UserProfile)
     clarification_needed: bool = False
     clarification_prompt: Optional[str] = None
@@ -23,3 +30,5 @@ class AgentState(BaseModel):
     eligibility_evaluation: Dict[str, Any] = Field(default_factory=dict)
     guidance_response: Dict[str, Any] = Field(default_factory=dict)
     final_output: Dict[str, Any] = Field(default_factory=dict)
+    # Intent flags set by profile_agent
+    intent: str = "scheme_query"    # "scheme_query" | "list_schemes" | "apply_info" | "followup"
