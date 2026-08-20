@@ -27,42 +27,42 @@ export default function Navbar({ selectedLang, onLangChange }) {
     >
       <div
         className="max-w-7xl mx-auto px-6 sm:px-12 flex items-center justify-between"
-        style={{ height: '56px' }}
+        style={{ height: '64px' }}
       >
 
         {/* Brand */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3">
           {/* Accent icon mark */}
           <div
             className="flex items-center justify-center flex-shrink-0"
             style={{
-              width: '26px',
-              height: '26px',
+              width: '32px',
+              height: '32px',
               background: 'var(--accent)',
-              borderRadius: '5px',
+              borderRadius: '6px',
             }}
           >
             <Landmark
-              style={{ width: '14px', height: '14px', color: 'var(--accent-text)' }}
+              style={{ width: '17px', height: '17px', color: 'var(--accent-text)' }}
             />
           </div>
 
           <div className="flex items-baseline gap-2">
             <span
               style={{
-                fontWeight: 600,
-                fontSize: '14px',
-                letterSpacing: '-0.01em',
+                fontWeight: 650,
+                fontSize: '16.5px',
+                letterSpacing: '-0.015em',
                 color: 'var(--text-primary)',
               }}
             >
               GovAssist
             </span>
-            {/* Editorial tag — not a badge, just subtle text */}
+            {/* Editorial tag */}
             <span
               style={{
-                fontSize: '10px',
-                fontWeight: 500,
+                fontSize: '11px',
+                fontWeight: 600,
                 letterSpacing: '0.1em',
                 textTransform: 'uppercase',
                 color: 'var(--text-muted)',
@@ -74,14 +74,14 @@ export default function Navbar({ selectedLang, onLangChange }) {
         </div>
 
         {/* Right controls */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-5">
 
           {/* Source indicator */}
-          <div className="hidden sm:flex items-center gap-1.5">
+          <div className="hidden sm:flex items-center gap-2">
             <span
               style={{
-                width: '5px',
-                height: '5px',
+                width: '6px',
+                height: '6px',
                 borderRadius: '50%',
                 background: 'var(--success)',
                 display: 'block',
@@ -90,8 +90,8 @@ export default function Navbar({ selectedLang, onLangChange }) {
             />
             <span
               style={{
-                fontSize: '11px',
-                fontWeight: 500,
+                fontSize: '12px',
+                fontWeight: 600,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
                 color: 'var(--text-muted)',
@@ -104,24 +104,24 @@ export default function Navbar({ selectedLang, onLangChange }) {
           {/* Language selector */}
           <div className="relative flex items-center">
             <Globe
-              className="absolute left-2.5 pointer-events-none"
-              style={{ width: '12px', height: '12px', color: 'var(--text-muted)' }}
+              className="absolute left-3 pointer-events-none"
+              style={{ width: '14px', height: '14px', color: 'var(--text-muted)' }}
             />
             <select
               value={selectedLang}
               onChange={(e) => onLangChange(e.target.value)}
               className="appearance-none cursor-pointer focus:outline-none transition-colors"
               style={{
-                paddingLeft: '26px',
-                paddingRight: '22px',
-                paddingTop: '6px',
-                paddingBottom: '6px',
-                fontSize: '12px',
+                paddingLeft: '32px',
+                paddingRight: '26px',
+                paddingTop: '7px',
+                paddingBottom: '7px',
+                fontSize: '13px',
                 fontWeight: 500,
                 fontFamily: 'inherit',
                 background: 'var(--surface)',
                 border: '1px solid var(--border)',
-                borderRadius: '5px',
+                borderRadius: '6px',
                 color: 'var(--text-secondary)',
                 outline: 'none',
               }}
@@ -139,8 +139,8 @@ export default function Navbar({ selectedLang, onLangChange }) {
               ))}
             </select>
             <ChevronDown
-              className="absolute right-2 pointer-events-none"
-              style={{ width: '11px', height: '11px', color: 'var(--text-muted)' }}
+              className="absolute right-2.5 pointer-events-none"
+              style={{ width: '13px', height: '13px', color: 'var(--text-muted)' }}
             />
           </div>
 
