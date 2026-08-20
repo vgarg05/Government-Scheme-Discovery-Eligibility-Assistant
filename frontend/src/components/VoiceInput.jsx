@@ -34,16 +34,13 @@ export default function VoiceInput({ selectedLang = 'en', onSpeechRecognized }) 
     const recognition = new SpeechRecognition();
     recognitionRef.current = recognition;
 
-    // Use selected language tag (e.g. hi-IN for Hindi)
     recognition.lang = LANG_MAP[selectedLang] || 'en-IN';
     recognition.continuous = true;
     recognition.interimResults = false;
 
     let finalTranscript = '';
 
-    recognition.onstart = () => {
-      setIsListening(true);
-    };
+    recognition.onstart = () => { setIsListening(true); };
 
     recognition.onresult = (event) => {
       for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -62,9 +59,7 @@ export default function VoiceInput({ selectedLang = 'en', onSpeechRecognized }) 
       setIsListening(false);
     };
 
-    recognition.onend = () => {
-      setIsListening(false);
-    };
+    recognition.onend = () => { setIsListening(false); };
 
     try {
       recognition.start();
@@ -78,19 +73,28 @@ export default function VoiceInput({ selectedLang = 'en', onSpeechRecognized }) 
     <button
       type="button"
       onClick={toggleListening}
-      title={isListening ? 'Click to stop listening' : 'Click to speak query'}
-      className="flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-150 focus:outline-none"
+      title={isListening ? 'Click to stop listening' : 'Click to speak your query'}
       style={{
-        background: isListening ? 'rgba(248,113,113,0.15)' : '#18181f',
-        border: `1px solid ${isListening ? 'rgba(248,113,113,0.4)' : '#26262e'}`,
-        color: isListening ? '#f87171' : '#55556a',
-        boxShadow: isListening ? '0 0 10px rgba(248,113,113,0.3)' : 'none',
+        flexShrink: 0,
+        width: '38px',
+        height: '38px',
+        borderRadius: '6px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        outline: 'none',
+        transition: 'all 0.15s',
+        background: isListening ? 'rgba(184,92,82,0.08)' : 'var(--surface)',
+        border: `1px solid ${isListening ? 'rgba(184,92,82,0.3)' : 'var(--border)'}`,
+        color: isListening ? 'var(--error)' : 'var(--text-muted)',
+        animation: isListening ? 'accent-pulse 1.5s ease infinite' : 'none',
       }}
     >
       {isListening ? (
-        <MicOff className="h-4 w-4 animate-pulse" />
+        <MicOff style={{ width: '14px', height: '14px' }} className="animate-pulse" />
       ) : (
-        <Mic className="h-4 w-4" />
+        <Mic style={{ width: '14px', height: '14px' }} />
       )}
     </button>
   );

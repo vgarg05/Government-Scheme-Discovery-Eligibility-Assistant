@@ -2,46 +2,68 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 
 const SAMPLE_QUERIES = [
-  { label: 'Farmer support', query: 'I am a 45 year old farmer from Uttar Pradesh with annual income of Rs 80,000' },
-  { label: 'Senior health cover', query: 'Ayushman Bharat health insurance for senior citizens aged 70+' },
-  { label: 'Solar scheme', query: 'PM Surya Ghar free electricity rooftop solar panel scheme' },
-  { label: 'Student scholarship', query: 'Post-Matric Scholarship for SC/ST students in college' },
+  { label: 'Farmer Support', query: 'I am a 45 year old farmer from Uttar Pradesh with annual income of Rs 80,000' },
+  { label: 'Senior Health Cover', query: 'Ayushman Bharat health insurance for senior citizens aged 70+' },
+  { label: 'Solar Scheme', query: 'PM Surya Ghar free electricity rooftop solar panel scheme' },
+  { label: 'Student Scholarship', query: 'Post-Matric Scholarship for SC/ST students in college' },
 ];
 
 export default function Hero({ onPresetClick }) {
   return (
     <section
-      className="pt-16 pb-12 px-4 sm:px-6"
-      style={{ borderBottom: '1px solid #1e1e26' }}
+      style={{
+        borderBottom: '1px solid var(--border)',
+        paddingTop: '64px',
+        paddingBottom: '56px',
+      }}
     >
-      <div className="max-w-2xl mx-auto text-center">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6">
 
-        {/* Eyebrow */}
+        {/* Eyebrow label */}
         <p
-          className="text-xs font-medium tracking-widest uppercase mb-6"
-          style={{ color: '#55556a', letterSpacing: '0.12em' }}
+          className="label-meta mb-8"
+          style={{ color: 'var(--text-muted)' }}
         >
           India's AI-Powered Scheme Engine
         </p>
 
         {/* Headline */}
         <h1
-          className="text-3xl sm:text-4xl font-semibold tracking-tight leading-tight mb-4"
-          style={{ color: '#f0f0f5', letterSpacing: '-0.02em' }}
+          style={{
+            fontSize: 'clamp(28px, 5vw, 44px)',
+            fontWeight: 500,
+            letterSpacing: '-0.025em',
+            lineHeight: 1.05,
+            color: 'var(--text-primary)',
+            marginBottom: '16px',
+          }}
         >
           Find the welfare schemes
           <br />
-          <span style={{ color: '#8888a0', fontWeight: 400 }}>you actually qualify for.</span>
+          <span style={{ color: 'var(--text-secondary)', fontWeight: 400 }}>
+            you actually qualify for.
+          </span>
         </h1>
 
         {/* Sub-copy */}
-        <p className="text-sm leading-relaxed mb-10 max-w-lg mx-auto" style={{ color: '#55556a' }}>
-          Describe your situation in plain language. The AI engine checks 100+ indexed scheme documents and live government sources to evaluate your eligibility.
+        <p
+          style={{
+            fontSize: '15px',
+            lineHeight: 1.6,
+            color: 'var(--text-muted)',
+            maxWidth: '480px',
+            marginBottom: '44px',
+          }}
+        >
+          Describe your situation in plain language. The AI engine checks indexed scheme documents and live government sources to evaluate your eligibility.
         </p>
 
         {/* Sample queries */}
-        <div className="text-left">
-          <p className="text-xs font-medium mb-3" style={{ color: '#55556a' }}>
+        <div>
+          <p
+            className="label-meta mb-4"
+            style={{ color: 'var(--text-muted)' }}
+          >
             Try a sample query
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -49,32 +71,52 @@ export default function Hero({ onPresetClick }) {
               <button
                 key={label}
                 onClick={() => onPresetClick(query)}
-                className="group flex items-center justify-between gap-3 px-4 py-3 rounded-lg text-left text-sm transition-all duration-150"
+                className="group flex items-start justify-between gap-3 text-left transition-all duration-150"
                 style={{
-                  background: '#111118',
-                  border: '1px solid #26262e',
-                  color: '#8888a0',
+                  background: 'var(--surface)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '6px',
+                  padding: '12px 14px',
+                  cursor: 'pointer',
                 }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = '#3a3a48';
-                  e.currentTarget.style.color = '#f0f0f5';
+                  e.currentTarget.style.borderColor = 'var(--text-muted)';
+                  e.currentTarget.style.background = 'var(--raised)';
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = '#26262e';
-                  e.currentTarget.style.color = '#8888a0';
+                  e.currentTarget.style.borderColor = 'var(--border)';
+                  e.currentTarget.style.background = 'var(--surface)';
                 }}
               >
-                <div>
-                  <div className="text-xs font-medium mb-0.5" style={{ color: '#f0f0f5' }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div
+                    style={{
+                      fontSize: '12px',
+                      fontWeight: 500,
+                      color: 'var(--text-primary)',
+                      marginBottom: '3px',
+                      letterSpacing: '0.01em',
+                    }}
+                  >
                     {label}
                   </div>
-                  <div className="text-xs leading-relaxed line-clamp-1" style={{ color: '#55556a' }}>
+                  <div
+                    style={{
+                      fontSize: '12px',
+                      color: 'var(--text-muted)',
+                      lineHeight: 1.45,
+                      overflow: 'hidden',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                    }}
+                  >
                     {query}
                   </div>
                 </div>
                 <ArrowRight
-                  className="h-3.5 w-3.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                  style={{ color: '#5b8ef0' }}
+                  className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-0.5"
+                  style={{ width: '13px', height: '13px', color: 'var(--accent)' }}
                 />
               </button>
             ))}

@@ -68,20 +68,41 @@ const TRANSLATIONS = {
   }
 };
 
-function ScoreRing({ score, lang = 'en' }) {
+/* ── Score display (editorial number, no ring) ── */
+function ScoreDisplay({ score, lang = 'en' }) {
   const clamped = Math.max(0, Math.min(100, score || 0));
-  const color = clamped >= 80 ? '#3ecf8e' : clamped >= 50 ? '#f59e0b' : '#f87171';
   const labels = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
+  // Color based on score — all warm tones
+  const scoreColor =
+    clamped >= 80 ? 'var(--success)'
+    : clamped >= 50 ? 'var(--amber)'
+    : 'var(--error)';
+
   return (
-    <div className="flex flex-col items-center gap-0.5">
+    <div style={{ textAlign: 'right' }}>
       <div
-        className="text-3xl font-bold tabular-nums"
-        style={{ color, fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.03em' }}
+        style={{
+          fontSize: '28px',
+          fontWeight: 500,
+          letterSpacing: '-0.03em',
+          color: scoreColor,
+          lineHeight: 1,
+          fontVariantNumeric: 'tabular-nums',
+        }}
       >
         {clamped}%
       </div>
-      <div className="text-xs font-medium" style={{ color: '#55556a' }}>
+      <div
+        style={{
+          fontSize: '11px',
+          fontWeight: 500,
+          letterSpacing: '0.10em',
+          textTransform: 'uppercase',
+          color: 'var(--text-muted)',
+          marginTop: '3px',
+        }}
+      >
         {labels.match}
       </div>
     </div>
@@ -91,70 +112,163 @@ function ScoreRing({ score, lang = 'en' }) {
 export default function EligibilityCard({ data }) {
   if (!data) return null;
 
-  const { top_scheme, match_score, matched_criteria, unmatched_criteria, retrieval_mode, language = 'en' } = data;
+  const {
+    top_scheme,
+    match_score,
+    matched_criteria,
+    unmatched_criteria,
+    retrieval_mode,
+    language = 'en',
+  } = data;
+
   const isRag = retrieval_mode === 'rag';
   const labels = TRANSLATIONS[language] || TRANSLATIONS.en;
 
   return (
     <div
-      className="rounded-xl overflow-hidden my-3"
-      style={{ border: '1px solid #26262e', background: '#111118' }}
+      style={{
+        borderRadius: '8px',
+        overflow: 'hidden',
+        border: '1px solid var(--border)',
+        background: '#FDFBF4',
+        marginTop: '10px',
+        marginBottom: '8px',
+      }}
     >
-      {/* Header row */}
+      {/* Header — scheme name + score */}
       <div
-        className="flex items-center justify-between gap-4 px-4 py-3"
-        style={{ borderBottom: '1px solid #1e1e26' }}
+        style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          gap: '16px',
+          padding: '16px 18px',
+          borderBottom: '1px solid var(--border-subtle)',
+        }}
       >
-        <div className="min-w-0 flex-1">
-          <p className="text-xs font-medium mb-0.5" style={{ color: '#55556a' }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          {/* Label */}
+          <p
+            style={{
+              fontSize: '11px',
+              fontWeight: 500,
+              letterSpacing: '0.11em',
+              textTransform: 'uppercase',
+              color: 'var(--text-muted)',
+              marginBottom: '6px',
+            }}
+          >
             {labels.bestMatch}
           </p>
+          {/* Scheme name */}
           <h3
-            className="font-semibold text-sm leading-snug truncate"
-            style={{ color: '#f0f0f5' }}
+            style={{
+              fontSize: '16px',
+              fontWeight: 500,
+              letterSpacing: '-0.01em',
+              lineHeight: 1.2,
+              color: 'var(--text-primary)',
+              margin: 0,
+              wordBreak: 'break-word',
+            }}
           >
             {top_scheme || 'Government Scheme'}
           </h3>
-        </div>
 
-        <div className="flex flex-col items-end gap-2 flex-shrink-0">
-          <ScoreRing score={match_score} lang={language} />
-          <div
-            className="flex items-center gap-1 text-xs px-2 py-0.5 rounded"
-            style={{
-              background: isRag ? 'rgba(62,207,142,0.08)' : 'rgba(91,142,240,0.08)',
-              color: isRag ? '#3ecf8e' : '#5b8ef0',
-              border: `1px solid ${isRag ? 'rgba(62,207,142,0.15)' : 'rgba(91,142,240,0.15)'}`,
-            }}
-          >
-            {isRag ? <Database className="h-3 w-3" /> : <Globe className="h-3 w-3" />}
-            <span className="font-medium">{isRag ? 'RAG' : 'Web'}</span>
+          {/* Source badge */}
+          <div style={{ marginTop: '8px' }}>
+            <span
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                fontSize: '10px',
+                fontWeight: 500,
+                letterSpacing: '0.09em',
+                textTransform: 'uppercase',
+                padding: '2px 7px',
+                borderRadius: '3px',
+                background: isRag ? 'rgba(93,138,104,0.1)' : 'rgba(242,181,68,0.1)',
+                color: isRag ? 'var(--success)' : 'var(--amber)',
+                border: `1px solid ${isRag ? 'rgba(93,138,104,0.2)' : 'rgba(217,119,6,0.2)'}`,
+              }}
+            >
+              {isRag
+                ? <><Database style={{ width: '10px', height: '10px' }} />RAG</>
+                : <><Globe style={{ width: '10px', height: '10px' }} />Web</>
+              }
+            </span>
           </div>
         </div>
+
+        {/* Score number */}
+        <ScoreDisplay score={match_score} lang={language} />
       </div>
 
       {/* Criteria grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2">
-        {/* Matched */}
-        <div className="px-4 py-3" style={{ borderRight: '1px solid #1e1e26' }}>
-          <div className="flex items-center gap-1.5 mb-2">
-            <CheckCircle2 className="h-3.5 w-3.5 flex-shrink-0" style={{ color: '#3ecf8e' }} />
-            <span className="text-xs font-medium" style={{ color: '#3ecf8e' }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+        }}
+      >
+        {/* Qualified */}
+        <div
+          style={{
+            padding: '14px 18px',
+            borderRight: '1px solid var(--border-subtle)',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              marginBottom: '10px',
+            }}
+          >
+            <CheckCircle2
+              style={{ width: '13px', height: '13px', color: 'var(--success)', flexShrink: 0 }}
+            />
+            <span
+              style={{
+                fontSize: '11px',
+                fontWeight: 500,
+                letterSpacing: '0.10em',
+                textTransform: 'uppercase',
+                color: 'var(--success)',
+              }}
+            >
               {labels.qualified}
             </span>
           </div>
-          <ul className="space-y-1.5">
+          <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '7px' }}>
             {matched_criteria && matched_criteria.length > 0 ? (
               matched_criteria.map((item, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <span className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0" style={{ background: '#3ecf8e' }} />
-                  <span className="text-xs leading-relaxed" style={{ color: '#8888a0' }}>
+                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '7px' }}>
+                  <span
+                    style={{
+                      width: '4px',
+                      height: '4px',
+                      borderRadius: '50%',
+                      background: 'var(--success)',
+                      flexShrink: 0,
+                      marginTop: '7px',
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontSize: '13px',
+                      lineHeight: 1.5,
+                      color: 'var(--text-secondary)',
+                    }}
+                  >
                     {item}
                   </span>
                 </li>
               ))
             ) : (
-              <li className="text-xs" style={{ color: '#55556a' }}>
+              <li style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
                 {labels.generalAlignment}
               </li>
             )}
@@ -162,25 +276,57 @@ export default function EligibilityCard({ data }) {
         </div>
 
         {/* Verify */}
-        <div className="px-4 py-3">
-          <div className="flex items-center gap-1.5 mb-2">
-            <AlertTriangle className="h-3.5 w-3.5 flex-shrink-0" style={{ color: '#f59e0b' }} />
-            <span className="text-xs font-medium" style={{ color: '#f59e0b' }}>
+        <div style={{ padding: '14px 18px' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              marginBottom: '10px',
+            }}
+          >
+            <AlertTriangle
+              style={{ width: '13px', height: '13px', color: 'var(--amber)', flexShrink: 0 }}
+            />
+            <span
+              style={{
+                fontSize: '11px',
+                fontWeight: 500,
+                letterSpacing: '0.10em',
+                textTransform: 'uppercase',
+                color: 'var(--amber)',
+              }}
+            >
               {labels.verify}
             </span>
           </div>
-          <ul className="space-y-1.5">
+          <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '7px' }}>
             {unmatched_criteria && unmatched_criteria.length > 0 ? (
               unmatched_criteria.map((item, i) => (
-                <li key={i} className="flex items-start gap-2">
-                  <span className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0" style={{ background: '#f59e0b' }} />
-                  <span className="text-xs leading-relaxed" style={{ color: '#8888a0' }}>
+                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '7px' }}>
+                  <span
+                    style={{
+                      width: '4px',
+                      height: '4px',
+                      borderRadius: '50%',
+                      background: 'var(--amber)',
+                      flexShrink: 0,
+                      marginTop: '7px',
+                    }}
+                  />
+                  <span
+                    style={{
+                      fontSize: '13px',
+                      lineHeight: 1.5,
+                      color: 'var(--text-secondary)',
+                    }}
+                  >
                     {item}
                   </span>
                 </li>
               ))
             ) : (
-              <li className="text-xs" style={{ color: '#3ecf8e' }}>
+              <li style={{ fontSize: '13px', color: 'var(--success)' }}>
                 {labels.noDisqualifiers}
               </li>
             )}

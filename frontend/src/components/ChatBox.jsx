@@ -5,15 +5,23 @@ import EligibilityCard from './EligibilityCard';
 import DocumentChecklist from './DocumentChecklist';
 import { sendChatQuery, getTTSAudioUrl } from '../services/api';
 
-/* ── Avatar components ──────────────────────────── */
+/* ── Avatar components ─────────────────────────────── */
 function BotAvatar() {
   return (
     <div
-      className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-semibold"
       style={{
-        background: 'rgba(91,142,240,0.12)',
-        border: '1px solid rgba(91,142,240,0.2)',
-        color: '#5b8ef0',
+        width: '26px',
+        height: '26px',
+        borderRadius: '5px',
+        background: 'var(--accent)',
+        flexShrink: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '11px',
+        fontWeight: 600,
+        color: 'var(--accent-text)',
+        letterSpacing: '-0.01em',
       }}
     >
       G
@@ -24,11 +32,20 @@ function BotAvatar() {
 function UserAvatar() {
   return (
     <div
-      className="w-7 h-7 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-semibold"
       style={{
-        background: 'rgba(62,207,142,0.1)',
-        border: '1px solid rgba(62,207,142,0.15)',
-        color: '#3ecf8e',
+        width: '26px',
+        height: '26px',
+        borderRadius: '5px',
+        background: 'var(--raised)',
+        border: '1px solid var(--border)',
+        flexShrink: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '11px',
+        fontWeight: 600,
+        color: 'var(--text-secondary)',
+        letterSpacing: '-0.01em',
       }}
     >
       U
@@ -36,14 +53,21 @@ function UserAvatar() {
   );
 }
 
-/* ── Typing indicator ────────────────────────────── */
+/* ── Typing indicator ──────────────────────────────── */
 function TypingIndicator() {
   return (
-    <div className="flex items-start gap-3">
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
       <BotAvatar />
       <div
-        className="px-4 py-3 rounded-xl flex items-center gap-1.5"
-        style={{ background: '#111118', border: '1px solid #26262e' }}
+        style={{
+          padding: '10px 14px',
+          borderRadius: '6px',
+          background: 'var(--surface)',
+          border: '1px solid var(--border)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '5px',
+        }}
       >
         <span className="typing-dot" />
         <span className="typing-dot" />
@@ -53,50 +77,80 @@ function TypingIndicator() {
   );
 }
 
-/* ── Message bubble ──────────────────────────────── */
+/* ── Message bubble ───────────────────────────────── */
 function Message({ msg, selectedLang, onPlayAudio }) {
   const isUser = msg.sender === 'user';
 
   return (
-    <div className={`flex items-start gap-3 ${isUser ? 'flex-row-reverse' : ''}`}>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: '10px',
+        flexDirection: isUser ? 'row-reverse' : 'row',
+      }}
+    >
       {isUser ? <UserAvatar /> : <BotAvatar />}
 
-      <div className={`flex flex-col gap-2 ${isUser ? 'items-end' : 'items-start'} max-w-[80%] sm:max-w-[72%]`}>
-
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+          alignItems: isUser ? 'flex-end' : 'flex-start',
+          maxWidth: '78%',
+        }}
+      >
         {/* Text bubble */}
         <div
-          className="px-4 py-3 rounded-xl text-sm leading-relaxed"
           style={{
+            padding: '10px 14px',
+            borderRadius: '6px',
+            fontSize: '14px',
+            lineHeight: 1.6,
             background: isUser
-              ? 'rgba(91,142,240,0.12)'
+              ? 'var(--raised)'
               : msg.isError
-              ? 'rgba(248,113,113,0.06)'
-              : '#111118',
+              ? 'rgba(184,92,82,0.06)'
+              : 'var(--surface)',
             border: `1px solid ${
               isUser
-                ? 'rgba(91,142,240,0.2)'
+                ? 'var(--border)'
                 : msg.isError
-                ? 'rgba(248,113,113,0.2)'
-                : '#26262e'
+                ? 'rgba(184,92,82,0.2)'
+                : 'var(--border)'
             }`,
-            color: msg.isError ? '#f87171' : '#d0d0e0',
+            color: msg.isError ? 'var(--error)' : 'var(--text-primary)',
           }}
         >
-          <p className="whitespace-pre-wrap">{msg.text}</p>
+          <p style={{ whiteSpace: 'pre-wrap', margin: 0 }}>{msg.text}</p>
 
           {/* TTS button */}
           {!isUser && !msg.isError && (
             <button
               onClick={() => onPlayAudio(msg.translatedText || msg.text)}
-              className="mt-2.5 pt-2.5 flex items-center gap-1.5 text-xs transition-colors duration-150 w-full"
               style={{
-                borderTop: '1px solid #1e1e26',
-                color: '#55556a',
+                marginTop: '10px',
+                paddingTop: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontSize: '11px',
+                fontWeight: 500,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--text-muted)',
+                background: 'none',
+                border: 'none',
+                borderTop: '1px solid var(--border-subtle)',
+                cursor: 'pointer',
+                width: '100%',
+                transition: 'color 0.15s',
               }}
-              onMouseEnter={e => e.currentTarget.style.color = '#8888a0'}
-              onMouseLeave={e => e.currentTarget.style.color = '#55556a'}
+              onMouseEnter={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+              onMouseLeave={e => e.currentTarget.style.color = 'var(--text-muted)'}
             >
-              <Volume2 className="h-3.5 w-3.5" />
+              <Volume2 style={{ width: '12px', height: '12px' }} />
               <span>Listen</span>
             </button>
           )}
@@ -104,7 +158,7 @@ function Message({ msg, selectedLang, onPlayAudio }) {
 
         {/* Eligibility + Docs panels */}
         {msg.data && (
-          <div className="w-full">
+          <div style={{ width: '100%' }}>
             <EligibilityCard data={msg.data} />
             <DocumentChecklist
               checklist={msg.data.document_checklist}
@@ -114,13 +168,12 @@ function Message({ msg, selectedLang, onPlayAudio }) {
             />
           </div>
         )}
-
       </div>
     </div>
   );
 }
 
-/* ── Main ChatBox ────────────────────────────────── */
+/* ── Main ChatBox ─────────────────────────────────── */
 export default function ChatBox({ initialQuery, selectedLang }) {
   const [messages, setMessages] = useState([
     {
@@ -134,14 +187,12 @@ export default function ChatBox({ initialQuery, selectedLang }) {
   const chatEndRef = useRef(null);
   const scrollContainerRef = useRef(null);
 
-  // Scroll to bottom helper
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => { scrollToBottom(); }, [messages, isLoading]);
 
-  // Show scroll-to-bottom button when user scrolls up
   const handleScroll = () => {
     const el = scrollContainerRef.current;
     if (!el) return;
@@ -149,7 +200,6 @@ export default function ChatBox({ initialQuery, selectedLang }) {
     setShowScrollBtn(distFromBottom > 120);
   };
 
-  // Auto-trigger preset query
   useEffect(() => {
     if (initialQuery) handleSend(initialQuery);
   }, [initialQuery]);
@@ -158,13 +208,12 @@ export default function ChatBox({ initialQuery, selectedLang }) {
     const text = (queryText || inputText).trim();
     if (!text || isLoading) return;
 
-    // Build conversation history including profile snapshots
     const history = messages
       .filter(msg => !msg.isError)
       .map(msg => ({
         role: msg.sender === 'user' ? 'user' : 'assistant',
         content: msg.text,
-        profile_snapshot: msg.profile || null
+        profile_snapshot: msg.profile || null,
       }));
 
     setMessages(prev => [...prev, { sender: 'user', text }]);
@@ -183,13 +232,11 @@ export default function ChatBox({ initialQuery, selectedLang }) {
         }]);
       } else if (responseData.status === 'success') {
         const resp = responseData.response || {};
-        // translated_summary is the text in the user's selected language
-        // msg.text shows translated text in UI; msg.translatedText is used for TTS
         const displayText = resp.translated_summary || resp.summary || 'Eligibility evaluation complete.';
         setMessages(prev => [...prev, {
           sender: 'bot',
           text: displayText,
-          translatedText: displayText, // already in target language from backend
+          translatedText: displayText,
           data: resp,
           profile: responseData.user_profile,
         }]);
@@ -215,20 +262,45 @@ export default function ChatBox({ initialQuery, selectedLang }) {
   };
 
   return (
-    <section className="max-w-3xl mx-auto px-4 py-8">
+    <section
+      style={{
+        maxWidth: '820px',
+        margin: '0 auto',
+        padding: '40px 16px 48px',
+      }}
+    >
+      {/* Section label */}
+      <p className="label-meta" style={{ marginBottom: '20px', color: 'var(--text-muted)' }}>
+        Scheme Advisor
+      </p>
 
       {/* Chat panel */}
       <div
-        className="relative flex flex-col rounded-xl overflow-hidden"
-        style={{ border: '1px solid #26262e', background: '#0a0a0f' }}
+        style={{
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          borderRadius: '10px',
+          overflow: 'hidden',
+          border: '1px solid var(--border)',
+          background: 'var(--surface)',
+        }}
       >
 
         {/* Message list */}
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="flex-1 overflow-y-auto px-4 sm:px-6 py-6 space-y-6"
-          style={{ minHeight: '420px', maxHeight: '62vh' }}
+          style={{
+            flex: 1,
+            overflowY: 'auto',
+            padding: '24px 20px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+            minHeight: '420px',
+            maxHeight: '62vh',
+          }}
         >
           {messages.map((msg, i) => (
             <Message
@@ -246,69 +318,113 @@ export default function ChatBox({ initialQuery, selectedLang }) {
         {showScrollBtn && (
           <button
             onClick={scrollToBottom}
-            className="absolute bottom-20 left-1/2 -translate-x-1/2 flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all duration-150"
             style={{
-              background: '#18181f',
-              border: '1px solid #3a3a48',
-              color: '#8888a0',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
+              position: 'absolute',
+              bottom: '76px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+              fontSize: '11px',
+              fontWeight: 500,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              padding: '6px 12px',
+              borderRadius: '20px',
+              background: 'var(--raised)',
+              border: '1px solid var(--border)',
+              color: 'var(--text-secondary)',
+              cursor: 'pointer',
+              boxShadow: '0 2px 8px rgba(23,23,20,0.08)',
+              transition: 'all 0.15s',
             }}
           >
-            <ArrowDown className="h-3 w-3" />
+            <ArrowDown style={{ width: '11px', height: '11px' }} />
             <span>Latest</span>
           </button>
         )}
 
         {/* Input bar */}
         <div
-          className="px-4 py-3"
-          style={{ borderTop: '1px solid #1e1e26', background: '#111118' }}
+          style={{
+            padding: '12px 16px',
+            borderTop: '1px solid var(--border)',
+            background: 'var(--raised)',
+          }}
         >
           <form
             onSubmit={(e) => { e.preventDefault(); handleSend(); }}
-            className="flex items-center gap-2"
+            style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
           >
-            <VoiceInput selectedLang={selectedLang} onSpeechRecognized={(t) => setInputText(t)} />
+            <VoiceInput
+              selectedLang={selectedLang}
+              onSpeechRecognized={(t) => setInputText(t)}
+            />
 
             <input
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder="Describe your situation — e.g. farmer, UP, income 80,000…"
-              className="flex-1 rounded-lg px-3.5 py-2.5 text-sm transition-all duration-150 focus:outline-none"
               style={{
-                background: '#0a0a0f',
-                border: '1px solid #26262e',
-                color: '#d0d0e0',
+                flex: 1,
+                padding: '10px 14px',
+                fontSize: '14px',
+                fontFamily: 'inherit',
+                background: '#FDFBF4',
+                border: '1px solid var(--border)',
+                borderRadius: '6px',
+                color: 'var(--text-primary)',
+                outline: 'none',
+                transition: 'border-color 0.15s, box-shadow 0.15s',
               }}
-              onFocus={e => e.target.style.borderColor = 'rgba(91,142,240,0.4)'}
-              onBlur={e => e.target.style.borderColor = '#26262e'}
+              onFocus={e => {
+                e.target.style.borderColor = 'var(--accent)';
+                e.target.style.boxShadow = '0 0 0 2px rgba(242,181,68,0.15)';
+              }}
+              onBlur={e => {
+                e.target.style.borderColor = 'var(--border)';
+                e.target.style.boxShadow = 'none';
+              }}
             />
 
             <button
               type="submit"
               disabled={isLoading || !inputText.trim()}
-              className="w-9 h-9 flex-shrink-0 rounded-lg flex items-center justify-center transition-all duration-150 disabled:opacity-40"
               style={{
-                background: 'rgba(91,142,240,0.15)',
-                border: '1px solid rgba(91,142,240,0.25)',
-                color: '#5b8ef0',
+                flexShrink: 0,
+                width: '38px',
+                height: '38px',
+                borderRadius: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: (!isLoading && inputText.trim()) ? 'var(--accent)' : 'var(--surface)',
+                border: '1px solid ' + ((!isLoading && inputText.trim()) ? 'var(--accent)' : 'var(--border)'),
+                color: (!isLoading && inputText.trim()) ? 'var(--accent-text)' : 'var(--text-muted)',
+                cursor: (!isLoading && inputText.trim()) ? 'pointer' : 'default',
+                opacity: (isLoading) ? 0.5 : 1,
+                transition: 'all 0.15s',
               }}
               onMouseEnter={e => {
                 if (!e.currentTarget.disabled) {
-                  e.currentTarget.style.background = 'rgba(91,142,240,0.25)';
+                  e.currentTarget.style.background = 'var(--accent-hover)';
+                  e.currentTarget.style.borderColor = 'var(--accent-hover)';
                 }
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.background = 'rgba(91,142,240,0.15)';
+                if (!e.currentTarget.disabled && inputText.trim()) {
+                  e.currentTarget.style.background = 'var(--accent)';
+                  e.currentTarget.style.borderColor = 'var(--accent)';
+                }
               }}
             >
-              <Send className="w-4 h-4" />
+              <Send style={{ width: '15px', height: '15px' }} />
             </button>
           </form>
         </div>
       </div>
-
     </section>
   );
 }

@@ -5,7 +5,7 @@ const TRANSLATIONS = {
   en: {
     docsRequired: "Documents required",
     howToApply: "How to apply",
-    sources: "Sources"
+    sources: "Official sources"
   },
   hi: {
     docsRequired: "आवश्यक दस्तावेज़",
@@ -44,13 +44,51 @@ const TRANSLATIONS = {
   }
 };
 
+/* ── Section header with accent left-bar ── */
+function SectionHeader({ label }) {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        marginBottom: '14px',
+      }}
+    >
+      {/* Tiny accent marker */}
+      <span
+        style={{
+          width: '2px',
+          height: '12px',
+          borderRadius: '1px',
+          background: 'var(--accent)',
+          flexShrink: 0,
+          display: 'block',
+        }}
+      />
+      <span
+        style={{
+          fontSize: '11px',
+          fontWeight: 500,
+          letterSpacing: '0.11em',
+          textTransform: 'uppercase',
+          color: 'var(--text-muted)',
+        }}
+      >
+        {label}
+      </span>
+    </div>
+  );
+}
+
 export default function DocumentChecklist({ checklist, applicationSteps, citations, language = 'en' }) {
   const [checked, setChecked] = useState({});
   const labels = TRANSLATIONS[language] || TRANSLATIONS.en;
 
   const toggle = (i) => setChecked(prev => ({ ...prev, [i]: !prev[i] }));
 
-  const hasContent = (checklist && checklist.length > 0) ||
+  const hasContent =
+    (checklist && checklist.length > 0) ||
     (applicationSteps && applicationSteps.length > 0) ||
     (citations && citations.length > 0);
 
@@ -58,38 +96,74 @@ export default function DocumentChecklist({ checklist, applicationSteps, citatio
 
   return (
     <div
-      className="rounded-xl overflow-hidden my-3 divide-y"
-      style={{ border: '1px solid #26262e', background: '#111118', divideColor: '#1e1e26' }}
+      style={{
+        borderRadius: '8px',
+        overflow: 'hidden',
+        border: '1px solid var(--border)',
+        background: '#FDFBF4',
+        marginBottom: '8px',
+      }}
     >
 
-      {/* Documents */}
+      {/* Documents Required */}
       {checklist && checklist.length > 0 && (
-        <div className="px-4 py-3">
-          <p className="text-xs font-medium mb-3" style={{ color: '#8888a0' }}>
-            {labels.docsRequired}
-          </p>
-          <ul className="space-y-2">
+        <div
+          style={{
+            padding: '16px 18px',
+            borderBottom: (applicationSteps?.length > 0 || citations?.length > 0)
+              ? '1px solid var(--border-subtle)'
+              : 'none',
+          }}
+        >
+          <SectionHeader label={labels.docsRequired} />
+          <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {checklist.map((doc, i) => (
               <li key={i}>
                 <button
                   type="button"
                   onClick={() => toggle(i)}
-                  className="w-full flex items-center gap-3 text-left group"
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '10px',
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                  }}
                 >
+                  {/* Checkbox */}
                   <span
-                    className="w-4 h-4 rounded flex-shrink-0 flex items-center justify-center transition-all duration-150"
                     style={{
-                      background: checked[i] ? '#5b8ef0' : 'transparent',
-                      border: `1px solid ${checked[i] ? '#5b8ef0' : '#3a3a48'}`,
+                      width: '16px',
+                      height: '16px',
+                      borderRadius: '3px',
+                      border: `1px solid ${checked[i] ? 'var(--accent)' : 'var(--border)'}`,
+                      background: checked[i] ? 'var(--accent)' : 'transparent',
+                      flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginTop: '2px',
+                      transition: 'all 0.15s',
                     }}
                   >
-                    {checked[i] && <Check className="h-2.5 w-2.5 text-white" strokeWidth={3} />}
+                    {checked[i] && (
+                      <Check
+                        style={{ width: '10px', height: '10px', color: '#171714' }}
+                        strokeWidth={3}
+                      />
+                    )}
                   </span>
                   <span
-                    className="text-xs leading-relaxed transition-all"
                     style={{
-                      color: checked[i] ? '#55556a' : '#8888a0',
+                      fontSize: '13px',
+                      lineHeight: 1.55,
+                      color: checked[i] ? 'var(--text-muted)' : 'var(--text-secondary)',
                       textDecoration: checked[i] ? 'line-through' : 'none',
+                      transition: 'all 0.15s',
                     }}
                   >
                     {doc}
@@ -101,27 +175,47 @@ export default function DocumentChecklist({ checklist, applicationSteps, citatio
         </div>
       )}
 
-      {/* Steps */}
+      {/* How to Apply */}
       {applicationSteps && applicationSteps.length > 0 && (
-        <div className="px-4 py-3">
-          <p className="text-xs font-medium mb-3" style={{ color: '#8888a0' }}>
-            {labels.howToApply}
-          </p>
-          <ol className="space-y-3">
+        <div
+          style={{
+            padding: '16px 18px',
+            borderBottom: citations?.length > 0 ? '1px solid var(--border-subtle)' : 'none',
+          }}
+        >
+          <SectionHeader label={labels.howToApply} />
+          <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {applicationSteps.map((step, i) => (
-              <li key={i} className="flex items-start gap-3">
+              <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                {/* Step number */}
                 <span
-                  className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-semibold"
                   style={{
-                    background: 'rgba(91,142,240,0.1)',
-                    color: '#5b8ef0',
-                    border: '1px solid rgba(91,142,240,0.2)',
+                    flexShrink: 0,
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '4px',
+                    background: 'var(--raised)',
+                    border: '1px solid var(--border)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     fontSize: '10px',
+                    fontWeight: 600,
+                    color: 'var(--text-secondary)',
+                    letterSpacing: '0.01em',
+                    marginTop: '2px',
                   }}
                 >
                   {i + 1}
                 </span>
-                <span className="text-xs leading-relaxed pt-0.5" style={{ color: '#8888a0' }}>
+                <span
+                  style={{
+                    fontSize: '13px',
+                    lineHeight: 1.55,
+                    color: 'var(--text-secondary)',
+                    paddingTop: '2px',
+                  }}
+                >
                   {step}
                 </span>
               </li>
@@ -130,30 +224,51 @@ export default function DocumentChecklist({ checklist, applicationSteps, citatio
         </div>
       )}
 
-      {/* Sources */}
+      {/* Official Sources */}
       {citations && citations.length > 0 && (
-        <div className="px-4 py-3">
-          <p className="text-xs font-medium mb-2.5" style={{ color: '#8888a0' }}>
-            {labels.sources}
-          </p>
-          <div className="flex flex-wrap gap-2">
+        <div style={{ padding: '14px 18px' }}>
+          <SectionHeader label={labels.sources} />
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
             {citations.map((cite, i) => (
               <a
                 key={i}
                 href={cite.url || '#'}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 text-xs rounded px-2.5 py-1 transition-all duration-150"
                 style={{
-                  background: '#18181f',
-                  border: '1px solid #26262e',
-                  color: '#5b8ef0',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  fontSize: '12px',
+                  fontWeight: 500,
+                  padding: '5px 10px',
+                  borderRadius: '4px',
+                  background: 'var(--raised)',
+                  border: '1px solid var(--border)',
+                  color: 'var(--text-secondary)',
+                  textDecoration: 'none',
+                  transition: 'all 0.15s',
                 }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = '#3a3a48'}
-                onMouseLeave={e => e.currentTarget.style.borderColor = '#26262e'}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = 'var(--text-muted)';
+                  e.currentTarget.style.color = 'var(--text-primary)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = 'var(--border)';
+                  e.currentTarget.style.color = 'var(--text-secondary)';
+                }}
               >
-                <span>{cite.title || cite.filename}</span>
-                <ExternalLink className="h-3 w-3 opacity-60" />
+                <span style={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  maxWidth: '220px',
+                }}>
+                  {cite.title || cite.filename}
+                </span>
+                <ExternalLink
+                  style={{ width: '11px', height: '11px', opacity: 0.5, flexShrink: 0 }}
+                />
               </a>
             ))}
           </div>
