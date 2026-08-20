@@ -1,24 +1,14 @@
 import React from 'react';
+import { DotLottiePlayer } from '@dotlottie/react-player';
+import farmerWalkData from '../assets/farmer-walk.json';
 
 /*
-  GovAssist — Living Indian Landscape & High-Detail Editorial Farmer
-  ───────────────────────────────────────────────────────────────────
-  Design Philosophy (Option B - Editorial Vector Masterpiece):
-  - Replaces mechanical limb joint rotations with a single, ultra-detailed
-    handcrafted editorial vector illustration of an Indian citizen in mid-stride.
-  - Features intricate fabric drapes, turban folds, kurta creases, shoulder gamcha/cloth,
-    detailed profile features, and mustard yellow accent bag (#F2B544).
-  - Moves with a subtle grounded gait bounce (walk-body: 1px) while the 3 parallax
-    landscape layers scroll smoothly underneath.
-
-  Palette Discipline:
-  - Background: #F7F5EC (warm ivory)
-  - Primary Linework: #1A1916 (crisp charcoal)
-  - Secondary Lines: #858178 (warm gray)
-  - Faint Horizon: #D9D5C8
-  - Muted Sage Green: #6B7A6E
-  - Roof/Pants Tan: #C2BCAD
-  - Focal Accent Yellow: #F2B544
+  GovAssist — Living Indian Landscape & Lottie Option A Character
+  ─────────────────────────────────────────────────────────────────
+  Architecture:
+  - Uses DotLottiePlayer (Option A) for smooth 60fps skeletal vector animation.
+  - Character is rendered via Lottie JSON player anchored on the left side.
+  - Background, Midground, and Foreground parallax layers remain untouched.
 */
 
 const P_LINE = '#1A1916';
@@ -62,18 +52,15 @@ function MidgroundArtwork() {
     <>
       {/* ══ 1. PERSPECTIVE AGRICULTURAL FIELDS (x: 20 - 320) ══ */}
       <g stroke={P_LINE} strokeWidth="0.8">
-        {/* Converging perspective field boundary lines */}
         <line x1="30" y1="92" x2="0" y2="112" strokeWidth="1" />
         <line x1="140" y1="92" x2="40" y2="112" />
         <line x1="250" y1="92" x2="190" y2="112" />
         <line x1="340" y1="92" x2="310" y2="112" />
 
-        {/* Horizontal field ridge lines */}
         <line x1="22" y1="97" x2="330" y2="97" stroke={S_LINE} strokeWidth="0.5" />
         <line x1="15" y1="102" x2="322" y2="102" stroke={S_LINE} strokeWidth="0.5" />
         <line x1="8" y1="107" x2="315" y2="107" stroke={S_LINE} strokeWidth="0.5" />
 
-        {/* Crop rows (hatch inside perspective plots) */}
         {Array.from({ length: 12 }, (_, i) => (
           <line
             key={i}
@@ -90,7 +77,6 @@ function MidgroundArtwork() {
 
       {/* ══ 2. VILLAGE HOMESTEAD 1 (x: 370 - 550) ══ */}
       <g>
-        {/* Background Capsule Trees */}
         <g stroke={P_LINE} strokeWidth="0.9">
           <ellipse cx="360" cy="62" rx="11" ry="17" fill={SAGE_GREEN} />
           <line x1="360" y1="45" x2="360" y2="92" />
@@ -102,16 +88,13 @@ function MidgroundArtwork() {
           <line x1="525" y1="42" x2="525" y2="92" />
         </g>
 
-        {/* House 1 (Double Pitched Roof) */}
         <rect x="400" y="72" width="60" height="20" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
         <path d="M 392 72 L 430 55 L 468 72 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
         <rect x="445" y="70" width="65" height="22" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
         <path d="M 440 70 L 477 56 L 514 70 Z" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1" />
-        {/* Doors & Windows */}
         <rect x="420" y="78" width="12" height="14" fill={S_LINE} stroke={P_LINE} strokeWidth="0.8" />
         <rect x="475" y="78" width="12" height="14" fill={S_LINE} stroke={P_LINE} strokeWidth="0.8" />
         <rect x="495" y="76" width="10" height="8" fill="#F7F5EC" stroke={P_LINE} strokeWidth="0.7" />
-        {/* Bush at base */}
         <path d="M 390 92 Q 400 84 410 92 Q 420 84 430 92" fill={SAGE_GREEN} stroke={P_LINE} strokeWidth="0.8" />
       </g>
 
@@ -136,7 +119,6 @@ function MidgroundArtwork() {
         <rect x="760" y="52" width="130" height="35" fill="rgba(243,241,230,0.95)" stroke={P_LINE} strokeWidth="1.2" />
         <rect x="754" y="46" width="142" height="6" fill={ROOF_TAN} stroke={P_LINE} strokeWidth="1.1" />
 
-        {/* Accent Door */}
         <rect x="808" y="64" width="16" height="23" fill={ACCENT_YELLOW} stroke={P_LINE} strokeWidth="1" />
         <rect x="824" y="64" width="16" height="23" fill="#F7F5EC" stroke={P_LINE} strokeWidth="1" />
 
@@ -195,7 +177,6 @@ function MidgroundArtwork() {
 function ForegroundArtwork() {
   return (
     <>
-      {/* Main Road Line with Dip at Panchayat Entrance (x: 740 - 930) */}
       <path
         d="M 0 112 L 730 112 Q 815 116 900 112 L 1600 112"
         fill="none"
@@ -203,7 +184,6 @@ function ForegroundArtwork() {
         strokeWidth="1.5"
       />
 
-      {/* Foreground Lollipop Trees (x: 440 - 520) */}
       <g stroke={P_LINE} strokeWidth="0.8">
         <circle cx="450" cy="102" r="7" fill={ACCENT_YELLOW} />
         <line x1="450" y1="109" x2="450" y2="118" />
@@ -224,166 +204,6 @@ function ForegroundArtwork() {
   );
 }
 
-// ── HIGH-DETAIL EDITORIAL FARMER ILLUSTRATION (MID-STRIDE VECTOR MASTERPIECE) ──
-function HighDetailEditorialFarmer() {
-  const SKIN = '#5C5A4E';
-  const SHIRT = '#FFFFFF';
-  const PANTS_FRONT = '#C2BCAD';
-  const PANTS_BACK = '#9E988A';
-  const CAP = '#E4E0D5';
-  const ACCENT_BAG = '#F2B544';
-  const LINE = '#1A1916';
-
-  return (
-    <g id="farmer" className="walk-body" style={{ transformBox: 'fill-box' }}>
-      
-      {/* ── 1. REAR ARM (Extending forward with bent elbow & cupped hand) ── */}
-      <g id="farmer-right-arm">
-        {/* Arm skin path */}
-        <path
-          d="M 163 76 L 175 87 C 176 88 177 88 178 86 C 178 84 177 83 175 82 L 165 74 Z"
-          fill={SKIN}
-          stroke={LINE}
-          strokeWidth="0.75"
-          strokeLinejoin="round"
-        />
-        {/* Loose Kurta Sleeve */}
-        <path
-          d="M 161 73 L 168 80 L 165 82 L 159 75 Z"
-          fill={SHIRT}
-          stroke={LINE}
-          strokeWidth="0.75"
-        />
-        {/* Sleeve cuff fold line */}
-        <line x1="165" y1="82" x2="168" y2="80" stroke={LINE} strokeWidth="0.7" />
-      </g>
-
-      {/* ── 2. REAR LEG (Natural backward stride with knee bend) ── */}
-      <g id="farmer-right-leg">
-        {/* Rear pant leg with realistic thigh & knee drape */}
-        <path
-          d="M 158 88 Q 153 96 146 108 L 151 109 Q 157 98 163 88 Z"
-          fill={PANTS_BACK}
-          stroke={LINE}
-          strokeWidth="0.75"
-          strokeLinejoin="round"
-        />
-        {/* Rear barefoot touching ground line */}
-        <path
-          d="M 146 108 C 141 112 139 112 140 112 L 146 112 Z"
-          fill={SKIN}
-          stroke={LINE}
-          strokeWidth="0.7"
-        />
-      </g>
-
-      {/* ── 3. FRONT LEG (Natural forward stride with knee flex) ── */}
-      <g id="farmer-left-leg">
-        {/* Front pant leg with realistic thigh & shin contour */}
-        <path
-          d="M 160 88 Q 165 96 169 108 L 175 108 Q 170 97 165 88 Z"
-          fill={PANTS_FRONT}
-          stroke={LINE}
-          strokeWidth="0.75"
-          strokeLinejoin="round"
-        />
-        {/* Front barefoot profile on ground */}
-        <path
-          d="M 170 108 L 178 112 L 168 112 Z"
-          fill={SKIN}
-          stroke={LINE}
-          strokeWidth="0.7"
-        />
-      </g>
-
-      {/* ── 4. TORSO & LOOSE WHITE KURTA SHIRT ── */}
-      <g id="farmer-body">
-        {/* Kurta body path with side slit & slight forward lean */}
-        <path
-          d="M 158 72 Q 162 72 165 73 L 165 88 L 162 89 L 162 87 L 158 87 Z"
-          fill={SHIRT}
-          stroke={LINE}
-          strokeWidth="0.8"
-          strokeLinejoin="round"
-        />
-        {/* Kurta side slit */}
-        <line x1="162" y1="85" x2="162" y2="89" stroke={LINE} strokeWidth="0.7" />
-        {/* Neckline & V-collar detail */}
-        <path d="M 159 72 C 160 74 163 74 164 73" fill="none" stroke={LINE} strokeWidth="0.7" />
-      </g>
-
-      {/* ── 5. HEAD, NECK & FOLDED TOPI CAP ── */}
-      <g id="farmer-head">
-        {/* Neck */}
-        <path d="M 160 72 L 160 69 L 163 70 L 163 73 Z" fill={SKIN} stroke={LINE} strokeWidth="0.65" />
-        {/* Realistic Face Profile (Nose bridge, tip, lips, chin, ear) */}
-        <path
-          d="M 160 69 C 160 66 161 63 164 63 C 166 63 168 64 168 66 C 168 67 167 68 166 69 Z"
-          fill={SKIN}
-          stroke={LINE}
-          strokeWidth="0.75"
-        />
-        {/* Nose contour */}
-        <path d="M 166 65 Q 168 66 167 67" fill="none" stroke={LINE} strokeWidth="0.6" />
-        {/* Ear */}
-        <circle cx="163" cy="66" r="0.8" fill={SKIN} stroke={LINE} strokeWidth="0.6" />
-
-        {/* Folded Topi Cap */}
-        <path
-          d="M 158 63 C 158 58 168 58 168 63 Z"
-          fill={CAP}
-          stroke={LINE}
-          strokeWidth="0.75"
-        />
-        {/* Thick Cap Band */}
-        <path
-          d="M 157 62 C 157 61 169 61 169 62 C 169 64 157 64 157 62 Z"
-          fill={CAP}
-          stroke={LINE}
-          strokeWidth="0.75"
-        />
-      </g>
-
-      {/* ── 6. FRONT ARM (Hanging straight down holding bag) ── */}
-      <g id="farmer-left-arm">
-        {/* Sleeve */}
-        <path
-          d="M 158 72 L 164 73 L 163 80 L 157 79 Z"
-          fill={SHIRT}
-          stroke={LINE}
-          strokeWidth="0.75"
-        />
-        <line x1="157" y1="79" x2="163" y2="80" stroke={LINE} strokeWidth="0.7" />
-
-        {/* Forearm skin down to hand */}
-        <path
-          d="M 158 79 L 163 80 L 162 90 L 157 89 Z"
-          fill={SKIN}
-          stroke={LINE}
-          strokeWidth="0.75"
-        />
-        <ellipse cx="159.5" cy="91" rx="2.3" ry="1.9" fill={SKIN} stroke={LINE} strokeWidth="0.6" />
-      </g>
-
-      {/* ── 7. YELLOW ACCENT BAG WITH WHITE PAPER INSERT ── */}
-      <g id="farmer-bag">
-        {/* Bag strap handle */}
-        <path d="M 158 90 Q 159 86 161 90" fill="none" stroke={LINE} strokeWidth="0.75" />
-        {/* Mustard Yellow Accent Pouch */}
-        <path
-          d="M 154 94 C 153 103 166 103 165 94 C 165 92 154 92 154 94 Z"
-          fill={ACCENT_YELLOW}
-          stroke={LINE}
-          strokeWidth="0.85"
-        />
-        {/* White document peeking out of bag */}
-        <rect x="156.5" y="90" width="6" height="4" fill="#FFFFFF" stroke={LINE} strokeWidth="0.5" />
-      </g>
-
-    </g>
-  );
-}
-
 export default function Panorama() {
   return (
     <div
@@ -397,7 +217,7 @@ export default function Panorama() {
         background: 'var(--bg)',
       }}
     >
-      {/* ── LAYER 1: Background Horizon & Distant Silos (40s cycle) ── */}
+      {/* ── LAYER 1: Background Horizon (40s cycle) ── */}
       <div
         className="parallax-layer-bg"
         style={{
@@ -457,20 +277,24 @@ export default function Panorama() {
         </svg>
       </div>
 
-      {/* ── LAYER 4: High-Detail Editorial Farmer (ANCHORED ON LEFT) ── */}
+      {/* ── LAYER 4: Option A — 60fps Lottie Vector Farmer Player ── */}
       <div
         style={{
           position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
+          top: '12px',
+          left: '140px',
+          width: '78px',
+          height: '78px',
           pointerEvents: 'none',
+          zIndex: 10,
         }}
       >
-        <svg viewBox="0 0 1600 120" preserveAspectRatio="xMidYMid meet" style={{ width: '100%', height: '100%' }}>
-          <HighDetailEditorialFarmer />
-        </svg>
+        <DotLottiePlayer
+          src={farmerWalkData}
+          autoplay
+          loop
+          style={{ width: '100%', height: '100%' }}
+        />
       </div>
     </div>
   );
