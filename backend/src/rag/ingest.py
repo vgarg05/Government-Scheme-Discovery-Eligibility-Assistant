@@ -67,7 +67,7 @@ def ingest_documents_to_chroma():
     chroma_client = chromadb.PersistentClient(path=settings.CHROMA_PERSIST_DIR)
 
     # 3. Use default lightweight sentence-transformer embedding function
-    embedding_fn = embedding_functions.DefaultEmbeddingFunction()
+    embedding_fn = embedding_functions.ONNXMiniLM_L6_V2()
 
     # 4. Create or reset Chroma collection
     collection_name = "government_schemes"

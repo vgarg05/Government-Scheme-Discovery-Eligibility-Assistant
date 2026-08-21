@@ -76,7 +76,7 @@ APPLICATION PROCESS:
     print("\n[CHROMA INGEST] Initializing ChromaDB vectorstore...")
     os.makedirs(settings.CHROMA_PERSIST_DIR, exist_ok=True)
     chroma_client = chromadb.PersistentClient(path=settings.CHROMA_PERSIST_DIR)
-    embedding_fn = embedding_functions.DefaultEmbeddingFunction()
+    embedding_fn = embedding_functions.ONNXMiniLM_L6_V2()
 
     collection_name = "government_schemes"
     try:

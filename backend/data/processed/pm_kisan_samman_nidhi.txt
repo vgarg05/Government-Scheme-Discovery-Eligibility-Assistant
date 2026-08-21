@@ -2,25 +2,12 @@ SCHEME TITLE: PM Kisan Samman Nidhi
 PORTAL URL: https://www.myscheme.gov.in/schemes/pm-kisan
 
 ELIGIBILITY CRITERIA:
-All landholding farmers' families, which have cultivable land holding in their names are eligible to get benefit under the scheme
+
 
 SCHEME BENEFITS:
-• Financial Assistance: An amount of ₹6,000/- per year in 3 equal installments of ₹2,000/- every four months is provided to each eligible family
+
 
 DOCUMENTS REQUIRED:
-• Aadhaar Card
-• Landholding papers
-• Savings Bank Account
+
 
 APPLICATION PROCESS:
-🌐 ONLINE METHOD
-Online - Via CSCs
-Step 1: Visit the PM-KISAN [official website](https://pmkisan.gov.in/)
-Step 2: Click on "New Farmer Registration" option
-Step 3: Enter Your Aadhaar Number and Mobile Number
-Step 4: Enter the received OTP to authenticate your Aadhaar with UIDAI
-Step 5: Fill in the required information and upload the mandatory documents
-Step 6: Click on "Submit"
-Know Your Status: Click here
-﻿
-Apply Now

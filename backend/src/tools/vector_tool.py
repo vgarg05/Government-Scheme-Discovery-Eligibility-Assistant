@@ -7,7 +7,7 @@ class VectorStoreTool:
     def __init__(self, collection_name="government_schemes"):
         self.collection_name = collection_name
         self.chroma_client = chromadb.PersistentClient(path=settings.CHROMA_PERSIST_DIR)
-        self.embedding_fn = embedding_functions.DefaultEmbeddingFunction()
+        self.embedding_fn = embedding_functions.ONNXMiniLM_L6_V2()
         
         try:
             self.collection = self.chroma_client.get_collection(
@@ -17,12 +17,24 @@ class VectorStoreTool:
         except Exception:
             self.collection = None
 
+    def _get_collection(self):
+        if not self.collection:
+            try:
+                self.collection = self.chroma_client.get_collection(
+                    name=self.collection_name,
+                    embedding_function=self.embedding_fn
+                )
+            except Exception:
+                self.collection = None
+        return self.collection
+
     def search_schemes(self, query: str, top_k: int = 4):
         """
         Queries ChromaDB vector database and returns matching document chunks with similarity scores.
         Cosine similarity score S = 1 - distance.
         """
-        if not self.collection:
+        collection = self._get_collection()
+        if not collection:
             return {
                 "success": False,
                 "error": "Vector database collection not found. Please run ingestion first.",
@@ -31,7 +43,7 @@ class VectorStoreTool:
             }
 
         try:
-            results = self.collection.query(
+            results = collection.query(
                 query_texts=[query],
                 n_results=top_k,
                 include=["documents", "metadatas", "distances"]
