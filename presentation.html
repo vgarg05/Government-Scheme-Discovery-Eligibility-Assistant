@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Government Scheme Discovery & Eligibility Assistant — Presentation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --saffron: #FF9933;
+    --navy:    #1a2a6c;
+    --green:   #138808;
+    --accent:  #4f46e5;
+    --light:   #f8fafc;
+    --dark:    #0f172a;
+    --glass:   rgba(255,255,255,0.08);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    overflow: hidden;
+    height: 100vh;
+    user-select: none;
+  }
+
+  /* ── Slide container ── */
+  .deck { width: 100vw; height: 100vh; position: relative; }
+  .slide {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 48px 72px;
+    opacity: 0; transform: translateX(60px);
+    transition: all 0.45s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+  }
+  .slide.active {
+    opacity: 1; transform: translateX(0);
+    pointer-events: all;
+  }
+  .slide.exit {
+    opacity: 0; transform: translateX(-60px);
+  }
+
+  /* ── Navigation ── */
+  .nav {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 16px; z-index: 100;
+    background: rgba(15,23,42,0.85); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 50px;
+    padding: 10px 24px;
+  }
+  .nav button {
+    background: var(--accent); color: white; border: none;
+    border-radius: 50%; width: 36px; height: 36px;
+    font-size: 16px; cursor: pointer; transition: .2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav button:hover { background: #6366f1; transform: scale(1.08); }
+  .nav button:disabled { background: #334155; cursor: default; transform: none; }
+  .counter { font-size: 13px; color: #94a3b8; min-width: 52px; text-align: center; }
+
+  .dots { display: flex; gap: 6px; }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: #334155; cursor: pointer; transition: .2s;
+  }
+  .dot.active { background: var(--saffron); transform: scale(1.3); }
+
+  /* ── Shared slide styles ── */
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(79,70,229,0.2); border: 1px solid rgba(79,70,229,0.4);
+    border-radius: 20px; padding: 4px 14px;
+    font-size: 12px; font-weight: 600; color: #a5b4fc;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 18px;
+  }
+  h1 { font-size: clamp(28px,4.5vw,52px); font-weight: 900; line-height: 1.1; }
+  h2 { font-size: clamp(22px,3vw,36px); font-weight: 800; margin-bottom: 24px; }
+  p  { font-size: clamp(14px,1.4vw,17px); line-height: 1.75; color: #cbd5e1; }
+
+  .highlight { color: var(--saffron); }
+  .highlight-green { color: #4ade80; }
+  .highlight-blue  { color: #60a5fa; }
+
+  /* grid helpers */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; width: 100%; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; width: 100%; }
+
+  /* card */
+  .card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px; padding: 24px; transition: .25s;
+  }
+  .card:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,153,51,0.4); }
+  .card-icon { font-size: 28px; margin-bottom: 10px; }
+  .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: #f1f5f9; }
+  .card p  { font-size: 13px; line-height: 1.6; color: #94a3b8; }
+
+  /* ╔══════════════════════════════════════════════╗
+     ║  SLIDE 1 — TITLE                              ║
+     ╚══════════════════════════════════════════════╝ */
+  #s1 {
+    background: radial-gradient(ellipse 80% 80% at 50% 0%, #1e1b4b 0%, #0f172a 70%);
+    text-align: center;
+  }
+  .tricolor-bar {
+    display: flex; height: 5px; width: 220px; border-radius: 3px; overflow: hidden;
+    margin: 0 auto 32px;
+  }
+  .tricolor-bar div { flex: 1; }
+  .tc1 { background: var(--saffron); }
+  .tc2 { background: white; }
+  .tc3 { background: var(--green); }
+
+  .title-meta { margin-top: 36px; display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; }
+  .meta-item { text-align: center; }
+  .meta-item .val { font-size: 13px; font-weight: 700; color: #f1f5f9; }
+  .meta-item .lbl { font-size: 11px; color: #64748b; margin-top: 3px; }
+
+  /* ╔══════════════════════════════════════════════╗
+     ║  SLIDE 2 — PROBLEM STATEMENT                  ║
+     ╚══════════════════════════════════════════════╝ */
+  #s2 {
+    background: radial-gradient(ellipse 70% 70% at 80% 50%, rgba(220,38,38,0.15) 0%, #0f172a 60%);
+    align-items: flex-start;
+  }
+  .stat-row { display: flex; gap: 20px; margin-top: 28px; width: 100%; }
+  .stat-box {
+    flex: 1; border-radius: 14px; padding: 18px 20px;
+    border-left: 4px solid var(--saffron);
+    background: rgba(255,153,51,0.08);
+  }
+  .stat-box .num { font-size: 28px; font-weight: 900; color: var(--saffron); }
+  .stat-box .desc { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+
+  /* ╔══════════════════════════════════════════════╗
+     ║  SLIDE 3 — ABSTRACT                           ║
+     ╚══════════════════════════════════════════════╝ */
+  #s3 {
+    background: radial-gradient(ellipse 70% 70% at 20% 80%, rgba(79,70,229,0.2) 0%, #0f172a 60%);
+    align-items: flex-start;
+  }
+  .abstract-box {
+    border-left: 3px solid var(--accent);
+    padding: 20px 28px;
+    background: rgba(79,70,229,0.08);
+    border-radius: 0 14px 14px 0;
+    font-size: clamp(14px,1.3vw,16px);
+    line-height: 1.85;
+    color: #cbd5e1;
+    margin-bottom: 24px;
+  }
+  .keyword-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .kw {
+    background: rgba(79,70,229,0.2); border: 1px solid rgba(79,70,229,0.4);
+    border-radius: 20px; padding: 5px 14px;
+    font-size: 12px; color: #a5b4fc; font-weight: 600;
+  }
+
+  /* ╔══════════════════════════════════════════════╗
+     ║  SLIDE 4 — INTRODUCTION                       ║
+     ╚══════════════════════════════════════════════╝ */
+  #s4 {
+    background: radial-gradient(ellipse 70% 70% at 50% 90%, rgba(20,184,166,0.15) 0%, #0f172a 60%);
+    align-items: flex-start;
+  }
+  .intro-sub { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #14b8a6; margin-bottom: 6px; }
+  .intro-point {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .intro-point:last-child { border-bottom: none; }
+  .ip-icon { font-size: 22px; min-width: 32px; }
+  .ip-text h4 { font-size: 14px; font-weight: 700; color: #f1f5f9; margin-bottom: 3px; }
+  .ip-text p  { font-size: 13px; color: #94a3b8; line-height: 1.55; }
+
+  /* ╔══════════════════════════════════════════════╗
+     ║  SLIDE 5 — LITERATURE SURVEY                  ║
+     ╚══════════════════════════════════════════════╝ */
+  #s5 {
+    background: radial-gradient(ellipse 60% 60% at 30% 20%, rgba(168,85,247,0.18) 0%, #0f172a 60%);
+    align-items: flex-start;
+  }
+  .lit-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .lit-table th {
+    text-align: left; padding: 10px 14px;
+    background: rgba(79,70,229,0.2); color: #a5b4fc;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .lit-table th:first-child { border-radius: 8px 0 0 0; }
+  .lit-table th:last-child  { border-radius: 0 8px 0 0; }
+  .lit-table td { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #cbd5e1; }
+  .lit-table tr:hover td { background: rgba(255,255,255,0.03); }
+  .gap-badge {
+    display: inline-block; background: rgba(239,68,68,0.15);
+    border: 1px solid rgba(239,68,68,0.35); border-radius: 4px;
+    padding: 2px 8px; font-size: 11px; color: #f87171;
+  }
+  .gap-good {
+    background: rgba(34,197,94,0.15); border-color: rgba(34,197,94,0.35); color: #4ade80;
+  }
+
+  /* ╔══════════════════════════════════════════════╗
+     ║  SLIDE 6 — TECHNOLOGY STACK                   ║
+     ╚══════════════════════════════════════════════╝ */
+  #s6 {
+    background: radial-gradient(ellipse 70% 70% at 70% 30%, rgba(6,182,212,0.15) 0%, #0f172a 60%);
+    align-items: flex-start;
+  }
+  .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; width: 100%; }
+  .tech-item {
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 12px 16px;
+  }
+  .tech-icon { font-size: 24px; min-width: 36px; text-align: center; }
+  .tech-info h4 { font-size: 13px; font-weight: 700; color: #f1f5f9; }
+  .tech-info p  { font-size: 11px; color: #64748b; margin-top: 2px; }
+
+  /* ╔══════════════════════════════════════════════╗
+     ║  SLIDE 7 — ARCHITECTURE                       ║
+     ╚══════════════════════════════════════════════╝ */
+  #s7 {
+    background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(16,185,129,0.1) 0%, #0f172a 70%);
+    align-items: flex-start;
+  }
+  .arch-flow { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+  .arch-layer {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.04); border-radius: 12px;
+    padding: 12px 18px; border: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+  }
+  .arch-layer .layer-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+    min-width: 100px; color: #64748b;
+  }
+  .arch-layer .agents {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .agent-pill {
+    background: rgba(79,70,229,0.2); border: 1px solid rgba(79,70,229,0.35);
+    border-radius: 20px; padding: 4px 12px;
+    font-size: 11px; color: #a5b4fc; font-weight: 600;
+  }
+  .agent-pill.orange { background: rgba(255,153,51,0.15); border-color: rgba(255,153,51,0.35); color: var(--saffron); }
+  .agent-pill.green  { background: rgba(34,197,94,0.12);  border-color: rgba(34,197,94,0.3);  color: #4ade80; }
+  .agent-pill.cyan   { background: rgba(6,182,212,0.12);  border-color: rgba(6,182,212,0.3);  color: #22d3ee; }
+  .arch-arrow { text-align: center; font-size: 18px; color: #475569; }
+
+  /* ╔══════════════════════════════════════════════╗
+     ║  SLIDE 8 — PROTOTYPE                          ║
+     ╚══════════════════════════════════════════════╝ */
+  #s8 {
+    background: radial-gradient(ellipse 70% 70% at 80% 80%, rgba(245,158,11,0.12) 0%, #0f172a 60%);
+    align-items: flex-start;
+  }
+  .proto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; }
+  .proto-card {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 14px; padding: 18px; transition: .2s;
+  }
+  .proto-card:hover { border-color: rgba(79,70,229,0.4); background: rgba(79,70,229,0.06); }
+  .proto-card .pc-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .pc-num { background: var(--accent); color: white; font-weight: 800; font-size: 12px; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .proto-card h4 { font-size: 14px; font-weight: 700; color: #f1f5f9; }
+  .proto-card ul { list-style: none; padding: 0; }
+  .proto-card ul li { font-size: 12px; color: #94a3b8; padding: 3px 0; display: flex; gap: 6px; }
+  .proto-card ul li::before { content: "→"; color: var(--saffron); font-size: 11px; padding-top: 1px; }
+
+  /* ╔══════════════════════════════════════════════╗
+     ║  SLIDE 9 — SOCIAL IMPACT / FUTURE SCOPE       ║
+     ╚══════════════════════════════════════════════╝ */
+  #s9 {
+    background: radial-gradient(ellipse 70% 70% at 20% 50%, rgba(20,184,166,0.15) 0%, #0f172a 60%);
+    align-items: flex-start;
+  }
+  .impact-row { display: flex; gap: 16px; width: 100%; margin-bottom: 24px; }
+  .impact-card {
+    flex: 1; border-radius: 14px; padding: 18px;
+    background: linear-gradient(135deg, rgba(255,153,51,0.1), rgba(255,153,51,0.02));
+    border: 1px solid rgba(255,153,51,0.25);
+  }
+  .impact-card .big { font-size: 32px; font-weight: 900; color: var(--saffron); }
+  .impact-card .lbl { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+  .future-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+  .future-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: rgba(255,255,255,0.04); border-radius: 10px; padding: 12px 14px;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+  .future-item .fi-icon { font-size: 20px; }
+  .future-item p { font-size: 12px; color: #94a3b8; line-height: 1.55; }
+  .future-item strong { color: #e2e8f0; font-size: 13px; }
+
+  /* ╔══════════════════════════════════════════════╗
+     ║  SLIDE 10 — REFERENCES                        ║
+     ╚══════════════════════════════════════════════╝ */
+  #s10 {
+    background: radial-gradient(ellipse 70% 70% at 50% 0%, #1e1b4b 0%, #0f172a 70%);
+    align-items: flex-start;
+  }
+  .ref-list { list-style: none; width: 100%; }
+  .ref-list li {
+    display: flex; gap: 14px; padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06); align-items: flex-start;
+  }
+  .ref-num {
+    background: rgba(79,70,229,0.2); color: #a5b4fc;
+    font-size: 12px; font-weight: 800; min-width: 26px; height: 26px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  }
+  .ref-content { flex: 1; }
+  .ref-content .ref-title { font-size: 14px; color: #f1f5f9; font-weight: 600; margin-bottom: 3px; }
+  .ref-content .ref-detail { font-size: 12px; color: #64748b; }
+  .ref-url { color: #60a5fa; font-size: 12px; }
+  .thank-you {
+    margin-top: 32px; text-align: center; width: 100%;
+    padding: 20px; background: rgba(255,153,51,0.08);
+    border: 1px solid rgba(255,153,51,0.25); border-radius: 14px;
+  }
+  .thank-you h3 { font-size: 22px; font-weight: 900; color: var(--saffron); }
+  .thank-you p  { font-size: 13px; color: #94a3b8; margin-top: 6px; }
+
+  /* keyboard hint */
+  .hint {
+    position: fixed; top: 20px; right: 24px;
+    font-size: 11px; color: #334155;
+  }
+</style>
+</head>
+<body>
+
+<span class="hint">← → arrow keys to navigate</span>
+
+<div class="deck">
+
+  <!-- ═══════════════════════════════════════════ SLIDE 1 ═══ -->
+  <div class="slide active" id="s1">
+    <div class="tricolor-bar">
+      <div class="tc1"></div><div class="tc2"></div><div class="tc3"></div>
+    </div>
+    <div class="badge">🏛️ Minor Project · MNP007 · B.Tech VII Sem</div>
+    <h1>Government Scheme<br/>Discovery &amp; Eligibility<br/><span class="highlight">Assistant</span></h1>
+    <p style="margin-top:16px;text-align:center;max-width:640px;color:#94a3b8;">
+      A Hybrid Multi-Agent AI Framework for Citizen Empowerment — combining RAG, Playwright DOM Scraping &amp; Live Web Search into one seamless platform.
+    </p>
+    <div class="title-meta">
+      <div class="meta-item"><div class="val">Keshav Jindal</div><div class="lbl">00496402723</div></div>
+      <div class="meta-item"><div class="val">Vaibhav Garg</div><div class="lbl">01196402723</div></div>
+      <div class="meta-item"><div class="val">Dr. Yogesh Sharma</div><div class="lbl">Project Guide</div></div>
+      <div class="meta-item"><div class="val">MAIT, Delhi</div><div class="lbl">CSE Department</div></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SLIDE 2 ═══ -->
+  <div class="slide" id="s2">
+    <div class="badge">⚠️ Problem Statement</div>
+    <h2>Citizens are <span class="highlight">left out</span> of welfare they deserve</h2>
+    <p style="max-width:680px;">
+      Millions of eligible citizens — especially from rural and marginalized communities — never benefit from government welfare programs because scheme information is <strong style="color:#f1f5f9;">fragmented, dense, and inaccessible</strong>. A citizen must manually cross-reference their demographics (income, caste, gender, occupation, state) against hundreds of overlapping eligibility criteria spread across departmental portals.
+    </p>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="num">500+</div>
+        <div class="desc">Central &amp; state schemes exist yet most citizens know none</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">~67%</div>
+        <div class="desc">Eligible beneficiaries never receive their entitled benefits</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">22</div>
+        <div class="desc">Official languages — severe accessibility gap for non-Hindi speakers</div>
+      </div>
+    </div>
+    <p style="margin-top:20px;font-size:13px;color:#64748b;">
+      The core challenge: information asymmetry caused by bureaucratic language, fragmented portals, and zero personalization.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SLIDE 3 ═══ -->
+  <div class="slide" id="s3">
+    <div class="badge">📄 Abstract</div>
+    <h2>What we <span class="highlight">built</span></h2>
+    <div class="abstract-box">
+      We present the <strong style="color:#f1f5f9;">Government Scheme Discovery &amp; Eligibility Assistant</strong> — a hybrid multi-agent AI application that eliminates information asymmetry in public welfare distribution.
+      The system accepts plain-language or voice queries, extracts a structured demographic profile using <strong style="color:#a5b4fc;">Gemini 2.5 Flash</strong>, and runs a <strong style="color:#a5b4fc;">dual-engine retrieval pipeline</strong>: a local RAG vector store over 100+ master schemes (ChromaDB + Sentence Transformers) and a live fallback via Playwright DOM scraping + Serper API Google Search.
+      A <strong style="color:#a5b4fc;">policy adjudicator agent</strong> then evaluates eligibility rules, generates ineligibility notices for disqualified schemes, and the counselor agent produces step-by-step application guides — all delivered in 10+ Indian regional languages via an interactive React.js dashboard.
+    </div>
+    <div class="keyword-row">
+      <span class="kw">Multi-Agent AI</span>
+      <span class="kw">RAG</span>
+      <span class="kw">Playwright Scraping</span>
+      <span class="kw">Gemini 2.5 Flash</span>
+      <span class="kw">ChromaDB</span>
+      <span class="kw">FastAPI</span>
+      <span class="kw">Multilingual NLP</span>
+      <span class="kw">Voice Accessibility</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SLIDE 4 ═══ -->
+  <div class="slide" id="s4">
+    <div class="badge">📖 Introduction</div>
+    <h2>Scope, Motivation &amp; <span class="highlight">Challenges</span></h2>
+    <div class="grid-2" style="margin-top:8px;">
+      <div>
+        <div class="intro-sub">Scope</div>
+        <div class="intro-point">
+          <div class="ip-icon">🎯</div>
+          <div class="ip-text"><h4>Conversational Search</h4><p>Citizens describe their situation in plain language; the system extracts a JSON demographic profile automatically.</p></div>
+        </div>
+        <div class="intro-point">
+          <div class="ip-icon">🔍</div>
+          <div class="ip-text"><h4>Dual-Engine Retrieval</h4><p>100 master schemes in local RAG + live Playwright scraping + Serper API for 500+ national &amp; state schemes.</p></div>
+        </div>
+        <div class="intro-point">
+          <div class="ip-icon">🌐</div>
+          <div class="ip-text"><h4>Multilingual Voice</h4><p>10+ Indian regional languages via Deep Translator; STT input + gTTS audio synthesis.</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="intro-sub">Motivation &amp; Challenges</div>
+        <div class="intro-point">
+          <div class="ip-icon">⚡</div>
+          <div class="ip-text"><h4>Motivation: Tech for Good</h4><p>Bridge the digital divide by making government welfare accessible to every citizen regardless of literacy or language.</p></div>
+        </div>
+        <div class="intro-point">
+          <div class="ip-icon">🔧</div>
+          <div class="ip-text"><h4>Challenge: Dynamic SPAs</h4><p>myscheme.gov.in is a Next.js SPA — Playwright Headless Chromium renders JS before DOM extraction.</p></div>
+        </div>
+        <div class="intro-point">
+          <div class="ip-icon">📉</div>
+          <div class="ip-text"><h4>Challenge: Low-Confidence RAG</h4><p>Cosine similarity threshold (≥0.70) triggers automatic fallback to live web search to prevent hallucinations.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SLIDE 5 ═══ -->
+  <div class="slide" id="s5">
+    <div class="badge">📚 Literature Survey</div>
+    <h2>Related Work &amp; <span class="highlight">Research Gaps</span></h2>
+    <table class="lit-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Paper / System</th>
+          <th>Approach</th>
+          <th>Limitation / Gap Addressed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Lewis et al., <em>NeurIPS 2020</em></td>
+          <td>RAG for Knowledge-Intensive NLP</td>
+          <td><span class="gap-badge">Static KB only</span> — no live scraping fallback</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>myScheme.gov.in Portal</td>
+          <td>Filter-based scheme search</td>
+          <td><span class="gap-badge">No NLP</span> — manual filter, English-only, no eligibility verdict</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>LangChain ReAct Agents</td>
+          <td>Tool-calling agent orchestration</td>
+          <td><span class="gap-badge">No gov domain</span> — generic; needs custom agents + Playwright</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Playwright / Puppeteer Research</td>
+          <td>Headless Chromium DOM scraping</td>
+          <td><span class="gap-badge">No AI layer</span> — no eligibility adjudication on scraped content</td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong style="color:#4ade80;">Our System</strong></td>
+          <td>Hybrid Multi-Agent: RAG + Playwright + Serper + LLM Adjudicator</td>
+          <td><span class="gap-badge gap-good">Fills all gaps</span> — end-to-end, voice, multilingual, eligibility verdict</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top:16px;font-size:12px;color:#64748b;">
+      Our system uniquely combines <strong style="color:#a5b4fc;">semantic RAG + live DOM scraping + Gemini LLM adjudication + voice &amp; multilingual</strong> — no existing system covers all these axes.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SLIDE 6 ═══ -->
+  <div class="slide" id="s6">
+    <div class="badge">🛠️ Technology Stack</div>
+    <h2>Tools &amp; <span class="highlight">Technologies</span></h2>
+    <div class="tech-grid">
+      <div class="tech-item">
+        <div class="tech-icon">⚛️</div>
+        <div class="tech-info">
+          <h4>React 18 + Vite + Tailwind CSS</h4>
+          <p>Responsive, fast web dashboard with Lucide Icons</p>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🐍</div>
+        <div class="tech-info">
+          <h4>Python 3.10+ &amp; FastAPI</h4>
+          <p>Async REST backend — serves all AI and audio endpoints</p>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🤖</div>
+        <div class="tech-info">
+          <h4>Google Gemini 2.5 Flash</h4>
+          <p>LLM for profile extraction, policy adjudication, summarization</p>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🗄️</div>
+        <div class="tech-info">
+          <h4>ChromaDB + Sentence Transformers</h4>
+          <p>Vector store &amp; semantic similarity search for 100+ schemes</p>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🎭</div>
+        <div class="tech-info">
+          <h4>Playwright Headless Chromium</h4>
+          <p>Renders Next.js SPA — extracts #eligibility, #benefits, #docs</p>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🔍</div>
+        <div class="tech-info">
+          <h4>Serper API (Google Search)</h4>
+          <p>Targeted live search over site:gov.in for 500+ schemes</p>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🎙️</div>
+        <div class="tech-info">
+          <h4>Web Speech API + gTTS</h4>
+          <p>Speech-to-Text input &amp; Text-to-Speech audio synthesis</p>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon">🌐</div>
+        <div class="tech-info">
+          <h4>Deep Translator API</h4>
+          <p>Batch translation engine — Hindi, Bengali, Tamil, Telugu &amp; more</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SLIDE 7 ═══ -->
+  <div class="slide" id="s7">
+    <div class="badge">🏗️ Architecture</div>
+    <h2>Multi-Agent <span class="highlight">Pipeline</span></h2>
+    <div class="arch-flow">
+      <div class="arch-layer">
+        <div class="layer-label">Input Layer</div>
+        <div class="agents">
+          <span class="agent-pill orange">👤 User Query (Text / Voice)</span>
+          <span class="agent-pill cyan">⚛️ React.js Frontend</span>
+          <span class="agent-pill">🎙️ Speech-to-Text (STT)</span>
+        </div>
+      </div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-layer">
+        <div class="layer-label">Profile Agent</div>
+        <div class="agents">
+          <span class="agent-pill">1️⃣ Profile Extraction Agent</span>
+          <span class="agent-pill">📋 JSON Demographics (age, income, caste, state)</span>
+          <span class="agent-pill orange">❓ Clarification Loop (if incomplete)</span>
+        </div>
+      </div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-layer">
+        <div class="layer-label">Retrieval Layer</div>
+        <div class="agents">
+          <span class="agent-pill green">2a. Local RAG Agent (ChromaDB ≥ 0.70)</span>
+          <span class="agent-pill orange">2b. Playwright DOM Scraper (myscheme.gov.in)</span>
+          <span class="agent-pill cyan">2c. Serper API Web Search (site:gov.in)</span>
+        </div>
+      </div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-layer">
+        <div class="layer-label">AI Adjudicator</div>
+        <div class="agents">
+          <span class="agent-pill">3️⃣ Gemini 2.5 Flash Policy Adjudicator</span>
+          <span class="agent-pill orange">⚠️ Disqualification Filter &amp; Ineligibility Notices</span>
+        </div>
+      </div>
+      <div class="arch-arrow">↓</div>
+      <div class="arch-layer">
+        <div class="layer-label">Output Layer</div>
+        <div class="agents">
+          <span class="agent-pill">4️⃣ Counselor &amp; Guidance Agent</span>
+          <span class="agent-pill green">🌐 Multilingual Translation (10+ languages)</span>
+          <span class="agent-pill cyan">🔊 gTTS Voice Synthesis</span>
+          <span class="agent-pill orange">📱 Scheme Cards + Checklists + Portal Links</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SLIDE 8 ═══ -->
+  <div class="slide" id="s8">
+    <div class="badge">🖥️ Prototype</div>
+    <h2>Key <span class="highlight">Features</span> &amp; Modules</h2>
+    <div class="proto-grid">
+      <div class="proto-card">
+        <div class="pc-top"><div class="pc-num">1</div><h4>Conversational Profile Builder</h4></div>
+        <ul>
+          <li>Natural language input (text or voice mic)</li>
+          <li>Gemini extracts structured JSON profile</li>
+          <li>Clarification loop for missing fields</li>
+          <li>Supports 10+ Indian regional languages</li>
+        </ul>
+      </div>
+      <div class="proto-card">
+        <div class="pc-top"><div class="pc-num">2</div><h4>Dual-Engine Scheme Retrieval</h4></div>
+        <ul>
+          <li>Primary: ChromaDB vector similarity ≥ 0.70</li>
+          <li>Fallback: Playwright scrapes myscheme.gov.in</li>
+          <li>Live Google Search via Serper API (site:gov.in)</li>
+          <li>Covers 500+ central &amp; state schemes</li>
+        </ul>
+      </div>
+      <div class="proto-card">
+        <div class="pc-top"><div class="pc-num">3</div><h4>LLM Policy Adjudicator</h4></div>
+        <ul>
+          <li>Gemini 2.5 Flash evaluates eligibility rules</li>
+          <li>Checks age, income, caste, gender bounds</li>
+          <li>⚠️ Explicit ineligibility notice cards rendered</li>
+          <li>Match score &amp; confidence shown per scheme</li>
+        </ul>
+      </div>
+      <div class="proto-card">
+        <div class="pc-top"><div class="pc-num">4</div><h4>Guidance &amp; Accessibility</h4></div>
+        <ul>
+          <li>Step-by-step application roadmaps</li>
+          <li>Document checklists per scheme</li>
+          <li>Clickable official portal links</li>
+          <li>TTS voice playback for low-literacy users</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:16px;font-size:12px;color:#64748b;text-align:center;">
+      Stack: React 18 + Vite + Tailwind CSS (Frontend) · FastAPI + Python AgentState Pipeline (Backend) · ChromaDB · Playwright · Gemini 2.5 Flash · Serper API
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SLIDE 9 ═══ -->
+  <div class="slide" id="s9">
+    <div class="badge">🌍 Social Impact &amp; Future Scope</div>
+    <h2>Beyond the <span class="highlight">Prototype</span></h2>
+    <div class="impact-row">
+      <div class="impact-card">
+        <div class="big">500+</div>
+        <div class="lbl">Schemes Covered (Central + State)</div>
+      </div>
+      <div class="impact-card">
+        <div class="big">10+</div>
+        <div class="lbl">Indian Regional Languages Supported</div>
+      </div>
+      <div class="impact-card">
+        <div class="big">100%</div>
+        <div class="lbl">Demo Reliability via Local RAG Fallback</div>
+      </div>
+      <div class="impact-card" style="background:linear-gradient(135deg,rgba(34,197,94,0.1),rgba(34,197,94,0.02));border-color:rgba(34,197,94,0.25);">
+        <div class="big" style="color:#4ade80;">∞</div>
+        <div class="lbl">Citizens Potentially Empowered</div>
+      </div>
+    </div>
+    <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;color:#94a3b8;">Future Enhancements</h3>
+    <div class="future-grid">
+      <div class="future-item">
+        <div class="fi-icon">🪪</div>
+        <div><strong>DigiLocker Integration</strong><p>Auto-verify Aadhaar, income certificate &amp; caste document from DigiLocker API.</p></div>
+      </div>
+      <div class="future-item">
+        <div class="fi-icon">💬</div>
+        <div><strong>WhatsApp / SMS Channel</strong><p>Deploy on Twilio WhatsApp API for feature phone &amp; rural reach.</p></div>
+      </div>
+      <div class="future-item">
+        <div class="fi-icon">📊</div>
+        <div><strong>Admin Analytics Dashboard</strong><p>Track which schemes are most queried; surface demand signals to policymakers.</p></div>
+      </div>
+      <div class="future-item">
+        <div class="fi-icon">🗺️</div>
+        <div><strong>Geo-aware State Personalization</strong><p>Auto-detect user's state to surface hyper-local flagship schemes first.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ SLIDE 10 ═══ -->
+  <div class="slide" id="s10">
+    <div class="badge">📖 References</div>
+    <h2><span class="highlight">References</span></h2>
+    <ul class="ref-list">
+      <li>
+        <div class="ref-num">1</div>
+        <div class="ref-content">
+          <div class="ref-title">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</div>
+          <div class="ref-detail">Lewis, P., et al. — <em>Advances in Neural Information Processing Systems (NeurIPS)</em>, 2020.</div>
+        </div>
+      </li>
+      <li>
+        <div class="ref-num">2</div>
+        <div class="ref-content">
+          <div class="ref-title">Playwright — Fast and reliable end-to-end testing for modern web apps</div>
+          <div class="ref-detail">Microsoft Open Source Project Documentation. <a class="ref-url" href="https://playwright.dev" target="_blank">playwright.dev</a></div>
+        </div>
+      </li>
+      <li>
+        <div class="ref-num">3</div>
+        <div class="ref-content">
+          <div class="ref-title">myScheme — One-stop platform for all Government Schemes</div>
+          <div class="ref-detail">National Portal of India. <a class="ref-url" href="https://www.myscheme.gov.in" target="_blank">www.myscheme.gov.in</a></div>
+        </div>
+      </li>
+      <li>
+        <div class="ref-num">4</div>
+        <div class="ref-content">
+          <div class="ref-title">Serper API — Real-Time Google Search API</div>
+          <div class="ref-detail">Serper Dev. <a class="ref-url" href="https://serper.dev" target="_blank">serper.dev</a></div>
+        </div>
+      </li>
+      <li>
+        <div class="ref-num">5</div>
+        <div class="ref-content">
+          <div class="ref-title">Gemini 2.5 Flash — Google AI Studio LLM</div>
+          <div class="ref-detail">Google DeepMind. <a class="ref-url" href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></div>
+        </div>
+      </li>
+    </ul>
+    <div class="thank-you">
+      <h3>🙏 Thank You!</h3>
+      <p>Keshav Jindal &amp; Vaibhav Garg · Team MNP007 · MAIT Delhi · Guide: Dr. Yogesh Sharma</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── Navigation bar ── -->
+<nav class="nav">
+  <button id="prevBtn" onclick="go(-1)" disabled>◀</button>
+  <div class="dots" id="dots"></div>
+  <span class="counter" id="counter">1 / 10</span>
+  <button id="nextBtn" onclick="go(1)">▶</button>
+</nav>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dotsContainer = document.getElementById('dots');
+  let current = 0;
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsContainer.appendChild(d);
+  });
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    slides[current].classList.add('exit');
+    setTimeout(() => slides[current > n ? n : current].classList.remove('exit'), 450);
+    current = n;
+    slides[current].classList.add('active');
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + slides.length;
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === slides.length - 1;
+  }
+
+  function go(delta) { goTo(Math.max(0, Math.min(slides.length - 1, current + delta))); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown')  go(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')    go(-1);
+  });
+</script>
+</body>
+</html>

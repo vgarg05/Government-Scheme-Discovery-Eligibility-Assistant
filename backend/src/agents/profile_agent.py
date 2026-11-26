@@ -146,6 +146,32 @@ class ProfileExtractionAgent:
                 profile.state = state_val
                 break
 
+        # Residence Area
+        if "rural" in q or "village" in q or "gaon" in q or "ग्रामीण" in q:
+            profile.residence_area = "Rural"
+        elif "urban" in q or "city" in q or "town" in q or "शहरी" in q:
+            profile.residence_area = "Urban"
+
+        # Differently Abled / Disability
+        if any(w in q for w in ["disabled", "disability", "handicapped", "divyang", "विकलांग", "दिव्यांग"]):
+            profile.is_differently_abled = True
+
+        # Minority Status
+        if any(w in q for w in ["minority", "muslim", "sikh", "christian", "jain", "buddhist", "parsi", "अल्पसंख्यक"]):
+            profile.is_minority = True
+
+        # BPL / Ration Card Status
+        if any(w in q for w in ["bpl", "below poverty line", "ration card", "aay", "गरीबी रेखा"]):
+            profile.bpl_status = True
+
+        # Marital Status
+        if "widow" in q or "widowed" in q or "विधवा" in q:
+            profile.marital_status = "Widowed"
+        elif "married" in q or "शादीशुदा" in q:
+            profile.marital_status = "Married"
+        elif "single" in q or "unmarried" in q:
+            profile.marital_status = "Single"
+
         return profile
 
     def process(self, state: AgentState) -> AgentState:

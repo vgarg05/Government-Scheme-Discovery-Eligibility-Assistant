@@ -8,6 +8,11 @@ class UserProfile(BaseModel):
     state: Optional[str] = None
     category: Optional[str] = None  # SC, ST, OBC, General, EWS
     gender: Optional[str] = None    # Male, Female, Other
+    residence_area: Optional[str] = None  # Urban, Rural
+    is_differently_abled: Optional[bool] = None
+    is_minority: Optional[bool] = None
+    bpl_status: Optional[bool] = None
+    marital_status: Optional[str] = None
     is_complete: bool = False
     missing_fields: List[str] = []
 

@@ -2,6 +2,9 @@ import sys
 import os
 import json
 
+# Force UTF-8 output encoding for Windows terminal
+sys.stdout.reconfigure(encoding='utf-8')
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(BASE_DIR)
 

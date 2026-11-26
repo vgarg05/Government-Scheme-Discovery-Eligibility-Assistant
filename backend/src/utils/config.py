@@ -19,12 +19,14 @@ class Settings:
 
     # Storage Directories
     BASE_DIR: str = BASE_DIR
+    PROJECT_ROOT: str = os.path.dirname(BASE_DIR)
     RAW_PDFS_DIR: str = os.path.join(BASE_DIR, os.getenv("RAW_PDFS_DIR", "data/raw_pdfs"))
     PROCESSED_DATA_DIR: str = os.path.join(BASE_DIR, os.getenv("PROCESSED_DATA_DIR", "data/processed"))
     CHROMA_PERSIST_DIR: str = os.path.join(BASE_DIR, os.getenv("CHROMA_PERSIST_DIR", "vectorstore"))
+    UPDATED_DATA_CSV: str = os.path.join(PROJECT_ROOT, os.getenv("UPDATED_DATA_CSV", "updated_data.csv"))
 
     # RAG & Routing Configurations
-    COSINE_SIMILARITY_THRESHOLD: float = float(os.getenv("COSINE_SIMILARITY_THRESHOLD", 0.70))
+    COSINE_SIMILARITY_THRESHOLD: float = float(os.getenv("COSINE_SIMILARITY_THRESHOLD", 0.50))
     TOP_K_RESULTS: int = int(os.getenv("TOP_K_RESULTS", 4))
 
 settings = Settings()

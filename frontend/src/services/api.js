@@ -23,6 +23,16 @@ export const sendChatQuery = async (query, targetLanguage = 'en', history = []) 
   }
 };
 
+export const sendFindSchemeWizard = async (profilePayload) => {
+  try {
+    const response = await apiClient.post('/api/find-scheme', profilePayload);
+    return response.data;
+  } catch (error) {
+    console.error('API Find Scheme Wizard Error:', error);
+    throw error;
+  }
+};
+
 export const fetchHealthStatus = async () => {
   try {
     const response = await apiClient.get('/api/health');

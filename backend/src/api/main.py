@@ -36,6 +36,19 @@ class ChatRequest(BaseModel):
     target_language: Optional[str] = Field("en", example="hi")
     conversation_history: Optional[List[Dict[str, Any]]] = Field(default_factory=list)
 
+class StructuredProfileRequest(BaseModel):
+    gender: Optional[str] = Field(None, example="Female")
+    age: Optional[int] = Field(None, example=45)
+    state: Optional[str] = Field(None, example="Uttar Pradesh")
+    residence_area: Optional[str] = Field(None, example="Rural")
+    category: Optional[str] = Field(None, example="OBC")
+    is_differently_abled: Optional[bool] = Field(False)
+    is_minority: Optional[bool] = Field(False)
+    employment_status: Optional[str] = Field(None, example="Farmer")
+    income: Optional[int] = Field(None, example=80000)
+    bpl_status: Optional[bool] = Field(False)
+    target_language: Optional[str] = Field("en", example="hi")
+
 class TTSRequest(BaseModel):
     text: str = Field(..., example="Good news! You are eligible for PM Kisan Samman Nidhi.")
     language: Optional[str] = Field("en", example="hi")
@@ -248,6 +261,40 @@ def process_chat_query(request: ChatRequest):
             },
             "user_profile": {}
         }
+
+@app.post("/api/find-scheme")
+def process_find_scheme_wizard(request: StructuredProfileRequest):
+    """
+    Endpoint for myScheme Questionnaire Wizard.
+    Synthesizes structured demographic selections into query prompt and executes multi-agent engine.
+    """
+    parts = ["Find eligible government schemes for"]
+    if request.age:
+        parts.append(f"a {request.age} year old")
+    if request.gender:
+        parts.append(f"{request.gender}")
+    if request.employment_status:
+        parts.append(f"{request.employment_status}")
+    if request.residence_area:
+        parts.append(f"living in {request.residence_area} area")
+    if request.state:
+        parts.append(f"of {request.state}")
+    if request.category:
+        parts.append(f"category {request.category}")
+    if request.income:
+        parts.append(f"with annual income Rs {request.income}")
+    if request.is_differently_abled:
+        parts.append("(differently abled)")
+    if request.is_minority:
+        parts.append("(minority category)")
+    if request.bpl_status:
+        parts.append("(BPL card holder)")
+
+    synthesized_query = " ".join(parts)
+    print(f"[FIND-SCHEME WIZARD] Synthesized query: '{synthesized_query}'")
+
+    chat_req = ChatRequest(query=synthesized_query, target_language=request.target_language or "en")
+    return process_chat_query(chat_req)
 
 @app.get("/api/text-to-speech")
 def generate_text_to_speech_get(text: str, lang: Optional[str] = "en"):

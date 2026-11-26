@@ -12,7 +12,7 @@ const languages = [
   { code: 'gu', name: 'ગુજરાતી' },
 ];
 
-export default function Navbar({ selectedLang, onLangChange }) {
+export default function Navbar({ selectedLang, onLangChange, onOpenWizard }) {
   const currentLang = languages.find(l => l.code === selectedLang) || languages[0];
 
   return (
@@ -74,7 +74,17 @@ export default function Navbar({ selectedLang, onLangChange }) {
         </div>
 
         {/* Right controls */}
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-4">
+
+          {/* myScheme Wizard Button */}
+          {onOpenWizard && (
+            <button
+              onClick={onOpenWizard}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-800 bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 rounded-lg transition-colors shadow-sm"
+            >
+              <span>🎯</span> Find Schemes
+            </button>
+          )}
 
           {/* Source indicator */}
           <div className="hidden sm:flex items-center gap-2">

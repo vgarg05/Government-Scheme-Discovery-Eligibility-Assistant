@@ -66,6 +66,12 @@ class VectorStoreTool:
                     retrieved_chunks.append({
                         "content": doc,
                         "scheme_id": meta.get("scheme_id", "unknown"),
+                        "title": meta.get("title") or meta.get("scheme_id", "unknown"),
+                        "url": meta.get("url", "https://www.myscheme.gov.in"),
+                        "slug": meta.get("slug", ""),
+                        "level": meta.get("level", ""),
+                        "category": meta.get("category", ""),
+                        "tags": meta.get("tags", ""),
                         "filename": meta.get("filename", ""),
                         "similarity_score": round(similarity_score, 4),
                         "distance": round(dist, 4)
