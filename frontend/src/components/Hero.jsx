@@ -2,10 +2,10 @@ import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 
 const SAMPLE_QUERIES = [
-  { label: 'Farmer Support', query: 'I am a 45 year old farmer from Uttar Pradesh with annual income of Rs 80,000' },
-  { label: 'Senior Health Cover', query: 'Ayushman Bharat health insurance for senior citizens aged 70+' },
-  { label: 'Solar Scheme', query: 'PM Surya Ghar free electricity rooftop solar panel scheme' },
-  { label: 'Student Scholarship', query: 'Post-Matric Scholarship for SC/ST students in college' },
+  { label: 'Farmer Support', query: 'I am a 45 year old farmer from Uttar Pradesh with annual income 80000 looking for PM Kisan Samman Nidhi' },
+  { label: 'Old Age Pension', query: 'I am a 62 year old senior citizen from Uttar Pradesh with income 40000 looking for Old Age Pension Scheme' },
+  { label: 'Women Welfare', query: 'I am a 28 year old woman from Madhya Pradesh with income 100000 looking for Ladli Behna Yojana' },
+  { label: 'Student Scholarship', query: 'I am a 19 year old SC student in class 10 with income 120000 looking for Pre-Matric Scholarship' },
 ];
 
 export default function Hero({ onPresetClick, onOpenWizard }) {
