@@ -354,9 +354,9 @@ export default function ChatBox({ initialQuery, selectedLang }) {
 
   return (
     <section
-      className="max-w-7xl mx-auto px-6 sm:px-12"
+      className="max-w-7xl mx-auto px-3 sm:px-12"
       style={{
-        paddingTop: '40px',
+        paddingTop: '32px',
         paddingBottom: '48px',
       }}
     >
@@ -404,10 +404,10 @@ export default function ChatBox({ initialQuery, selectedLang }) {
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
+          className="p-3.5 sm:p-5"
           style={{
             flex: 1,
             overflowY: 'auto',
-            padding: '24px 20px',
             display: 'flex',
             flexDirection: 'column',
             gap: '20px',

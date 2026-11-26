@@ -35,8 +35,8 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
       {/* ── Card Body (Clickable) ── */}
       <div
         onClick={() => onSchemeSelect && onSchemeSelect(card)}
+        className="px-4 py-4 sm:px-6 sm:py-5"
         style={{
-          padding: '22px 24px 18px',
           cursor: 'pointer',
           transition: 'background 0.15s',
         }}
@@ -71,13 +71,7 @@ export default function SchemeCarousel({ cards, onSchemeSelect }) {
 
         {/* 3 Highlight Rectangle Boxes (Same as Sample Queries preset cards) */}
         {card.highlights && card.highlights.length > 0 && (
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '10px',
-            }}
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
             {card.highlights.map((hl, i) => (
               <div
                 key={i}

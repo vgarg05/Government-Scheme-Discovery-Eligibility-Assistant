@@ -55,6 +55,7 @@
     /* Subtle texture on the main body */
     background-image: var(--texture);
     min-height: 100vh;
+    overflow-x: hidden;
   }
 
   * {

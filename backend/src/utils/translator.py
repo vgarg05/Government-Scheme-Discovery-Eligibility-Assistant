@@ -38,6 +38,46 @@ class MultilingualTranslator:
         """Translate a single chunk (must be under char limit)."""
         return GoogleTranslator(source="auto", target=target_lang).translate(text)
 
+    def _translate_with_gemini(self, text: str, target_lang: str) -> str:
+        """Fallback translator using Gemini 2.5 Flash when GoogleTranslator is rate-limited."""
+        lang_name = self.supported_langs.get(target_lang, target_lang)
+        try:
+            from src.utils.llm_client import llm_client
+            prompt = (
+                f"Translate the following text into {lang_name} ({target_lang}). "
+                f"Keep numbers, URLs, and markdown formatting intact. "
+                f'Return JSON strictly in this format: {{"translation": "..."}}\n\nText:\n{text}'
+            )
+            res = llm_client.generate_json(prompt)
+            translated = (res or {}).get("translation", "").strip()
+            if translated:
+                safe_print(f"[TRANSLATOR] Gemini fallback OK -> lang={target_lang}, len={len(translated)}")
+                return translated
+        except Exception as e:
+            safe_print(f"[TRANSLATOR] Gemini fallback error: {e}")
+        return text
+
+    def _translate_batch_with_gemini(self, strings: List[str], target_lang: str) -> List[str]:
+        """Batch translate list of strings using Gemini 2.5 Flash."""
+        lang_name = self.supported_langs.get(target_lang, target_lang)
+        try:
+            from src.utils.llm_client import llm_client
+            import json as _json
+            prompt = (
+                f"Translate each string in the following JSON array into {lang_name} ({target_lang}). "
+                f"Keep the exact same array length ({len(strings)}) and order. "
+                f'Return JSON strictly in this format: {{"translations": [...]}}\n\n'
+                f"Input:\n{_json.dumps(strings, ensure_ascii=False)}"
+            )
+            res = llm_client.generate_json(prompt)
+            items = (res or {}).get("translations", [])
+            if isinstance(items, list) and len(items) == len(strings):
+                safe_print(f"[TRANSLATOR] Gemini batch fallback OK -> lang={target_lang}, count={len(items)}")
+                return [str(x) for x in items]
+        except Exception as e:
+            safe_print(f"[TRANSLATOR] Gemini batch fallback error: {e}")
+        return strings
+
     def translate_text(self, text: str, target_lang: str = "hi") -> str:
         """
         Translates English text into the target regional language.
@@ -59,12 +99,15 @@ class MultilingualTranslator:
                     # Check for rate-limiting HTML page returned as string
                     low_res = result.lower()
                     if "error 500" in low_res or "that’s an error" in low_res or "there was an error" in low_res:
-                        safe_print("[TRANSLATOR] Caught Google Translate rate-limit page. Falling back to input.")
-                        return text
-                    
+                        safe_print("[TRANSLATOR] Caught Google Translate rate-limit page. Using Gemini fallback.")
+                        return self._translate_with_gemini(text, target_lang)
+
+                    if target_lang != "en" and result.strip().lower() == text.lower():
+                        return self._translate_with_gemini(text, target_lang)
+
                     safe_print(f"[TRANSLATOR] OK -> lang={target_lang}, len={len(result)}")
                     return result
-                return text
+                return self._translate_with_gemini(text, target_lang)
 
             # Chunked translation for long summaries
             safe_print(f"[TRANSLATOR] Long text ({len(text)} chars), splitting into chunks...")
@@ -98,8 +141,8 @@ class MultilingualTranslator:
             return " ".join(translated_chunks)
 
         except Exception as e:
-            safe_print(f"[TRANSLATOR] ERROR for lang='{target_lang}': {e}")
-            return text  # graceful fallback to original English
+            safe_print(f"[TRANSLATOR] ERROR for lang='{target_lang}': {e}. Using Gemini fallback.")
+            return self._translate_with_gemini(text, target_lang)
 
     def translate_batch(self, strings: List[str], target_lang: str = "hi") -> List[str]:
         """
@@ -121,11 +164,11 @@ class MultilingualTranslator:
         try:
             translated_combined = self.translate_text(combined_text, target_lang=target_lang)
             
-            # If the translation returned the error message, return original list
+            # If the translation returned the error message or stayed unchanged, use Gemini batch fallback
             low_comb = translated_combined.lower()
-            if "error 500" in low_comb or "that’s an error" in low_comb or "there was an error" in low_comb:
-                safe_print("[TRANSLATOR] Batch translation hit Google rate-limit page. Bypassing translation.")
-                return strings
+            if "error 500" in low_comb or "that’s an error" in low_comb or "there was an error" in low_comb or translated_combined.strip() == combined_text.strip():
+                safe_print("[TRANSLATOR] Batch translation hit Google rate-limit. Using Gemini batch fallback.")
+                return self._translate_batch_with_gemini(strings, target_lang)
                 
             # Split the translated text back into list items
             parts = translated_combined.split("###")

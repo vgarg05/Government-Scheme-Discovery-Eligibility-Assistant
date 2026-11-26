@@ -26,7 +26,7 @@ export default function Navbar({ selectedLang, onLangChange, onOpenWizard }) {
       }}
     >
       <div
-        className="max-w-7xl mx-auto px-6 sm:px-12 flex items-center justify-between"
+        className="max-w-7xl mx-auto px-3 sm:px-12 flex items-center justify-between gap-2"
         style={{ height: '64px' }}
       >
 
@@ -74,13 +74,13 @@ export default function Navbar({ selectedLang, onLangChange, onOpenWizard }) {
         </div>
 
         {/* Right controls */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
 
           {/* myScheme Wizard Button */}
           {onOpenWizard && (
             <button
               onClick={onOpenWizard}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-800 bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 rounded-lg transition-colors shadow-sm"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-semibold text-emerald-800 bg-emerald-100 hover:bg-emerald-200 border border-emerald-300 rounded-lg transition-colors shadow-sm whitespace-nowrap"
             >
               <span>🎯</span> Find Schemes
             </button>
