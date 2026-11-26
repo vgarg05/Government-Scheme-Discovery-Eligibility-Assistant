@@ -1,10 +1,37 @@
 import os
+import zipfile
+import urllib.request
 import chromadb
 from chromadb.utils import embedding_functions
 from src.utils.config import settings
 
+VECTORSTORE_RELEASE_URL = os.getenv(
+    "VECTORSTORE_RELEASE_URL",
+    "https://github.com/vgarg05/Government-Scheme-Discovery-Eligibility-Assistant/releases/download/v1.0-vectorstore/vectorstore.zip",
+)
+
+
+def ensure_vectorstore_present():
+    """Download and extract pre-built ChromaDB vectorstore from GitHub Release if missing (e.g. on Render)."""
+    sqlite_path = os.path.join(settings.CHROMA_PERSIST_DIR, "chroma.sqlite3")
+    if os.path.exists(sqlite_path):
+        return
+    os.makedirs(settings.CHROMA_PERSIST_DIR, exist_ok=True)
+    zip_path = os.path.join(settings.CHROMA_PERSIST_DIR, "vectorstore.zip")
+    try:
+        print(f"[VECTORSTORE] chroma.sqlite3 missing. Downloading from {VECTORSTORE_RELEASE_URL}...")
+        urllib.request.urlretrieve(VECTORSTORE_RELEASE_URL, zip_path)
+        with zipfile.ZipFile(zip_path, "r") as zf:
+            zf.extractall(settings.CHROMA_PERSIST_DIR)
+        os.remove(zip_path)
+        print("[VECTORSTORE] Pre-built ChromaDB extracted successfully.")
+    except Exception as e:
+        print(f"[VECTORSTORE] Failed to download pre-built vectorstore: {e}")
+
+
 class VectorStoreTool:
     def __init__(self, collection_name="government_schemes"):
+        ensure_vectorstore_present()
         self.collection_name = collection_name
         self.chroma_client = chromadb.PersistentClient(path=settings.CHROMA_PERSIST_DIR)
         self.embedding_fn = embedding_functions.ONNXMiniLM_L6_V2()
