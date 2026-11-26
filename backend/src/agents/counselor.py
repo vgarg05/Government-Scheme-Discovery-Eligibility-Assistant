@@ -283,7 +283,7 @@ def find_matched_kb_scheme(scheme_title: str):
         return SCHEME_KNOWLEDGE_BASE["up_old_age_pension"]
     elif "durghatna" in title_low or "kdky" in title_low or "krishak durghatna" in title_low:
         return SCHEME_KNOWLEDGE_BASE["krishak_durghatna"]
-    elif "pm kisan" in title_low or "samman nidhi" in title_low or "pm-kisan" in title_low:
+    elif "pm kisan" in title_low or "kisan samman nidhi" in title_low or "pm-kisan" in title_low:
         return SCHEME_KNOWLEDGE_BASE["pm_kisan"]
     elif "fasal bima" in title_low or "pmfby" in title_low:
         return SCHEME_KNOWLEDGE_BASE["pmfby"]
