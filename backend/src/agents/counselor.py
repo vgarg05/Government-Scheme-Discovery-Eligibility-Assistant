@@ -279,9 +279,9 @@ def find_matched_kb_scheme(scheme_title: str):
         return None
     title_low = scheme_title.lower()
     
-    if "old age" in title_low or "pension" in title_low or "upoaps" in title_low:
+    if "upoaps" in title_low or ("old age" in title_low and ("uttar pradesh" in title_low or "up " in title_low)):
         return SCHEME_KNOWLEDGE_BASE["up_old_age_pension"]
-    elif "durghatna" in title_low or "kdky" in title_low or "krishak" in title_low:
+    elif "durghatna" in title_low or "kdky" in title_low or "krishak durghatna" in title_low:
         return SCHEME_KNOWLEDGE_BASE["krishak_durghatna"]
     elif "pm kisan" in title_low or "samman nidhi" in title_low or "pm-kisan" in title_low:
         return SCHEME_KNOWLEDGE_BASE["pm_kisan"]
@@ -327,15 +327,30 @@ def generate_scheme_cards(state: AgentState):
             })
 
     # 1. Dynamically extract from RAG Vector Chunks & Serper Web Search Results
+    noise_signals = (
+        "enter scheme name",
+        "ministry of electronics",
+        "support-myscheme",
+        "digitalindia",
+        "अंतिम अद्यतन",
+    )
     retrieved_sources = (state.retrieved_chunks or []) + (state.web_search_results or [])
     for source in retrieved_sources:
         title = source.get("scheme_id") or source.get("title", "")
         snippet = source.get("content") or source.get("snippet", "")
         link = source.get("link") or source.get("url", "https://www.myscheme.gov.in")
+        slug = source.get("slug", "")
 
-        # Skip generic title noise
-        if not title or "Enter scheme name" in title or "myScheme" == title.strip():
+        title_low = (title or "").lower()
+        snippet_low = (snippet or "").lower()
+
+        # Skip generic title or scraped footer noise
+        if not title or title.strip() == "myScheme" or any(sig in title_low or sig in snippet_low for sig in noise_signals):
             continue
+
+        # Sanitize google.com/goto redirect links
+        if not link or "google.com/goto" in link:
+            link = f"https://www.myscheme.gov.in/schemes/{slug}" if slug else "https://www.myscheme.gov.in"
 
         # Check if title matches curated KB scheme
         kb_match = find_matched_kb_scheme(title)
@@ -348,21 +363,29 @@ def generate_scheme_cards(state: AgentState):
                 portal=kb_match["portal"]
             )
         else:
-            # Parse snippet into short description and highlights dynamically
-            clean_snippet = snippet.strip().rstrip('.').rstrip(';') + "." if snippet else f"Government scheme for {profile.state or 'eligible citizens'}."
-            short_desc = clean_snippet
-            highlights = [
-                f"Apply via official portal ({clean_url(link)})",
-                f"Targeted for {profile.state or 'India'} residents",
-                "Verified Government Scheme"
-            ]
-            add_card(name=title, short_desc=short_desc, highlights=highlights, key=title, portal=clean_url(link))
+            # Strip raw ingestion metadata prefix if present
+            clean_snippet = (snippet or "").strip()
+            for marker in ("DETAILS:", "BENEFITS:", "OBJECTIVE:"):
+                if marker in clean_snippet:
+                    clean_snippet = clean_snippet.split(marker, 1)[1].strip()
+                    break
+            if clean_snippet.startswith("SCHEME TITLE:"):
+                clean_snippet = f"Government scheme matching your profile in {profile.state or 'India'}."
+            clean_snippet = clean_snippet[:220].rstrip('.').rstrip(';') + "." if clean_snippet else f"Government scheme for {profile.state or 'eligible citizens'}."
 
-        if len(cards) >= 8:
+            clean_portal = clean_url(link)
+            highlights = [
+                f"Targeted for {profile.state or 'India'} residents",
+                f"Category: {source.get('category') or 'Government Welfare'}",
+                "Verified myScheme Portal Scheme"
+            ]
+            add_card(name=title, short_desc=clean_snippet, highlights=highlights, key=title, portal=clean_portal)
+
+        if len(cards) >= 6:
             break
 
-    # 2. Dynamic demographic scoring to fill remaining relevant slots if needed
-    if len(cards) < 3:
+    # 2. Dynamic demographic scoring only when RAG/Web returned no valid scheme cards
+    if len(cards) == 0:
         scored_kb = []
         user_age = profile.age or 35
         user_income = profile.income or 100000
