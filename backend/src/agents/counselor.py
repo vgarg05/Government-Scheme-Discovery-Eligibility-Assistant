@@ -568,10 +568,31 @@ Respond strictly in valid JSON:
                     "url": target_url
                 }]
             else:
+                # Use the exact scheme URL from retrieved RAG chunks if available
+                rag_url = "https://www.myscheme.gov.in"
+                target_low = (clean_scheme or "").lower()
+                for chunk in (state.retrieved_chunks or []):
+                    chunk_title = (chunk.get("title") or chunk.get("scheme_id") or "").lower()
+                    chunk_url = chunk.get("url", "")
+                    chunk_slug = chunk.get("slug", "")
+                    if target_low and (target_low in chunk_title or chunk_title in target_low):
+                        rag_url = chunk_url if chunk_url and "google.com/goto" not in chunk_url else (
+                            f"https://www.myscheme.gov.in/schemes/{chunk_slug}" if chunk_slug else rag_url
+                        )
+                        break
+                if rag_url == "https://www.myscheme.gov.in" and state.retrieved_chunks:
+                    top_chunk = state.retrieved_chunks[0]
+                    top_url = top_chunk.get("url", "")
+                    top_slug = top_chunk.get("slug", "")
+                    if top_url and "google.com/goto" not in top_url:
+                        rag_url = top_url
+                    elif top_slug:
+                        rag_url = f"https://www.myscheme.gov.in/schemes/{top_slug}"
+
                 citations = [{
                     "type": "Government Portal (myScheme)",
                     "title": f"{clean_scheme} - myScheme",
-                    "url": "https://www.myscheme.gov.in"
+                    "url": clean_url(rag_url)
                 }]
         else:
             default_kb = SCHEME_KNOWLEDGE_BASE["krishak_durghatna"] if (profile.occupation and "farm" in profile.occupation.lower()) else SCHEME_KNOWLEDGE_BASE["pm_kisan"]
