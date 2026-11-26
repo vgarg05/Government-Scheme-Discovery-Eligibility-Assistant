@@ -50,7 +50,7 @@ export default function Hero({ onPresetClick, onOpenWizard }) {
                 marginBottom: '20px',
               }}
             >
-              Describe your situation in plain language or use our <strong>myScheme Question Wizard</strong>. The AI engine checks indexed scheme documents and live government sources to evaluate your eligibility.
+              Describe your situation in plain language or use our <strong>guided questionnaire</strong>. The AI engine checks indexed scheme documents and live government sources to evaluate your eligibility.
             </p>
 
             {/* myScheme Wizard CTA */}
@@ -60,7 +60,7 @@ export default function Hero({ onPresetClick, onOpenWizard }) {
                   onClick={onOpenWizard}
                   className="w-full flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-semibold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md hover:shadow-lg transition-all text-sm sm:text-base cursor-pointer"
                 >
-                  <span className="text-lg">🎯</span> Find Schemes by Answering Questionnaire (myScheme Wizard)
+                  <span className="text-lg">🎯</span> Find Schemes by Answering Questionnaire
                 </button>
               </div>
             )}
